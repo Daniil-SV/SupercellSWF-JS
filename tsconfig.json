@@ -1,0 +1,32 @@
+{
+    "compileOnSave": true,
+    "compilerOptions": {
+        "target": "es6",
+        "module": "commonjs",
+        "sourceMap": false,
+        "moduleResolution": "node",
+        "outDir": "build",
+        "watch": false,
+        "declaration": true,
+        "declarationDir": "types",
+        "removeComments": false,
+        "typeRoots": [
+            "node_modules/@types"
+        ]
+    },
+    "include": [
+        "src/**/*.ts",
+        "src/index.ts"
+    ],
+    "exclude": [
+        "node_modules",
+        "build",
+        "examples",
+        "types"
+    ],
+	"normalTypeScriptOptions": "here",
+	"typedocOptions": {
+        "entryPoints": ["src/index.ts"],
+        "out": "docs"
+    }
+}
