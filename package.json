@@ -1,7 +1,7 @@
 {
   "name": "supercell-swf",
   "version": "1.0.0",
-  "description": "",
+  "description": "Module for loading and processing SupercellSWF assets.",
   "main": "build/index.js",
   "scripts": {
     "prepublish": "npm install -g typescript && npm run build",
@@ -13,6 +13,10 @@
   "author": "DaniilSV",
   "typings": "./types/index.d.ts",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/scwmake/supercell-swf-ts.git"
+},
   "dependencies": {
     "image-js": "^0.35.2",
     "lodash": "^4.17.21",
