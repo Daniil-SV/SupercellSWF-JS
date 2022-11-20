@@ -1,21 +1,32 @@
 //File loading/saving testing and how long it takes
 const { SupercellSWF } = require('../');
 const { hrtime } = require('process');
+const { getAsset } = require('./utils');
 
-const file = 'ui.sc';
+const file = 'sc/ui.sc';
+const textureFile = 'sc/ui_highres_tex.sc';
 
-// Timer
-let time = hrtime();
+async function loadSave() {
+    console.log('Getting files from the server...');
+    await getAsset(file);
+    await getAsset(textureFile);
+    console.log('Done!');
 
-// Initializing and loading file to instance
-let swf = new SupercellSWF()
-    .load(`./Assets/${file}`);
+    // Timer
+    let time = hrtime();
 
-console.log(`Loading took ${hrtime(time)} seconds!\n`);
+    // Initializing and loading file to instance
+    let swf = new SupercellSWF()
+        .load(file);
 
-time = hrtime();
+    console.log(`Loading took ${hrtime(time)} seconds!\n`);
 
-// File saving
-swf.save(`./${file}`);
+    time = hrtime();
 
-console.log(`Saving took ${hrtime(time)} seconds!`);
+    // File saving
+    swf.save(`./${file}`);
+
+    console.log(`Saving took ${hrtime(time)} seconds!`);
+}
+
+loadSave();

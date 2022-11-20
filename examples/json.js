@@ -1,26 +1,37 @@
 // Converts a file to json and vice versa
 const { writeFileSync } = require("fs");
 const { parse } = require("path");
-const { SupercellSWF } = require("../");
+const { SupercellSWF, COMPRESSION } = require("../");
 const { hrtime } = require("process");
+const { getAsset } = require("./utils");
 
-const testFile = "level.sc";
+const file = "sc/level.sc";
+const jsonFile = "level.json";
 
-let time = process.hrtime();
+async function toJson() {
+    console.log('Getting files from the server...');
+    await getAsset(file);
+    console.log('Done!');
 
-// Initializing and loading file to instance
-let swf = new SupercellSWF()
-    .loadAsset(`./Assets/${testFile}`);
-console.log(`Loading took ${hrtime(time)} seconds!\n`);
+    let time = process.hrtime();
 
-time = hrtime();
+    // Initializing and loading file to instance
+    let swf = new SupercellSWF()
+        .loadAsset(file);
+    console.log(`Loading took ${hrtime(time)} seconds!\n`);
 
-// For large files, it is recommended to use external modules, otherwise JSON may throw an error that the strings are very large
-let json = JSON.stringify(swf, null, 2);
-writeFileSync(`./${parse(testFile).name}.json`, json);
-console.log(`Converting to json took ${hrtime(time)} seconds!`);
+    time = hrtime();
 
-time = hrtime();
-swf.fromJSON(JSON.parse(json));
-swf.saveAsset("./json_level.sc");
-console.log(`Converting from json took ${hrtime(time)} seconds!`);
+    // For large files, it is recommended to use external modules, otherwise JSON may throw an error that the strings are very large
+    let json = JSON.stringify(swf, null, 2);
+    writeFileSync(jsonFile, json);
+    console.log(`Converting to json took ${hrtime(time)} seconds!`);
+
+    time = hrtime();
+    swf.fromJSON(JSON.parse(json));
+    swf.compression = COMPRESSION.NONE
+    swf.saveAsset(parse(file).base);
+    console.log(`Converting from json took ${hrtime(time)} seconds!`);
+}
+
+toJson();
