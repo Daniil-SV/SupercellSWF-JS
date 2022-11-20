@@ -17,6 +17,11 @@
     "type": "git",
     "url": "https://github.com/scwmake/supercell-swf-ts.git"
   },
+  "files": [
+    "bin",
+    "build",
+    "types"
+  ],
   "dependencies": {
     "image-js": "^0.35.2",
     "lodash": "^4.17.21",
