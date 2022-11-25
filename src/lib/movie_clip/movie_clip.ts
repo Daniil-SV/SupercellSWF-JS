@@ -272,42 +272,64 @@ export class MovieClip {
 	 * @returns Current MovieClip object
 	 */
 	toBank(swf: SupercellSWF): MovieClip {
+		const matrixObjects: Matrix[] = [];
+		const colorObjects: Color[] = [];
+
+		for (const frame of this.frames) {
+			for (const element of frame.elements) {
+				if (typeof element.matrix === 'object') {
+					if (element.matrix instanceof Matrix) {
+						matrixObjects.push(element.matrix);
+					} else {
+						matrixObjects.push(new Matrix().fromJSON(element.matrix));
+					}
+				} else if (typeof element.matrix === 'number') {
+					matrixObjects.push(swf.banks[this.bankIndex].matrices[element.matrix]);
+				} else {
+					element.matrix = undefined;
+				}
+
+				if (typeof element.color === 'object') {
+					if (element.color instanceof Color) {
+						colorObjects.push(element.color);
+					} else {
+						colorObjects.push(new Color().fromJSON(element.color));
+					}
+				} else if (typeof element.color === 'number') {
+					colorObjects.push(swf.banks[this.bankIndex].colors[element.color]);
+				} else {
+					element.color = undefined;
+				}
+			}
+		}
+
+		let bankIndex: number;
+		for (let i = 0; swf.banks.length > i; i++) {
+			if (swf.banks[i].canStoreTransforms(matrixObjects, colorObjects)) {
+				bankIndex = i;
+			}
+		}
+
+		if (bankIndex === undefined) {
+			const newBank = new TransformBank();
+			swf.banks.push(newBank);
+			this.bankIndex = swf.banks.indexOf(newBank);
+		} else {
+			this.bankIndex = bankIndex;
+		}
+
+		let matrixIndex = 0;
+		let colorIndex = 0;
+
 		for (const frame of this.frames) {
 			for (const element of frame.elements) {
 				if (element.matrix !== undefined) {
-					if (typeof element.matrix !== 'number') {
-						const Matrix_1 = new Matrix({
-							a: element.matrix[0], b: element.matrix[1], c: element.matrix[2], d: element.matrix[3], tx: element.matrix[4], ty: element.matrix[5]
-						});
-						element.matrix = swf.banks[this.bankIndex].addMatrix(Matrix_1);
-						if (element.matrix === undefined) {
-						const transformBank = new TransformBank();
-						swf.banks.push(transformBank);
-						this.bankIndex = swf.banks.indexOf(transformBank);
-						element.matrix = swf.banks[this.bankIndex].addMatrix(Matrix_1);
-						}
-					}
+					element.matrix = swf.banks[this.bankIndex].addMatrix(matrixObjects[matrixIndex]);
+					matrixIndex++;
 				}
 				if (element.color !== undefined) {
-					if (typeof element.color !== 'number') {
-						const Color_1 = new Color({
-							A_add: element.color['Add'][0],
-							R_add: element.color['Add'][1],
-							G_add: element.color['Add'][2],
-							B_add: element.color['Add'][3],
-							A_mul: element.color['Add'][0],
-							R_mul: element.color['Add'][1],
-							G_mul: element.color['Add'][2],
-							B_mul: element.color['Add'][3]
-						});
-						element.color = swf.banks[this.bankIndex].addColor(Color_1);
-						if (element.color === undefined) {
-							const transformBank = new TransformBank();
-							swf.banks.push(transformBank);
-							this.bankIndex = swf.banks.indexOf(transformBank);
-							element.matrix = swf.banks[this.bankIndex].addColor(Color_1);
-						}
-					}
+					element.color = swf.banks[this.bankIndex].addColor(colorObjects[colorIndex]);
+					colorIndex++;
 				}
 			}
 		}
