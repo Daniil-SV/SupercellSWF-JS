@@ -443,7 +443,7 @@ export class SupercellSWF {
 					}
 					const exports = this.exports.getExportsById(parseInt(id, 10));
 					if (exports) {
-						instance = Object.assign({ export: exports }, instance);
+						instance = Object.assign({ exports: exports }, instance);
 					}
 					json.movieClips[id] = instance;
 					break;

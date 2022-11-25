@@ -14,10 +14,10 @@ function readRGBA4(buffer: ScBuffer): [number, number, number, number] {
 	const p = buffer.readUInt16LE();
 
 	return [
-		((p >> 12) & 15) << 4,
-		((p >> 8) & 15) << 4,
-		((p >> 8) & 15) << 4,
-		(p & 15) << 4
+		(p >> 12 & 15) << 4,
+		(p >> 8 & 15) << 4,
+		(p >> 4 & 15) << 4,
+		(p >> 0 & 15) << 4
 	];
 }
 
