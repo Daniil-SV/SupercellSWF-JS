@@ -2,6 +2,7 @@
 const { writeFileSync } = require("fs");
 const { SupercellSWF } = require("../");
 const { hrtime } = require('process');
+const { getAsset } = require('./utils');
 
 const file = 'sc/ui_highres_tex.sc';
 
