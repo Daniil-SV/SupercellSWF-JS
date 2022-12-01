@@ -1,6 +1,6 @@
 {
   "name": "supercell-swf",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Module for loading and processing SupercellSWF assets.",
   "main": "build/index.js",
   "scripts": {
