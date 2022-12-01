@@ -1,4 +1,4 @@
-import { ClassConstructor, Points } from '../interfaces';
+import { ClassConstructor, Points } from '../utils';
 import { SupercellSWF } from '../swf';
 /**
  * An object that can change size, shape, and position of an object in a MovieClipFrame

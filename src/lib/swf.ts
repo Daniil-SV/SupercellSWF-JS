@@ -1,43 +1,68 @@
 import * as fs from 'fs';
 import { COMPRESSION, ScBuffer } from './buffer';
-import { TransformBank } from './transforms/bank';
+import { TransformBank } from './bank';
 import { Exports } from './exports';
-import { Texture } from './texture/texture';
-import { Shape } from './shape/shape';
-import { MovieClip } from './movie_clip/movie_clip';
+import { Texture } from './texture';
+import { Shape } from './shape';
+import { MovieClip } from './movie_clip';
 import { TextField } from './textfield';
 import { MovieClipModifier } from './movie_clip/modifier';
-import { ClassConstructor, State } from './interfaces';
+import { ClassConstructor, ERRORS, JSONObject, State } from './utils';
 
-/** Contains all states that SupercellSWF instance sends during some event.
+/**
+ * Contains all states that SupercellSWF instance sends during some event.
+ *
  * @enum
  */
 export enum STATES {
-	/** Indicates when loading of a file starts. Contains only path to file being loaded. */
+	/**
+	 * Indicates when loading of a file starts. Contains only path to file being loaded.
+	 */
 	loading,
-	/** Indicates when file is fully loaded. Contains path to loaded file. */
+
+	/**
+	 * Indicates when file is fully loaded. Contains path to loaded file.
+	 */
 	loadingFinish,
-	/** Indicates when file starts to save. Contains path to file being saved. */
+
+	/**
+	 * Indicates when file starts to save. Contains path to file being saved.
+	 */
 	saving,
-	/** Indicates when file is fully saved. Contains path to saved file. */
+
+	/**
+	 * Indicates when file is fully saved. Contains path to saved file.
+	 */
 	savingFinish,
-	/** Shows progress of resources loading. Has a download percentage in region from 0 to 100. */
+
+	/**
+	 * Shows progress of resources loading. Has a download percentage in region from 0 to 100.
+	 */
 	resources_load,
-	/** Shows progress of resources saving. Has a save percentage in region from 0 to 100 */
+
+	/**
+	 * Shows progress of resources saving. Has a save percentage in region from 0 to 100
+	 */
 	resources_save,
-	/** Shows progress of texture loading.
+
+	/**
+	 *  Shows progress of texture loading.
 	 *  Has an array that contains loading percentage (from 0 to 100)
-	 *  and index of texture currently being loaded (maybe -1 if number of textures is not known). */
+	 *  and index of texture currently being loaded (maybe -1 if number of textures is not known).
+	 */
 	texture_load,
-	/** Shows progress of texture saving.
+
+	/**
+	 *  Shows progress of texture saving.
 	 *  Has an array that contains saving percentage (from 0 to 100)
-	 *  and index of texture currently being saved */
-	texture_save,
-	/** Indicates when an unknown tag was found. Quite a rare occurrence. */
-	unknown_tag
+	 *  and index of texture currently being saved
+	 */
+	texture_save
 }
 
-/** The main class that allows you to read and write .sc files
+/**
+ * Main class that allows you to read and write .sc files.
+ *
  * @category Main
  * @example let swf = new SupercellSWF();
  * swf.load(FilePath);
@@ -55,47 +80,48 @@ export class SupercellSWF {
 	hasExternalTexture = false;
 
 	/**
-	 * When this and hasExternalTexture variable is enabled creates a new file that contains low quality textures.
-	*/
-	hasLowresTexture = false;
-
-	/** When this and hasExternalTexture variable is enabled,
-	 *  creates a texture file with highresPostfix and a lowres file with lowresPostfix, regardless of whether hasLowresTexture is enabled.
+	 * When this and hasExternalTexture variable is enabled,
+	 * creates a texture file with highresPostfix and a lowres file with lowresPostfix, regardless of whether hasLowresTexture is enabled.
 	 */
 	useUncommonTexture = false;
 
 	/**
-	 * Storage of export names for movie clips
+	 * Ыpecifies whether file can automatically use lowres file.
+	 */
+	useLowresTexture = false;
+
+	/**
+	 * Storage of export names for movie clips.
 	 */
 	exports = new Exports();
 
 	/**
-	 * Array of textures (or spritesheets)
+	 * Array of textures (or "spritesheets").
 	 */
 	textures: Texture[] = [];
 
 	/**
-	 * Postfix for uncammon texture
+	 * Postfix for uncammon texture.
 	 */
 	highresPostfix = '_highres';
 
 	/**
-	 * Postfix for uncammon lowres texture
+	 * Postfix for uncammon lowres texture.
 	 */
 	lowresPostfix = '_lowres';
 
 	/**
-	 * List with transformation banks whose index is used in movie clips
+	 * List with transformation banks whose index is used in movie clips.
 	 */
 	banks: TransformBank[] = [];
 
 	/**
-	 * Dictionary with all resources that have id
+	 * Dictionary with all resources that have id.
 	 */
 	resources = {};
 
 	/**
-	 * A variable that is needed to read and write sc by different classes and methods
+	 * A variable that is needed to read and write sc by different classes and methods.
 	 */
 	buffer = new ScBuffer();
 
@@ -111,48 +137,64 @@ export class SupercellSWF {
 	/**
 	 * A function to notify about module actions.
 	 * Useful for custom message processing.
+	 *
 	 * @param state State or type of message that module sends
 	 * @param property Message properties. Usually stores a percentage of progress.
 	 */
 	progress: State = function (state, property): void {
 		switch (state) {
 			case STATES.resources_load:
-				process.stdout.write(`Resources loading: ${property}% \r`);
+				process.stdout.clearLine(0);
+				process.stdout.cursorTo(0);
+				process.stdout.write(`Resources loading: ${property}%\r`);
 				break;
+
 			case STATES.resources_save:
-				process.stdout.write(`Resources writing: ${property}% \r`);
+				process.stdout.clearLine(0);
+				process.stdout.cursorTo(0);
+				process.stdout.write(`Resources writing: ${property}%\r`);
 				break;
+
 			case STATES.texture_load:
 				// for cases when only textures are loaded, and we do not know the number of textures
+				process.stdout.clearLine(0);
+				process.stdout.cursorTo(0);
 				if (property[1] + 1 !== this.textures.length) {
-					process.stdout.write(`Loading ${property[1] + 1}/${this.textures.length} textures: ${property[0]}% \r`);
+					process.stdout.write(`Loading ${property[1] + 1}/${this.textures.length} textures: ${property[0]}%\r`);
 				} else {
-					process.stdout.write(`Texture ${this.textures.length} loading: ${property[0]}% \r`);
+					process.stdout.write(`Texture ${this.textures.length} loading: ${property[0]}%\r`);
 				}
 				break;
+
 			case STATES.texture_save:
-				process.stdout.write(`Saving ${property[1] + 1}/${this.textures.length} textures: ${property[0]}% \r`);
+				process.stdout.clearLine(0);
+				process.stdout.cursorTo(0);
+				process.stdout.write(`Saving ${property[1] + 1}/${this.textures.length} textures: ${property[0]}%\r`);
 				break;
+
 			case STATES.loading:
-				console.log(`Loading file: ${property}`);
+				process.stdout.write(`Loading file: ${property}\n`);
 				break;
+
 			case STATES.loadingFinish:
-				console.log(`Loading ${property} completed.`);
+				process.stdout.write(`Loading ${property} completed.\n`);
 				break;
+
 			case STATES.saving:
-				console.log(`Writing file: ${property}`);
+				process.stdout.clearLine(0);
+				process.stdout.cursorTo(0);
+				process.stdout.write(`Writing file: ${property}`);
 				break;
+
 			case STATES.savingFinish:
-				console.log(`Saving ${property} comleted.`);
-				break;
-			case STATES.unknown_tag:
-				console.log(`Unknown tag ${property}!`);
+				process.stdout.write(`\nSaving ${property} comleted.`);
 				break;
 		}
 	};
 
 	/**
-	 * Loads content of .sc file with texture
+	 * Loads content of .sc file with texture.
+	 *
 	 * @param path Path to .sc file
 	 */
 	load(path: string): SupercellSWF {
@@ -173,8 +215,6 @@ export class SupercellSWF {
 				}
 			} else if (fs.existsSync(commonPath)) {
 				texturePath = commonPath;
-			} else if (this.hasLowresTexture && fs.existsSync(lowresPath)) {
-				texturePath = lowresPath;
 			}
 
 			if (texturePath === undefined) {
@@ -188,22 +228,22 @@ export class SupercellSWF {
 
 	/**
 	 * Loads content of .sc file only, for example, if you need to edit something only in .sc file.
+	 *
 	 * @param path Path to .sc file
 	 * @returns Current SupercellSWF instance
 	 */
 	loadAsset(path: string): SupercellSWF {
 		this.progress(STATES.loading, path);
 
-		const [buffer, compression] = ScBuffer.fromSc(path);
-		this.buffer = buffer;
-		this.compression = compression;
+		const decomressedData = ScBuffer.fromCompressed(fs.readFileSync(path), true);
+		this.buffer = ScBuffer.fromBuffer(decomressedData.buffer);
+		this.compression = decomressedData.method;
 
 		// Header reading
-		this._shapeCount = this.buffer.readUInt16LE();
-		this._movieClipsCount = this.buffer.readUInt16LE();
-		this.textures = Array.apply(null, Array(this.buffer.readUInt16LE())).map(function () { return new Texture(); });
-		this._textFieldsCount = this.buffer.readUInt16LE();
-
+		this._shapeCount = this.buffer.readUInt16();
+		this._movieClipsCount = this.buffer.readUInt16();
+		this.textures = Array.apply(null, Array(this.buffer.readUInt16())).map(function () { return new Texture(); });
+		this._textFieldsCount = this.buffer.readUInt16();
 		const firstBank: TransformBank = new TransformBank();
 		firstBank.load(this);
 
@@ -219,17 +259,18 @@ export class SupercellSWF {
 	}
 
 	/**
-	 * Loads content of _tex.sс file only, for example, for some kind of texture processing
+	 * Loads content of _tex.sс file only, for example, for some kind of texture processing.
+	 *
 	 * @param path Path to _tex.sc file
 	 * @returns Current SupercellSWF instance
 	 */
 	loadExternalTexture(path: string): SupercellSWF {
 		this.progress(STATES.loading, path);
 
-		this.buffer.destroy();
-		this.buffer = ScBuffer.fromSc(path)[0];
+		this.buffer.clear();
+		this.buffer = ScBuffer.fromCompressed(fs.readFileSync(path), true).buffer;
 		this.parseTags();
-		this.buffer.destroy();
+		this.buffer.clear();
 
 		this.progress(STATES.loadingFinish, path);
 
@@ -237,7 +278,8 @@ export class SupercellSWF {
 	}
 
 	/**
-	 * Saves all instance data to a .sc file
+	 * Saves all instance data to a .sc file.
+	 *
 	 * @param path Path to .sc file
 	 */
 	save(path: string): void {
@@ -247,20 +289,18 @@ export class SupercellSWF {
 			let externalPath = path.split('.').slice(0, -1).join('.') + '_tex.sc';
 
 			if (this.useUncommonTexture) {
+				this.saveExternalTexture(path.split('.').slice(0, -1).join('.') + `${this.lowresPostfix}_tex.sc`, true);
+
 				externalPath = path.split('.').slice(0, -1).join('.') + `${this.highresPostfix}_tex.sc`;
 			}
 
 			this.saveExternalTexture(externalPath, false);
-
-			if (this.hasLowresTexture || this.useUncommonTexture) {
-				const lowresPath = path.split('.').slice(0, -1).join('.') + `${this.lowresPostfix}_tex.sc`;
-				this.saveExternalTexture(lowresPath, true);
-			}
 		}
 	}
 
 	/**
-	 * Saves instance content only, no external texture if enabled
+	 * Saves instance content only, no external texture if enabled.
+	 *
 	 * @param path Path to .sc file
 	 */
 	saveAsset(path: string): void {
@@ -289,10 +329,10 @@ export class SupercellSWF {
 
 		this.buffer = new ScBuffer();
 
-		this.buffer.writeUInt16LE(shapeIds.length);
-		this.buffer.writeUInt16LE(movieClipIds.length);
-		this.buffer.writeUInt16LE(this.textures.length);
-		this.buffer.writeUInt16LE(textFieldIds.length);
+		this.buffer.writeUInt16(shapeIds.length);
+		this.buffer.writeUInt16(movieClipIds.length);
+		this.buffer.writeUInt16(this.textures.length);
+		this.buffer.writeUInt16(textFieldIds.length);
 
 		const bank = this.banks.length > 0 ? this.banks[0] : new TransformBank();
 		bank.save(this);
@@ -311,7 +351,7 @@ export class SupercellSWF {
 			this.buffer.saveTag(postfixTag, postfixBuffer);
 		}
 
-		if (this.hasLowresTexture) {
+		if (this.useLowresTexture) {
 			this.buffer.saveTag(23);
 		}
 
@@ -329,7 +369,7 @@ export class SupercellSWF {
 
 		if (movieClipModifierIds.length > 0) {
 			const lengthTag = new ScBuffer();
-			lengthTag.writeUInt16LE(movieClipModifierIds.length);
+			lengthTag.writeUInt16(movieClipModifierIds.length);
 			this.buffer.saveTag(37, lengthTag);
 			resourceWritten++;
 			this.progress(STATES.resources_save, getPercent());
@@ -381,13 +421,15 @@ export class SupercellSWF {
 		this.buffer.saveTag(0);
 
 		this.progress(STATES.saving, path);
-		ScBuffer.toSc(path, this.buffer, this.compression);
-		this.buffer.destroy();
+		fs.writeFileSync(path,
+			this.buffer.toCompressed(this.compression, true));
+		this.buffer.clear();
 		this.progress(STATES.savingFinish, path);
 	}
 
 	/**
-	 * Saves all textures to an external _tex.sc file
+	 * Saves all textures to an external _tex.sc file.
+	 *
 	 * @param path Path to _tex.sc file
 	 * @param isLowres Writes low resolution textures
 	 */
@@ -400,16 +442,17 @@ export class SupercellSWF {
 		this.buffer.saveTag(0);
 
 		this.progress(STATES.saving, path);
-		ScBuffer.toSc(path, this.buffer, this.compression);
-		this.buffer.destroy();
+		fs.writeFileSync(path,
+			this.buffer.toCompressed(this.compression, true));
+		this.buffer.clear();
 		this.progress(STATES.savingFinish, path);
 	}
 
-	toJSON(transformsToInstance = false) {
+	toJSON(includeBanks = true) {
 		const json = {
 			compression: COMPRESSION[this.compression],
 			hasExternalTexture: this.hasExternalTexture,
-			hasLowresTexture: this.hasLowresTexture,
+			useLowresTexture: this.useLowresTexture,
 			useUncommonTexture: this.useUncommonTexture,
 			highresPostfix: this.highresPostfix,
 			lowresPostfix: this.lowresPostfix,
@@ -420,7 +463,7 @@ export class SupercellSWF {
 			movieClips: {}
 		};
 
-		if (!transformsToInstance) {
+		if (includeBanks) {
 			json['banks'] = this.banks;
 		}
 
@@ -438,7 +481,7 @@ export class SupercellSWF {
 					json.textFields[id] = instance;
 					break;
 				case MovieClip:
-					if (transformsToInstance) {
+					if (!includeBanks) {
 						instance = instance.clone().toTransforms(this);
 					}
 					const exports = this.exports.getExportsById(parseInt(id, 10));
@@ -453,15 +496,47 @@ export class SupercellSWF {
 		return json;
 	}
 
-	fromJSON(data: any) {
-		this.compression = COMPRESSION.NONE || COMPRESSION[data.compression as keyof typeof COMPRESSION];
-		this.hasExternalTexture = false || data.hasExternalTexture;
-		this.hasLowresTexture = false || data.hasLowresTexture;
-		this.useUncommonTexture = false || data.useUncommonTexture;
-		if (data.highresPostfix) {
+	fromJSON(data: JSONObject) {
+		this.compression = COMPRESSION.NONE;
+		if (data.compression) {
+			if (typeof data.compression === 'string') {
+				this.compression = COMPRESSION[data.compression as keyof typeof COMPRESSION];
+			} else if (typeof data.compression === 'number') {
+				this.compression = data.compression;
+			}
+		}
+
+		this.hasExternalTexture = false;
+		if (data.hasExternalTexture) {
+			if (typeof data.hasExternalTexture === 'boolean') {
+				this.hasExternalTexture = data.hasExternalTexture;
+			} else if (typeof data.hasExternalTexture === 'number') {
+				this.hasExternalTexture = data.hasExternalTexture !== 0;
+			}
+		}
+
+		this.useLowresTexture = false;
+		if (data.hasLowresTexture) {
+			if (typeof data.hasLowresTexture === 'boolean') {
+				this.useLowresTexture = data.hasLowresTexture;
+			} else if (typeof data.hasLowresTexture === 'number') {
+				this.useLowresTexture = data.hasLowresTexture !== 0;
+			}
+		}
+
+		this.useUncommonTexture = false;
+		if (data.useUncommonTexture) {
+			if (typeof data.useUncommonTexture === 'boolean') {
+				this.useUncommonTexture = data.useUncommonTexture;
+			} else if (typeof data.useUncommonTexture === 'number') {
+				this.useUncommonTexture = data.useUncommonTexture !== 0;
+			}
+		}
+
+		if (data.highresPostfix && typeof data.highresPostfix === 'string') {
 			this.highresPostfix = data.highresPostfix;
 		}
-		if (data.lowresPostfix) {
+		if (data.lowresPostfix && typeof data.lowresPostfix === 'string') {
 			this.lowresPostfix = data.lowresPostfix;
 		}
 
@@ -503,7 +578,7 @@ export class SupercellSWF {
 			}
 		}
 
-		if (data.banks !== undefined) {
+		if (data.banks && Array.isArray(data.banks)) {
 			this.banks = [];
 			for (const bank of data.banks) {
 				this.banks.push(new TransformBank().fromJSON(bank));
@@ -513,7 +588,8 @@ export class SupercellSWF {
 	}
 
 	/**
-	 * Clones a SupercellSWF object
+	 * Clones a SupercellSWF object.
+	 *
 	 * @returns {Matrix} SupercellSWF clone
 	 */
 	clone(): SupercellSWF {
@@ -563,7 +639,7 @@ export class SupercellSWF {
 		let read = true;
 		while (read) {
 			const tag: number = this.buffer.readUInt8();
-			const tagLength: number = this.buffer.readInt32LE();
+			const tagLength: number = this.buffer.readInt32();
 
 			switch (tag) {
 				case 0:
@@ -588,7 +664,7 @@ export class SupercellSWF {
 					break;
 
 				case 23:
-					this.hasLowresTexture = true;
+					this.useLowresTexture = true;
 					break;
 
 				case 26:
@@ -663,7 +739,7 @@ export class SupercellSWF {
 					break;
 
 				case 37: // Modifier
-					this._modifiersCount = this.buffer.readUInt16LE();
+					this._modifiersCount = this.buffer.readUInt16();
 					break;
 
 				case 38:
@@ -687,7 +763,7 @@ export class SupercellSWF {
 					break;
 
 				default:
-					this.progress(STATES.unknown_tag, tag);
+					console.error(ERRORS.UNKNOWN_TAG);
 					this.buffer.skip(tagLength);
 					break;
 			}

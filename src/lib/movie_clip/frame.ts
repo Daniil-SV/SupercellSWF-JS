@@ -1,19 +1,36 @@
-import { ClassConstructor, FrameElement } from '../interfaces';
+import { ClassConstructor, FrameElement, IsFrameElement, JSONObject } from '../utils';
 import { ScBuffer } from '../buffer';
 import { SupercellSWF } from '../swf';
 
 /** Frame of MovieClip that is needed to transform objects on user screen.
+ *
  * @category MovieClip
-*/
+ * @example
+ * // Create a frame named "Frame" that contains first Bind from Movieclip.binds without color transform.
+ * // Matrix contains index of matrix in swf.banks[MovieClip.bankIndex].matrices.
+ * let frame = new MovieClipFrame({
+ * 		name: 'Frame',
+ * 		elements: [{bind: 0, matrix: 0, color: undefined}]
+ * });
+ * // Cases for which you need to use MovieClip.toBank method.
+ * let frame = new MovieClipFrame({
+ * 		name: 'Frame',
+ * 		elements: [{
+ * 	 		bind: 0,
+ * 	 		matrix: new Matrix({tx: 10}) //OR [1, 0, 0, 1, 10, 0] ,
+ * 	 		color: undefined
+ * 		}]
+ * });
+ */
 export class MovieClipFrame {
 	/**
-	 * Name of frame object
+	 * Name of frame object.
 	 */
 	name: string = undefined;
 
 	/**
 	 * List of objects that will be shown in the frame
-	 * (Note the order works like layers but in reverse order)
+	 * (Note the order works like layers but in reverse order).
 	 */
 	elements: FrameElement[] = [];
 
@@ -23,46 +40,37 @@ export class MovieClipFrame {
 
 	/**
 	 * Method that loads a Frame tag from a buffer.
+	 *
 	 * @param tag Frame tag
 	 * @param swf SupercellSWF instance
+	 *
 	 * @returns Number of elements
 	 */
 	load(tag: number, swf: SupercellSWF): number {
-		const elementsCount = swf.buffer.readUInt16LE();
+		const elementsCount = swf.buffer.readUInt16();
 		this.name = swf.buffer.readASCII();
 
 		return elementsCount;
 	}
 
 	/**
-	 * Method that writes Frame tag to buffer.
+	 * Method that writes Frame tag to MovieClip buffer.
+	 *
 	 * @param buffer ScBuffer instance
 	*/
 	save(buffer: ScBuffer): void {
 		const tag = 11;
 		const tagBuffer = new ScBuffer();
 
-		tagBuffer.writeUInt16LE(this.elements.length);
+		tagBuffer.writeUInt16(this.elements.length);
 		tagBuffer.writeASCII(this.name);
 
 		buffer.saveTag(tag, tagBuffer);
 	}
 
-	toJSON() {
-		return {
-			name: this.name,
-			elements: this.elements,
-		};
-	}
-
-	fromJSON(data: any): MovieClipFrame {
-		this.name = data.name || undefined;
-		this.elements = data.elements || [];
-		return this;
-	}
-
 	/**
 	 * Clones MovieClipFrame object.
+	 *
 	 * @returns Cloned MovieClipFrame
 	 */
 	clone(): MovieClipFrame {
@@ -72,5 +80,34 @@ export class MovieClipFrame {
 				return Object.assign({}, element);
 			})
 		});
+	}
+
+	toJSON(): JSONObject {
+		return {
+			name: this.name,
+			elements: this.elements,
+		};
+	}
+
+	fromJSON(data: JSONObject): MovieClipFrame {
+		if (data.name && typeof data.name === 'string') {
+			this.name = data.name;
+		} else {
+			this.name = undefined;
+		}
+
+		if (data.elements && Array.isArray(data.elements)) {
+			for (const element of data.elements) {
+				if (IsFrameElement(element)) {
+					this.elements.push(element);
+				} else {
+					throw new Error('Wrong FrameElement object in MovieClipFrame!');
+				}
+			}
+		} else {
+			this.elements = [];
+		}
+
+		return this;
 	}
 }

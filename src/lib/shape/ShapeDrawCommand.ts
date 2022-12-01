@@ -1,11 +1,13 @@
 import { SupercellSWF } from '../swf';
-import { Matrix } from '../transforms/matrix';
+import { Matrix } from '../bank/matrix';
 import Image, { ImageKind } from 'image-js';
 import { ScBuffer } from '../buffer';
-import { ClassConstructor, Points } from '../interfaces';
+import { ClassConstructor, JSONObject, Points } from '../utils';
 
 /**
- * Graphic object or 2D mesh. Uses textures to "cut" sprite and use it in Shape
+ * Graphic object or 2D mesh. Uses textures to "cut" sprite and use it in Shape.
+ * For example go to Shape class.
+ *
  * @category Shape
  */
 export class ShapeDrawCommand {
@@ -38,14 +40,16 @@ export class ShapeDrawCommand {
 	 */
 	normalized = false;
 
-	constructor(options?: Partial<ShapeDrawCommand>) {
+	constructor(options?: ClassConstructor<ShapeDrawCommand>) {
 		Object.assign(this, options);
 	}
 
 	/**
 	 * Calculates nearest angle between DrawCommand coordinates. Custom coordinates can also be specified for special cases.
+	 *
 	 * @param uv UV coordinates
 	 * @param xy XY coordinates
+	 *
 	 * @returns Returns a list that consists of
 	 *  nearest rotation angle and a boolean that determines if sprite should flip along X axis
 	 */
@@ -92,8 +96,10 @@ export class ShapeDrawCommand {
 	}
 
 	/**
-	 * Calculates a bounding box for coordinates
+	 * Calculates a bounding box for coordinates.
+	 *
 	 * @param coords coordinates from which you need to get box
+	 *
 	 * @returns List with values in format [x, y, width, height]
 	 */
 	static getBoundingBox(coords: Points): [number, number, number, number] {
@@ -146,9 +152,11 @@ export class ShapeDrawCommand {
 
 	/**
 	 * Calculates transformation matrix for given points.
+	 *
 	 * @param uv UV coordinates
 	 * @param xy XY coordinates
 	 * @param useNearest If enabled, calculates transformation matrix subtracting this angle
+	 *
 	 * @returns List of values in format
 	 * [Transformation Matrix , transformed points at start position for transform, nearest angle, boolean for mirroring]
 	 */
@@ -199,9 +207,11 @@ export class ShapeDrawCommand {
 
 	/**
 	 * Method that loads a DrawCommand tag from a buffer.
+	 *
 	 * @param tag ShapeDrawCommand tag
 	 * @param swf SupercellSWF instance
-	 * @retur {@link ShapeDrawCommand Draw command} current instance
+	 *
+	 * @return Current ShapeDrawCommand instance
 	 */
 	load(tag: number, swf: SupercellSWF): ShapeDrawCommand {
 		this.textureIndex = swf.buffer.readUInt8();
@@ -220,8 +230,8 @@ export class ShapeDrawCommand {
 			]);
 		}
 		for (let uv = 0; uv < pointsCount; uv++) {
-			const w = swf.buffer.readUInt16LE();
-			const h = swf.buffer.readUInt16LE();
+			const w = swf.buffer.readUInt16();
+			const h = swf.buffer.readUInt16();
 
 			if (tag === 22) {
 				this.normalized = true;
@@ -237,8 +247,10 @@ export class ShapeDrawCommand {
 	}
 
 	/**
-	 * Method that writes DrawCommand tag to buffer.
+	 * Method that writes DrawCommand tag to Shape buffer.
+	 *
 	 * @param buffer ScBuffer instance
+	 *
 	 * @return Current ShapeDrawCommand instance
 	 */
 	save(buffer: ScBuffer): ShapeDrawCommand {
@@ -259,8 +271,8 @@ export class ShapeDrawCommand {
 
 		for (let uv = 0; pointsCount > uv; uv++) {
 			const [u, v] = this.uvCoords[uv];
-			tagBuffer.writeUInt16LE(u);
-			tagBuffer.writeUInt16LE(v);
+			tagBuffer.writeUInt16(u);
+			tagBuffer.writeUInt16(v);
 		}
 
 		buffer.saveTag(tag, tagBuffer);
@@ -270,6 +282,7 @@ export class ShapeDrawCommand {
 
 	/**
 	 * Normalizes UV coordinates and turns them into values from 0 to 65535
+	 *
 	 * @param swf SupercellSWF instance
 	 */
 	normalize(swf: SupercellSWF): Points {
@@ -287,6 +300,7 @@ export class ShapeDrawCommand {
 
 	/**
 	 * Denormalizes UV coordinates and turns them into points on texture
+	 *
 	 * @param swf SupercellSWF object
 	 */
 	denormalize(swf: SupercellSWF): Points {
@@ -304,7 +318,8 @@ export class ShapeDrawCommand {
 
 	/**
 	 * @param swf SupercellSWF instance
-	 * @param useNearest Whether to use nearest angle. Making better looking sprites.
+	 * @param useNearest Whether to use nearest angle. Making better looking sprites
+	 *
 	 * @returns Returns Image-js instance
 	 */
 	getImage(swf: SupercellSWF, useNearest = false): Image {
@@ -387,27 +402,9 @@ export class ShapeDrawCommand {
 		return sprite;
 	}
 
-	toJSON() {
-		return {
-			textureIndex: this.textureIndex,
-			uvCoords: this.uvCoords,
-			normalized: this.normalized,
-			xyCoords: this.xyCoords,
-			maxRects: this.maxRects
-		};
-	}
-
-	fromJSON(data: any): ShapeDrawCommand {
-		this.textureIndex = data.textureIndex === undefined ? 0 : data.textureIndex;
-		this.uvCoords = data.uvCoords || [];
-		this.normalized = data.normalized ? true : false;
-		this.xyCoords = data.xyCoords || [];
-		this.maxRects = data.maxRects ? true : false;
-		return this;
-	}
-
 	/**
 	 * Clones ShapeDrawCommand object.
+	 *
 	 * @returns Сloned ShapeDrawCommand
 	 */
 	clone(): ShapeDrawCommand {
@@ -418,5 +415,77 @@ export class ShapeDrawCommand {
 			maxRects: this.maxRects,
 			normalized: this.normalized
 		});
+	}
+
+	toJSON() {
+		return {
+			textureIndex: this.textureIndex,
+			uvCoords: this.uvCoords,
+			normalized: this.normalized,
+			xyCoords: this.xyCoords,
+			maxRects: this.maxRects
+		};
+	}
+
+	fromJSON(data: JSONObject): ShapeDrawCommand {
+		if (data.textureIndex && typeof data.textureIndex === 'number') {
+			this.textureIndex = data.textureIndex;
+		} else {
+			this.textureIndex = 0;
+		}
+
+		this.uvCoords = [];
+		if (data.uvCoords && Array.isArray(data.uvCoords)) {
+			// tslint:disable-next-line: forin
+			for (const point in data.uvCoords) {
+				const uvPoint: [number, number] = [0, 0];
+				if (Array.isArray(point)) {
+					if (typeof point[0] === 'number') {
+						uvPoint[0] = point[0];
+					}
+					if (typeof point[1] === 'number') {
+						uvPoint[1] = point[1];
+					}
+				}
+				this.uvCoords.push(uvPoint);
+			}
+		}
+
+		this.xyCoords = [];
+		if (data.xyCoords && Array.isArray(data.xyCoords)) {
+			// tslint:disable-next-line: forin
+			for (const point in data.xyCoords) {
+				const xyPoint: [number, number] = [0, 0];
+				if (Array.isArray(point)) {
+					if (typeof point[0] === 'number') {
+						xyPoint[0] = point[0];
+					}
+					if (typeof point[1] === 'number') {
+						xyPoint[1] = point[1];
+					}
+				}
+				this.xyCoords.push(xyPoint);
+			}
+		}
+
+		this.normalized = false;
+		if (data.normalized) {
+			if (typeof data.normalized === 'boolean') {
+				this.normalized = data.normalized;
+			} else if (typeof data.normalized === 'number') {
+				this.normalized = data.normalized !== 0;
+			}
+		}
+
+		this.maxRects = false;
+		if (data.maxRects) {
+			if (typeof data.maxRects === 'boolean') {
+				this.maxRects = data.maxRects;
+			} else if (typeof data.maxRects === 'number') {
+				this.maxRects = data.maxRects !== 0;
+			}
+		}
+
+		return this;
 	}
 }

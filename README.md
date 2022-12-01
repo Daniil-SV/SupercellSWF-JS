@@ -24,20 +24,29 @@ Documentation is generated automatically from the code. To generate, enter comma
 ```
 npm run docs
 ```
-
 A "docs" folder will be generated which will contain index.html documentation page
 
-## Important
-Package works only on Windows because it uses pre-compiled compress tools.
+You can also take a look at [wiki](https://github.com/scwmake/supercell-swf-ts/wiki).
+
+## Compression table
+Not all compression types are currently supported. See below for more details.
+
+| Compression type |     Support     |                Binary header(BE)                |
+|:----------------:|:---------------:|:-----------------------------------------------:|
+|       NONE       |       Full      |       Any other than 0x53430000 and below       |
+|       LZMA       |       Full      | Fast mode -0x5D000004. Normal mode - 0x5D000004 |
+|       LZHAM      | Not implemented |                                                 |
+|       ZSTD       |       Full      |                    0x28B52FFD                   |
+|       "SIG"      | Not implemented |                                                 |
 
 ## Authors
 - [@Daniil-SV](https://github.com/Daniil-SV) - All code
 - [@Fred-31](https://github.com/Fred-31) - Inspiration from his version of SupercellSWF and also a little help during creation
 - [@Vorono4ka](https://github.com/Vorono4ka) - Support during creation ❤
+- [@Lilmuff2](https://github.com/lilmuff2) - Tester and helper
 
 ## TODO
 - Improve interaction with Matrix in movie clips.
-- Improve Documentation. Add more examples.
-- Add support for all compressions and for most systems.
+- Add support for all compressions.
 
 

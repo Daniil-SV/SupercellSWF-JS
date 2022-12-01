@@ -1,4 +1,4 @@
-import { ClassConstructor } from '../interfaces';
+import { ClassConstructor } from '../utils';
 import { SupercellSWF } from '../swf';
 /**
  * An object that is used to transform the object's color properties in  MovieClipFrame

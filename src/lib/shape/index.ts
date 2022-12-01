@@ -1,10 +1,22 @@
 import { ScBuffer } from '../buffer';
+import { ERRORS, JSONObject } from '../utils';
 import { SupercellSWF } from '../swf';
 import { ShapeDrawCommand } from './ShapeDrawCommand';
 
 /**
  * Container for graphic objects. Has an ID for use in MovieClip.
+ *
  * @category Shape
+ * @example
+ * // Initializing a shape with one bitmap
+ * let shape = new Shape({bitmaps: [
+ * 		new ShapeDrawCommand({
+ * 			textureIndex: 0,
+ * 			normalized: true,	//OR : false, and UV: [[0, 0], [128, 0], [128, 128], [0, 128]] // Points on "texture" (Imagine that it is 128x128)
+ * 			uvCoords: [[0, 0], [65535, 0], [65535, 65535], [0, 65535]]
+ * 			xyCoords: [[0, 0], [512, 0], [512, 512], [0, 512]]
+ * 		})
+ * 	]});
  */
 export class Shape {
 	/**
@@ -18,24 +30,26 @@ export class Shape {
 
 	/**
 	 * Method that loads a Shape tag from a buffer.
+	 *
 	 * @param tag Shape tag
 	 * @param swf SupercellSWF object
+	 *
 	 * @returns Current Shape instance
 	 */
 	load(tag: number, swf: SupercellSWF): Shape {
-		const id = swf.buffer.readUInt16LE();
+		const id = swf.buffer.readUInt16();
 		swf.resources[id] = this;
-		const bitmapCount = swf.buffer.readUInt16LE();
+		const bitmapCount = swf.buffer.readUInt16();
 
 		let pointsCount = 4 * bitmapCount;
 		if (tag === 18) {
-			pointsCount = swf.buffer.readUInt16LE();
+			pointsCount = swf.buffer.readUInt16();
 		}
 
 		let read = true;
 		while (read) {
 			const bitmapTag = swf.buffer.readUInt8();
-			const bitmapTagLength = swf.buffer.readInt32LE();
+			const bitmapTagLength = swf.buffer.readInt32();
 
 			if (this.bitmaps.length > bitmapCount) {
 				throw new Error((`Too many bitmaps in shape with id ${id}`));
@@ -57,7 +71,7 @@ export class Shape {
 					throw new Error('Tag ShapeDrawColorFillCommand is unsupported! Aborting...');
 
 				default:
-					console.warn(`Shape with id ${id} has bitmap with unknown tag ${bitmapTag}`);
+					console.error(ERRORS.UNKNOWN_TAG);
 					swf.buffer.skip(bitmapTagLength);
 					break;
 			}
@@ -66,7 +80,8 @@ export class Shape {
 	}
 
 	/**
-	 * Method that writes Shape tag to buffer.
+	 * Method that writes Shape tag to SWF buffer.
+	 *
 	 * @param {number} id Shape ID
 	 * @param {SupercellSWF} swf SupercellSWF object
 	 */
@@ -82,9 +97,9 @@ export class Shape {
 		const tag = maxRectsBitmap === this.bitmaps.length ? 2 : 18;
 		const tagBuffer = new ScBuffer();
 
-		tagBuffer.writeUInt16LE(id);
-		tagBuffer.writeUInt16LE(this.bitmaps.length);
-		if (tag === 18) { tagBuffer.writeUInt16LE(pointsCount); }
+		tagBuffer.writeUInt16(id);
+		tagBuffer.writeUInt16(this.bitmaps.length);
+		if (tag === 18) { tagBuffer.writeUInt16(pointsCount); }
 
 		for (const bitmap of this.bitmaps) {
 			bitmap.save(tagBuffer);
@@ -95,29 +110,30 @@ export class Shape {
 
 	}
 
-	toJSON() {
-		return {
-			bitmaps: this.bitmaps
-		};
-	}
-
-	fromJSON(data: any): Shape {
-		this.bitmaps = [];
-		if (data.bitmaps) {
-			for (const bitmap of data.bitmaps) {
-				this.bitmaps.push(new ShapeDrawCommand().fromJSON(bitmap));
-			}
-		}
-		return this;
-	}
-
 	/**
 	 * Clones Shape object.
+	 *
 	 * @returns Сloned Shape
 	 */
 	clone(): Shape {
 		return new Shape({
 			bitmaps: this.bitmaps.map(bitmap => { return bitmap.clone(); })
 		});
+	}
+
+	toJSON() {
+		return {
+			bitmaps: this.bitmaps
+		};
+	}
+
+	fromJSON(data: JSONObject): Shape {
+		this.bitmaps = [];
+		if (data.bitmaps && Array.isArray(data.bitmaps)) {
+			for (const bitmap of data.bitmaps) {
+				this.bitmaps.push(new ShapeDrawCommand().fromJSON(bitmap));
+			}
+		}
+		return this;
 	}
 }

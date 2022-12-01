@@ -1,4 +1,4 @@
-import { ClassConstructor } from '../interfaces';
+import { ClassConstructor } from '../utils';
 import { SupercellSWF } from '../swf';
 import { Matrix } from './matrix';
 import { Color } from './color';

@@ -1,22 +1,25 @@
 import { SupercellSWF } from './swf';
 
 /**
- * Class for managing export names
+ * Class for managing export names.
+ *
+ * @category Main
  */
 export class Exports {
 	private idsList: Array<number> = [];
 	private exportsList: Array<string> = [];
 
 	/**
-	 * Method that loads a exprot names from a buffer
+	 * Method that loads a exprot names from a buffer.
+	 *
 	 * @param {SupercellSWF} swf SupercellSWF instance
 	 * @returns Current Exports object
 	 */
 	load(swf: SupercellSWF): Exports {
-		const exportCount: number = swf.buffer.readUInt16LE();
+		const exportCount: number = swf.buffer.readUInt16();
 
 		for (let i = 0; exportCount > i; i++) {
-			this.idsList.push(swf.buffer.readUInt16LE());
+			this.idsList.push(swf.buffer.readUInt16());
 		}
 
 		for (let n = 0; exportCount > n; n++) {
@@ -31,13 +34,14 @@ export class Exports {
 	}
 
 	/**
-	 * Method that writes export names to buffer
+	 * Method that writes export names to SWF buffer.
+	 *
 	 * @param {SupercellSWF} swf SuperecellSWF instance
 	 */
 	save(swf: SupercellSWF): void {
-		swf.buffer.writeUInt16LE(this.idsList.length);
+		swf.buffer.writeUInt16(this.idsList.length);
 		for (let i = 0; this.idsList.length > i; i++) {
-			swf.buffer.writeUInt16LE(this.idsList[i]);
+			swf.buffer.writeUInt16(this.idsList[i]);
 		}
 		for (let i = 0; this.idsList.length > i; i++) {
 			swf.buffer.writeASCII(this.exportsList[i]);
@@ -45,7 +49,8 @@ export class Exports {
 	}
 
 	/**
-	 * Adds a new export name
+	 * Adds a new export name.
+	 *
 	 * @param {number} id Object ID
 	 * @param {string} name Export name
 	 * @returns Current Exports object
@@ -57,7 +62,8 @@ export class Exports {
 	}
 
 	/**
-	 * Removes an ID (and all export names associated with it) or an export name
+	 * Removes an ID (and all export names associated with it) or an export name.
+	 *
 	 * @param {string | number} toRemove ID or export name to be removed
 	 * @returns Current Exports object
 	 */
@@ -82,7 +88,8 @@ export class Exports {
 	}
 
 	/**
-	 * Gives all export names
+	 * Gives all export names.
+	 *
 	 * @returns {Array<string>} Array of export names
 	 */
 	getExports(): Array<string> {
@@ -90,7 +97,8 @@ export class Exports {
 	}
 
 	/**
-	 * Gives all IDs
+	 * Gives all IDs.
+	 *
 	 * @returns {Array<number>} Array of IDs
 	 */
 	getIds(): Array<number> {
@@ -98,7 +106,8 @@ export class Exports {
 	}
 
 	/**
-	 * Returns all export names associated with given ID
+	 * Returns all export names associated with given ID.
+	 *
 	 * @param {number} id Object ID
 	 * @returns {Array<string>} Array of export names
 	 */
@@ -117,6 +126,7 @@ export class Exports {
 
 	/**
 	 * Returns ID of given export name. Returns undefind if name is not found.
+	 *
 	 * @param {string} exportName Export name whose ID need to find
 	 * @returns {number} Export name ID
 	 */
@@ -129,7 +139,8 @@ export class Exports {
 	}
 
 	/**
-	 * Clones a Exports storage object
+	 * Clones a Exports storage object.
+	 *
 	 * @returns {Matrix} Exports clone
 	 */
 	clone(): Exports {
@@ -141,5 +152,4 @@ export class Exports {
 
 		return exportsClone;
 	}
-
 }

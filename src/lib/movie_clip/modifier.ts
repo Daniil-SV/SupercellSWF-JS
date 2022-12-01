@@ -1,26 +1,41 @@
-import { ClassConstructor } from '../interfaces';
+import { ClassConstructor, JSONObject } from '../utils';
 import { ScBuffer } from '../buffer';
 import { SupercellSWF } from '../swf';
 
 /** Contains types of all currently known modifiers.
  *  Works when it is in binds and in current frame.
+ *
  * @category MovieClip
  * @enum
  */
 export enum MODIFIERS {
-	/** Means that next object in frame is a "Mask layer" */
+	/**
+	 * Means that next object in frame is a "Mask layer".
+	 */
 	MASK,
-	/** Means that all next objects in frame will be masked by previous "mask layer" */
+
+	/**
+	 * Means that all next objects in frame will be masked by previous "mask layer".
+	 */
 	MASKED,
-	/** Means that all next objects in frame will not be masked */
+
+	/**
+	 * Means that all next objects in frame will not be masked.
+	 */
 	UNMASKED
 }
 
 /**
  * Frame modifier. Has an ID and can only be used in MovieClips.
- * Attached to binds and used in frames to indicate some other behavior in frame
+ * Attached to binds and used in frames to indicate some other behavior in frame.
+ *
  * @category MovieClip
-*/
+ * @example
+ * // Initializing an Class with "Mask" type.
+ * let modifier = new MovieClipModifier({
+ * 		modifier: MODIFIERS.MASK
+ * });
+ */
 export class MovieClipModifier {
 	/**
 	 * Modifier type
@@ -33,12 +48,14 @@ export class MovieClipModifier {
 
 	/**
 	 * Method that loads a Modifier tag from a buffer.
+	 *
 	 * @param tag Modifier tag
 	 * @param swf SupercellSWF instance
+	 *
 	 * @returns Current Modifier instance
 	 */
 	load(tag: number, swf: SupercellSWF): MovieClipModifier {
-		const id = swf.buffer.readUInt16LE();
+		const id = swf.buffer.readUInt16();
 		swf.resources[id] = this;
 
 		switch (tag) {
@@ -59,10 +76,11 @@ export class MovieClipModifier {
 	}
 
 	/**
-	 * Method that writes Modifier tag to buffer.
+	 * Method that writes Modifier tag to SWF buffer.
+	 *
 	 * @param id object ID
 	 * @param swf SupercellSWF instance
-	*/
+	 */
 	save(id: number, swf: SupercellSWF): void {
 		let tag: number;
 		const tagBuffer = new ScBuffer();
@@ -79,9 +97,18 @@ export class MovieClipModifier {
 				break;
 		}
 
-		tagBuffer.writeUInt16LE(id);
+		tagBuffer.writeUInt16(id);
 
 		swf.buffer.saveTag(tag, tagBuffer);
+	}
+
+	/**
+	 * Clones MovieClipModifier object.
+	 *
+	 * @returns Сloned MovieClipModifier
+	 */
+	clone(): MovieClipModifier {
+		return new MovieClipModifier({ modifier: this.modifier });
 	}
 
 	toJSON() {
@@ -90,16 +117,17 @@ export class MovieClipModifier {
 		};
 	}
 
-	fromJSON(data: any): MovieClipModifier {
-		this.modifier = MODIFIERS.MASK || MODIFIERS[data.modifier as keyof typeof MODIFIERS];
+	fromJSON(data: JSONObject): MovieClipModifier {
+		if (data.modifier) {
+			if (typeof data.modifier === 'string') {
+				this.modifier = MODIFIERS[data.modifier as keyof typeof MODIFIERS];
+			} else if (typeof data.modifier === 'number') {
+				this.modifier = data.modifier;
+			} else {
+				throw new Error('Unknown Modifier type!');
+			}
+		}
 		return this;
 	}
 
-	/**
-	 * Clones MovieClipModifier object.
-	 * @returns Сloned MovieClipModifier
-	 */
-	clone(): MovieClipModifier {
-		return new MovieClipModifier({ modifier: this.modifier });
-	}
 }

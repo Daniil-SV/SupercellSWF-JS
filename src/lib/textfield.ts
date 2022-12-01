@@ -1,5 +1,5 @@
 import { ScBuffer } from './buffer';
-import { ClassConstructor } from './interfaces';
+import { ClassConstructor } from './utils';
 import { SupercellSWF } from './swf';
 
 export class TextField {
@@ -91,7 +91,7 @@ export class TextField {
 	 * @returns {TextField} Current TextField instance
 	 */
 	load(tag: number, swf: SupercellSWF): TextField {
-		const id = swf.buffer.readUInt16LE();
+		const id = swf.buffer.readUInt16();
 		swf.resources[id] = this;
 
 		this.fontName = swf.buffer.readASCII();
@@ -110,10 +110,10 @@ export class TextField {
 		this.fontAlign = swf.buffer.readUInt8();
 		this.fontSize = swf.buffer.readUInt8();
 
-		this.topCorner = swf.buffer.readInt16LE();
-		this.bottomCorner = swf.buffer.readInt16LE();
-		this.leftCorner = swf.buffer.readInt16LE();
-		this.rightCorner = swf.buffer.readInt16LE();
+		this.topCorner = swf.buffer.readInt16();
+		this.bottomCorner = swf.buffer.readInt16();
+		this.leftCorner = swf.buffer.readInt16();
+		this.rightCorner = swf.buffer.readInt16();
 
 		this.outline = swf.buffer.readBoolean();
 		this.text = swf.buffer.readASCII();
@@ -137,12 +137,12 @@ export class TextField {
 		}
 
 		if (tag > 25) { // tag 33
-			this.c1 = swf.buffer.readInt16LE();
+			this.c1 = swf.buffer.readInt16();
 			swf.buffer.skip(2);
 		}
 
 		if (tag > 33) { // tag 43
-			this.c2 = swf.buffer.readInt16LE();
+			this.c2 = swf.buffer.readInt16();
 		}
 
 		if (tag > 43) { // tag 44
@@ -184,7 +184,7 @@ export class TextField {
 		let tag = 7;
 		const tagBuffer = new ScBuffer();
 
-		tagBuffer.writeUInt16LE(id);
+		tagBuffer.writeUInt16(id);
 
 		tagBuffer.writeASCII(this.fontName);
 
@@ -202,10 +202,10 @@ export class TextField {
 		tagBuffer.writeUInt8(this.fontAlign);
 		tagBuffer.writeUInt8(this.fontSize);
 
-		tagBuffer.writeInt16LE(this.topCorner);
-		tagBuffer.writeInt16LE(this.bottomCorner);
-		tagBuffer.writeInt16LE(this.leftCorner);
-		tagBuffer.writeInt16LE(this.rightCorner);
+		tagBuffer.writeInt16(this.topCorner);
+		tagBuffer.writeInt16(this.bottomCorner);
+		tagBuffer.writeInt16(this.leftCorner);
+		tagBuffer.writeInt16(this.rightCorner);
 
 		tagBuffer.writeBoolean(this.outline);
 		tagBuffer.writeASCII(this.text);
@@ -228,12 +228,12 @@ export class TextField {
 
 						if (this.c1 !== undefined) {
 							tag = 33;
-							tagBuffer.writeInt16LE(this.c1);
+							tagBuffer.writeInt16(this.c1);
 							tagBuffer.fill(2);
 
 							if (this.c2 !== undefined) {
 								tag = 33;
-								tagBuffer.writeInt16LE(this.c2);
+								tagBuffer.writeInt16(this.c2);
 
 								if (this.flag3 !== undefined && !this.flag2) {
 									tag = 43;

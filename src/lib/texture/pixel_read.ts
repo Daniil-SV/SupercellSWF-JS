@@ -1,4 +1,3 @@
-// tslint:disable:no-bitwise
 import { ScBuffer } from '../buffer';
 
 function readRGBA8(buffer: ScBuffer): [number, number, number, number] {
@@ -11,7 +10,7 @@ function readRGBA8(buffer: ScBuffer): [number, number, number, number] {
 }
 
 function readRGBA4(buffer: ScBuffer): [number, number, number, number] {
-	const p = buffer.readUInt16LE();
+	const p = buffer.readUInt16();
 
 	return [
 		(p >> 12 & 15) << 4,
@@ -22,7 +21,7 @@ function readRGBA4(buffer: ScBuffer): [number, number, number, number] {
 }
 
 function readRGB5_A1(buffer: ScBuffer): [number, number, number, number] {
-	const p = buffer.readUInt16LE();
+	const p = buffer.readUInt16();
 
 	return [
 		((p >> 11) & 31) << 3,
@@ -33,7 +32,7 @@ function readRGB5_A1(buffer: ScBuffer): [number, number, number, number] {
 }
 
 function readRGBA565(buffer: ScBuffer): [number, number, number] {
-	const p = buffer.readUInt16LE();
+	const p = buffer.readUInt16();
 
 	return [
 		((p >> 11) & 31) << 3,

@@ -1,11 +1,13 @@
-import Image, { ColorModel, ImageKind } from 'image-js';
+import Image, { ImageKind } from 'image-js';
 import { ScBuffer } from '../buffer';
+import { JSONObject } from '../utils';
 import { SupercellSWF, STATES } from '../swf';
 import { PIXEL_READ_FUNCTIONS } from './pixel_read';
 import { PIXEL_WRITE_FUNCTIONS } from './pixel_write';
 
 /**
- * Has pixel types for all texture types
+ * Has pixel types for all texture types.
+ *
  * @category Texture
  */
 export const CHANNEL_FORMATS: { [textureType: string]: string[] } = {
@@ -26,7 +28,8 @@ export const CHANNEL_FORMATS: { [textureType: string]: string[] } = {
 };
 
 /**
- * List of all {@link https://www.learnopengles.com/android-lesson-six-an-introduction-to-texture-filtering/ texture filters}
+ * List of all {@link https://www.learnopengles.com/android-lesson-six-an-introduction-to-texture-filtering/ texture filters}.
+ *
  * @enum
  * @category Texture
  */
@@ -65,22 +68,34 @@ const PIXEL_FORMATS = [
 ];
 
 /**
- * Texture (or sprite sheet) which is used in sc file for {@link ShapeDrawCommand}
+ * Texture (or sprite sheet) which is used in sc file for ShapeDrawCommand.
+ *
  * @category Texture
+ * @example
+ * // Initializing Texture Object
+ * let atlas = await Image.load("example.png");
+ * let texture = new Texture({
+ * 		pixelFormat = CHANNEL_FORMATS["RGBA"][1], // "RGBA4"
+ * 		magFilter = FILTERS.GL_NEAREST,
+ * 		minFilter = FILTERS.GL_NEAREST, //Turn off pixel smoothing. Maybe.
+ * 		linear: true,
+ * 		downscaling: true,
+ * 		image: atlas
+ * });
  */
 export class Texture {
 	/**
-	 * {@link https://www.khronos.org/opengl/wiki/Image_Format Texture pixel type}
+	 * {@link https://www.khronos.org/opengl/wiki/Image_Format Texture pixel type}.
 	 */
 	pixelFormat = 'GL_RGBA8';
 
 	/**
-	 * {@link https://gdbooks.gitbooks.io/legacyopengl/content/Chapter7/MinMag.html Mag filter};
+	 * {@link https://gdbooks.gitbooks.io/legacyopengl/content/Chapter7/MinMag.html Mag filter}.
 	 */
 	magFilter: FILTERS = FILTERS.GL_LINEAR;
 
 	/**
-	 * {@link https://gdbooks.gitbooks.io/legacyopengl/content/Chapter7/MinMag.html Min filter};
+	 * {@link https://gdbooks.gitbooks.io/legacyopengl/content/Chapter7/MinMag.html Min filter}.
 	 */
 	minFilter: FILTERS = FILTERS.GL_NEAREST;
 
@@ -90,15 +105,18 @@ export class Texture {
 	linear = true;
 
 	/**
-	 * Allows you to use mipmaps on texture
+	 * Allows you to use mipmaps on texture.
 	 */
 	downscaling = true;
 
 	/**
-	 * Texture image
+	 * Texture image.
 	 */
 	image: Image = new Image();
 
+	/**
+	 * Texture channels count.
+	 */
 	get channels() {
 		return this.image.channels;
 	}
@@ -133,7 +151,7 @@ export class Texture {
 	}
 
 	/**
-	 * Texture image width
+	 * Texture image width.
 	 */
 	get width() {
 		return this.image.width;
@@ -143,7 +161,7 @@ export class Texture {
 	}
 
 	/**
-	 * Texture image width
+	 * Texture image height.
 	 */
 	get height() {
 		return this.image.height;
@@ -158,16 +176,18 @@ export class Texture {
 
 	/**
 	 * Method that loads a Texture tag from a buffer.
+	 *
 	 * @param tag Texture tag
 	 * @param swf SupercellSWF instance
 	 * @param hasData Indicates whether the tag has pixel information
+	 *
 	 * @returns Current Texture instance
 	 */
 	load(tag: number, swf: SupercellSWF, hasData: boolean): Texture {
 		const pixelTypeIndex = swf.buffer.readUInt8();
 
-		const width = swf.buffer.readUInt16LE();
-		const height = swf.buffer.readUInt16LE();
+		const width = swf.buffer.readUInt16();
+		const height = swf.buffer.readUInt16();
 
 		this.pixelFormat = PIXEL_FORMATS[pixelTypeIndex];
 
@@ -240,8 +260,10 @@ export class Texture {
 
 	/**
 	 * Method that writes Texture tag to buffer.
+	 *
 	 * @param swf SupercellSWF instance
 	 * @param hasData Indicates whether the tag has pixel information
+	 *
 	 * @param isLowres If enabled, writes 2 times less texture
 	 */
 	save(swf: SupercellSWF, hasData: boolean, isLowres: boolean = false) {
@@ -258,8 +280,8 @@ export class Texture {
 		const image = this.image.clone().resize({ factor: isLowres ? 0.5 : 1 });
 
 		tagBuffer.writeUInt8(pixelTypeIndex);
-		tagBuffer.writeUInt16LE(image.width);
-		tagBuffer.writeUInt16LE(image.height);
+		tagBuffer.writeUInt16(image.width);
+		tagBuffer.writeUInt16(image.height);
 
 		if (hasData) {
 			if (this.magFilter === FILTERS.GL_LINEAR && this.minFilter === FILTERS.GL_NEAREST) {
@@ -330,6 +352,22 @@ export class Texture {
 		swf.buffer.saveTag(tag, tagBuffer);
 	}
 
+	/**
+	 * Clones Texture object.
+	 *
+	 * @returns Сloned Texture
+	 */
+	clone(): Texture {
+		return new Texture({
+			pixelFormat: this.pixelFormat,
+			magFilter: this.magFilter,
+			minFilter: this.minFilter,
+			linear: this.linear,
+			downscaling: this.downscaling,
+			image: this.image.clone()
+		});
+	}
+
 	toJSON() {
 		return {
 			pixelFormat: this.pixelFormat,
@@ -342,29 +380,69 @@ export class Texture {
 		};
 	}
 
-	fromJSON(data: any): Texture {
-		this.pixelFormat = data.pixelFormat || 'RGBA8';
-		this.linear = data.linear ? true : false;
-		this.downscaling = data.downscaling ? true : false;
-		this.magFilter = data.magFilter ? data.magFilter as FILTERS : FILTERS.GL_LINEAR;
-		this.minFilter = data.minFilter ? data.minFilter as FILTERS : FILTERS.GL_NEAREST;
-		this.width = data.width || 1;
-		this.height = data.height || 1;
-		return this;
-	}
+	fromJSON(data: JSONObject): Texture {
+		data.pixelFormat = CHANNEL_FORMATS.RGBA[0];
+		if (data.pixelFormat) {
+			if (typeof data.pixelFormat === 'number') {
+				if (data.pixelFormat >= 0 && data.pixelFormat <= PIXEL_FORMATS.length) {
+					this.pixelFormat = PIXEL_FORMATS[data.pixelFormat];
+				}
+			} else if (typeof data.pixelFormat === 'string') {
+				if (PIXEL_FORMATS.includes(data.pixelFormat.toUpperCase())) {
+					this.pixelFormat = data.pixelFormat;
+				}
+			}
+		}
 
-	/**
-	 * Clones Texture object.
-	 * @returns Сloned Texture
-	 */
-	clone(): Texture {
-		return new Texture({
-			pixelFormat: this.pixelFormat,
-			magFilter: this.magFilter,
-			minFilter: this.minFilter,
-			linear: this.linear,
-			downscaling: this.downscaling,
-			image: this.image.clone()
-		});
+		this.linear = true;
+		if (data.linear) {
+			if (typeof data.linear === 'boolean') {
+				this.linear = data.linear;
+			} else if (typeof data.maxRects === 'number') {
+				this.linear = data.linear !== 0;
+			}
+		}
+
+		this.downscaling = true;
+		if (data.downscaling) {
+			if (typeof data.downscaling === 'boolean') {
+				this.downscaling = data.downscaling;
+			} else if (typeof data.maxRects === 'number') {
+				this.downscaling = data.downscaling !== 0;
+			}
+		}
+
+		if (data.magFilter) {
+			if (typeof data.magFilter === 'string') {
+				this.magFilter = FILTERS[data.magFilter as keyof typeof FILTERS];
+			} else if (typeof data.magFilter === 'number') {
+				this.magFilter = data.magFilter;
+			} else {
+				throw new Error('Unknown magFilter type!');
+			}
+		}
+
+		if (data.minFilter) {
+			if (typeof data.minFilter === 'string') {
+				this.minFilter = FILTERS[data.minFilter as keyof typeof FILTERS];
+			} else if (typeof data.minFilter === 'number') {
+				this.minFilter = data.minFilter;
+			} else {
+				throw new Error('Unknown minFilter type!');
+			}
+		}
+
+		if (data.width && typeof data.width === 'number') {
+			this.width = data.width;
+		} else {
+			this.width = 1;
+		}
+
+		if (data.height && typeof data.height === 'number') {
+			this.height = data.height;
+		} else {
+			this.height = 1;
+		}
+		return this;
 	}
 }

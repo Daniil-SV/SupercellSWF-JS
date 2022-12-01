@@ -1,14 +1,14 @@
-import { Bind, Box, ClassConstructor } from '../interfaces';
+import { Bind, Rectangle, ClassConstructor, JSONObject, IsBind, IsRectangle, ERRORS } from '../utils';
 import { ScBuffer } from '../buffer';
 import { SupercellSWF } from '../swf';
 import { MovieClipFrame } from './frame';
-import { Matrix } from '../transforms/matrix';
-import { Color } from '../transforms/color';
-import _ = require('lodash');
-import { TransformBank } from '../transforms/bank';
+import { Matrix } from '../bank/matrix';
+import { Color } from '../bank/color';
+import { TransformBank } from '../bank';
 
 /**
  * Has all blend methods that a bind can have.
+ *
  * @category MovieClip
  * @enum
  */
@@ -27,13 +27,27 @@ export enum BLENDMODES {
  * Objects with animation that user can always see.
  * For transformation, it can use all objects that have IDs, including objects similar to itself.
  * Also has ID.
+ *
  * @category MovieClip
+ * @example
+ * // Creating an MovieClip object with 2 frames.
+ * let movieclip = new MovieClip({
+ * 		frameRate: 30,
+ * 		binds: [
+ * 			{id: 0, name: 'MyFirstBind'},
+ * 			{id: 1, name: 'MySecondBind'}
+ * 		],
+ * 		frames: [
+ * 			new MovieClipFrame({name: 'FirstFrame', elements: [{bind: 0}]}),
+ * 			new MovieClipFrame({name: 'SecondFrame', elements: [{bind: 1}]})
+ * 		]
+ * });
  */
 export class MovieClip {
 	/**
-	 * Frame per second
+	 * Frame per second.
 	 */
-	framerate = 0;
+	frameRate = 0;
 
 	/**
 	 * Objects with id whose indices will be used in frames.
@@ -50,7 +64,7 @@ export class MovieClip {
 	 *  {@link https://en.wikipedia.org/wiki/9-slice_scaling Scale 9 grid, 9-slice scaling, 9-slicing or 9-patch}
 	 *  is a sprite resizing technique to proportionally scale an image by splitting it in a grid of nine parts.
 	 */
-	nineSlice: Box = undefined;
+	nineSlice: Rectangle = undefined;
 
 	/**
 	 * Current bank index in SupercellSWF.banks.
@@ -69,8 +83,10 @@ export class MovieClip {
 
 	/**
 	 * Method that loads a MovieClip tag from a buffer.
+	 *
 	 * @param tag MovieClip tag
 	 * @param swf SupercellSWF instance
+	 *
 	 * @returns Current MovieClip instance
 	 */
 	load(tag: number, swf: SupercellSWF): MovieClip {
@@ -78,21 +94,21 @@ export class MovieClip {
 			throw new Error('Tags MovieClip and MovieClip4 is unsupported! Aborting...');
 		}
 
-		const id = swf.buffer.readUInt16LE();
+		const id = swf.buffer.readUInt16();
 		swf.resources[id] = this;
 
-		this.framerate = swf.buffer.readUInt8();
-		const frameCount = swf.buffer.readUInt16LE();
+		this.frameRate = swf.buffer.readUInt8();
+		const frameCount = swf.buffer.readUInt16();
 
 		this.frames = Array.apply(null, Array(frameCount)).map(function () { return new MovieClipFrame(); });
 
 		const frameElements = [];
-		const frameElementsCount = swf.buffer.readInt32LE();
+		const frameElementsCount = swf.buffer.readInt32();
 
 		for (let x = 0; frameElementsCount > x; x++) {
-			const bindIndex = swf.buffer.readUInt16LE();
-			const matrixIndex = swf.buffer.readUInt16LE();
-			const colorIndex = swf.buffer.readUInt16LE();
+			const bindIndex = swf.buffer.readUInt16();
+			const matrixIndex = swf.buffer.readUInt16();
+			const colorIndex = swf.buffer.readUInt16();
 
 			frameElements.push({
 				bind: bindIndex,
@@ -101,18 +117,17 @@ export class MovieClip {
 			});
 		}
 
-		const bindsCount = swf.buffer.readUInt16LE();
+		const bindsCount = swf.buffer.readUInt16();
 
 		for (let x = 0; bindsCount > x; x++) {
 			const bind = {
-				id: swf.buffer.readUInt16LE()
+				id: swf.buffer.readUInt16()
 			};
 			this.binds.push(bind);
 		}
 
 		if ([12, 35].includes(tag)) {
 			for (let x = 0; bindsCount > x; x++) {
-				// tslint:disable-next-line: no-bitwise
 				this.binds[x].blend = swf.buffer.readUInt8() & 0x3F;
 			}
 		}
@@ -127,7 +142,7 @@ export class MovieClip {
 		let read = true;
 		while (read) {
 			const frameTag: number = swf.buffer.readUInt8();
-			const frameTagLength: number = swf.buffer.readInt32LE();
+			const frameTagLength: number = swf.buffer.readInt32();
 
 			switch (frameTag) {
 				case 0:
@@ -166,7 +181,7 @@ export class MovieClip {
 					break;
 
 				default:
-					console.error(`Unknown frame tag ${frameTag} in movieclip with id ${id}`);
+					console.error(ERRORS.UNKNOWN_TAG);
 					swf.buffer.skip(frameTagLength);
 					break;
 			}
@@ -175,7 +190,8 @@ export class MovieClip {
 	}
 
 	/**
-	 * Method that writes MovieClip tag to buffer.
+	 * Method that writes MovieClip tag to SWF buffer.
+	 *
 	 * @param id MovieClip ID
 	 * @param swf SupercellSWF
 	 */
@@ -183,9 +199,9 @@ export class MovieClip {
 		const tag = this.hasBlend ? 12 : 10;
 		const tagBuffer = new ScBuffer();
 
-		tagBuffer.writeUInt16LE(id);
-		tagBuffer.writeUInt8(this.framerate);
-		tagBuffer.writeUInt16LE(this.frames.length);
+		tagBuffer.writeUInt16(id);
+		tagBuffer.writeUInt8(Math.round(this.frameRate));
+		tagBuffer.writeUInt16(this.frames.length);
 
 		const frameElements = [];
 		for (const frame of this.frames) {
@@ -194,23 +210,22 @@ export class MovieClip {
 			}
 		}
 
-		tagBuffer.writeInt32LE(frameElements.length);
+		tagBuffer.writeInt32(frameElements.length);
 
 		for (const element of frameElements) {
-			tagBuffer.writeUInt16LE(element.bind);
-			tagBuffer.writeUInt16LE(element.matrix === undefined ? 0xFFFF : element.matrix);
-			tagBuffer.writeUInt16LE(element.color === undefined ? 0xFFFF : element.color);
+			tagBuffer.writeUInt16(element.bind);
+			tagBuffer.writeUInt16(element.matrix === undefined ? 0xFFFF : element.matrix);
+			tagBuffer.writeUInt16(element.color === undefined ? 0xFFFF : element.color);
 		}
 
-		tagBuffer.writeUInt16LE(this.binds.length);
+		tagBuffer.writeUInt16(this.binds.length);
 
 		for (const bind of this.binds) {
-			tagBuffer.writeUInt16LE(bind.id);
+			tagBuffer.writeUInt16(bind.id);
 		}
 
 		if (this.hasBlend) {
 			for (const bind of this.binds) {
-				// tslint:disable-next-line: no-bitwise
 				tagBuffer.writeUInt8(bind.blend ? bind.blend & 0x3F : 0);
 			}
 		}
@@ -222,7 +237,7 @@ export class MovieClip {
 		if (this.bankIndex) {
 			const matrixTagBuffer = new ScBuffer();
 
-			matrixTagBuffer.writeUInt8(this.bankIndex);
+			matrixTagBuffer.writeUInt8(this.bankIndex || 0);
 
 			tagBuffer.saveTag(41, matrixTagBuffer);
 		}
@@ -250,7 +265,9 @@ export class MovieClip {
 
 	/**
 	 * Converts indices of matrices and colors in frame elements into objects.
+	 *
 	 * @param swf SupercellSWF instance
+	 *
 	 * @returns Current MovieClip object
 	 */
 	toTransforms(swf: SupercellSWF): MovieClip {
@@ -268,7 +285,9 @@ export class MovieClip {
 	}
 	/**
 	 * Converts all matrix and color objects in frame elements to indexes in transformation banks.
+	 *
 	 * @param swf SupercellSWF instance
+	 *
 	 * @returns Current MovieClip object
 	 */
 	toBank(swf: SupercellSWF): MovieClip {
@@ -336,39 +355,14 @@ export class MovieClip {
 		return this;
 	}
 
-	toJSON() {
-		return {
-			framerate: this.framerate,
-			binds: this.binds,
-			hasBlend: this.hasBlend,
-			frames: this.frames,
-			nineSlice: this.nineSlice,
-			bankIndex: this.bankIndex
-		};
-	}
-
-	fromJSON(data: any): MovieClip {
-		this.framerate = data.framerate === undefined ? 30 : data.framerate;
-		this.binds = data.binds === undefined ? {} : data.binds;
-		this.bankIndex = data.bankIndex === undefined ? 0 : data.bankIndex;
-		this.nineSlice = undefined || data.nineSlice;
-		this.hasBlend = data.hasBlend ? true : false;
-		this.frames = [];
-		if (data.frames) {
-			for (const frame of data.frames) {
-				this.frames.push(new MovieClipFrame().fromJSON(frame));
-			}
-		}
-		return this;
-	}
-
 	/**
 	 * Clones MovieClip object.
+	 *
 	 * @returns Сloned MovieClip
 	 */
 	clone(): MovieClip {
 		return new MovieClip({
-			framerate: this.framerate,
+			frameRate: this.frameRate,
 			binds: this.binds.map(bind => {
 				return Object.assign({}, bind);
 			}),
@@ -379,5 +373,62 @@ export class MovieClip {
 			bankIndex: this.bankIndex,
 			hasBlend: this.hasBlend
 		});
+	}
+
+	toJSON() {
+		return {
+			frameRate: this.frameRate,
+			binds: this.binds,
+			hasBlend: this.hasBlend,
+			nineSlice: this.nineSlice,
+			bankIndex: this.bankIndex,
+			frames: this.frames
+		};
+	}
+
+	fromJSON(data: JSONObject): MovieClip {
+		if (data.frameRate && typeof data.frameRate === 'number') {
+			this.frameRate = data.frameRate;
+		} else {
+			this.frameRate = 30;
+		}
+
+		this.binds = [];
+		if (data.binds && Array.isArray(data.binds)) {
+			for (const bind of data.binds) {
+				if (IsBind(bind)) {
+					this.binds.push(bind);
+				} else {
+					throw new Error('Wrong Bind in MovieClip object!');
+				}
+			}
+		}
+
+		if (data.bankIndex && typeof data.bankIndex === 'number') {
+			this.bankIndex = data.bankIndex;
+		} else {
+			this.bankIndex = 0;
+		}
+
+		if (data.nineSlice && IsRectangle(data.nineSlice)) {
+			this.nineSlice = data.nineSlice;
+		}
+
+		this.hasBlend = true;
+		if (data.hasBlend) {
+			if (typeof data.hasBlend === 'boolean') {
+				this.hasBlend = data.hasBlend;
+			} else if (typeof data.hasBlend === 'number') {
+				this.hasBlend = data.hasBlend !== 0;
+			}
+		}
+
+		this.frames = [];
+		if (data.frames && Array.isArray(data.frames)) {
+			for (const frame of data.frames) {
+				this.frames.push(new MovieClipFrame().fromJSON(frame));
+			}
+		}
+		return this;
 	}
 }

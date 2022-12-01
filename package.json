@@ -6,7 +6,8 @@
   "scripts": {
     "prepublish": "npm install -g typescript && npm run build",
     "build": "tsc -p ./",
-    "docs": "typedoc --tsconfig ./tsconfig.json --exclude ./node_modules",
+    "docs": "typedoc --tsconfig ./tsconfig.json --plugin",
+    "wiki": "typedoc --tsconfig ./tsconfig.json --theme github-wiki --out wiki --cleanOutputDir false",
     "lint": "tslint --project tsconfig.json 'src/**/*.ts'"
   },
   "keywords": [],
@@ -23,17 +24,24 @@
     "types"
   ],
   "dependencies": {
+    "@mongodb-js/zstd": "^1.0.0",
+    "@types/lzma-native": "^4.0.1",
+    "deasync": "^0.1.28",
     "image-js": "^0.35.2",
     "lodash": "^4.17.21",
+    "lzma-native": "^8.0.6",
     "smart-buffer": "^4.2.0",
     "tmp": "^0.2.1"
   },
   "devDependencies": {
+    "@types/deasync": "^0.1.2",
     "@types/lodash": "^4.14.188",
     "@types/node": "^18.11.9",
     "@types/tmp": "^0.2.3",
     "tslint": "^6.1.3",
     "typedoc": "^0.23.21",
+    "typedoc-github-wiki-theme": "^1.0.1",
+    "typedoc-plugin-markdown": "^3.13.6",
     "typescript": "*"
   }
 }

@@ -1,10 +1,12 @@
 import { SupercellSWF } from '../swf';
-import { Matrix } from '../transforms/matrix';
+import { Matrix } from '../bank/matrix';
 import Image from 'image-js';
 import { ScBuffer } from '../buffer';
-import { Points } from '../interfaces';
+import { ClassConstructor, JSONObject, Points } from '../utils';
 /**
- * Graphic object or 2D mesh. Uses textures to "cut" sprite and use it in Shape
+ * Graphic object or 2D mesh. Uses textures to "cut" sprite and use it in Shape.
+ * For example go to Shape class.
+ *
  * @category Shape
  */
 export declare class ShapeDrawCommand {
@@ -32,59 +34,78 @@ export declare class ShapeDrawCommand {
      * Shows if UV is normalized.
      */
     normalized: boolean;
-    constructor(options?: Partial<ShapeDrawCommand>);
+    constructor(options?: ClassConstructor<ShapeDrawCommand>);
     /**
      * Calculates nearest angle between DrawCommand coordinates. Custom coordinates can also be specified for special cases.
+     *
      * @param uv UV coordinates
      * @param xy XY coordinates
+     *
      * @returns Returns a list that consists of
      *  nearest rotation angle and a boolean that determines if sprite should flip along X axis
      */
     static getNearest(uv: Points, xy: Points): [number, boolean];
     /**
-     * Calculates a bounding box for coordinates
+     * Calculates a bounding box for coordinates.
+     *
      * @param coords coordinates from which you need to get box
+     *
      * @returns List with values in format [x, y, width, height]
      */
     static getBoundingBox(coords: Points): [number, number, number, number];
     /**
      * Calculates transformation matrix for given points.
+     *
      * @param uv UV coordinates
      * @param xy XY coordinates
      * @param useNearest If enabled, calculates transformation matrix subtracting this angle
+     *
      * @returns List of values in format
      * [Transformation Matrix , transformed points at start position for transform, nearest angle, boolean for mirroring]
      */
     static estimate(uv: Points, xy: Points, useNearest?: boolean): [Matrix, Points, number, boolean];
     /**
      * Method that loads a DrawCommand tag from a buffer.
+     *
      * @param tag ShapeDrawCommand tag
      * @param swf SupercellSWF instance
-     * @retur {@link ShapeDrawCommand Draw command} current instance
+     *
+     * @return Current ShapeDrawCommand instance
      */
     load(tag: number, swf: SupercellSWF): ShapeDrawCommand;
     /**
-     * Method that writes DrawCommand tag to buffer.
+     * Method that writes DrawCommand tag to Shape buffer.
+     *
      * @param buffer ScBuffer instance
+     *
      * @return Current ShapeDrawCommand instance
      */
     save(buffer: ScBuffer): ShapeDrawCommand;
     /**
      * Normalizes UV coordinates and turns them into values from 0 to 65535
+     *
      * @param swf SupercellSWF instance
      */
     normalize(swf: SupercellSWF): Points;
     /**
      * Denormalizes UV coordinates and turns them into points on texture
+     *
      * @param swf SupercellSWF object
      */
     denormalize(swf: SupercellSWF): Points;
     /**
      * @param swf SupercellSWF instance
-     * @param useNearest Whether to use nearest angle. Making better looking sprites.
+     * @param useNearest Whether to use nearest angle. Making better looking sprites
+     *
      * @returns Returns Image-js instance
      */
     getImage(swf: SupercellSWF, useNearest?: boolean): Image;
+    /**
+     * Clones ShapeDrawCommand object.
+     *
+     * @returns Сloned ShapeDrawCommand
+     */
+    clone(): ShapeDrawCommand;
     toJSON(): {
         textureIndex: number;
         uvCoords: Points;
@@ -92,10 +113,5 @@ export declare class ShapeDrawCommand {
         xyCoords: Points;
         maxRects: boolean;
     };
-    fromJSON(data: any): ShapeDrawCommand;
-    /**
-     * Clones ShapeDrawCommand object.
-     * @returns Сloned ShapeDrawCommand
-     */
-    clone(): ShapeDrawCommand;
+    fromJSON(data: JSONObject): ShapeDrawCommand;
 }

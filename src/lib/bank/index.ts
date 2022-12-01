@@ -1,4 +1,4 @@
-import { ClassConstructor } from '../interfaces';
+import { ClassConstructor } from '../utils';
 import { SupercellSWF } from '../swf';
 
 import { Matrix } from './matrix';
@@ -6,7 +6,7 @@ import { Color } from './color';
 
 import _ = require('lodash');
 import { ScBuffer } from '../buffer';
-import { MovieClip } from '../movie_clip/movie_clip';
+import { MovieClip } from '../movie_clip';
 
 /**
  * An object that contains all the transformations for the movie clips.
@@ -34,8 +34,8 @@ export class TransformBank {
 	 * @returns Current TransformBank instance
 	 */
 	load(swf: SupercellSWF): TransformBank {
-		const matricesCount = swf.buffer.readUInt16LE();
-		const colorsCount = swf.buffer.readUInt16LE();
+		const matricesCount = swf.buffer.readUInt16();
+		const colorsCount = swf.buffer.readUInt16();
 
 		this.matrices = Array.apply(null, Array(matricesCount)).map(function () { return new Matrix(); });
 		this.colors = Array.apply(null, Array(colorsCount)).map(function () { return new Color(); });
@@ -54,8 +54,8 @@ export class TransformBank {
 		const tag = 42;
 		const tagBuffer = new ScBuffer();
 
-		tagBuffer.writeUInt16LE(this.matrices.length);
-		tagBuffer.writeUInt16LE(this.colors.length);
+		tagBuffer.writeUInt16(this.matrices.length);
+		tagBuffer.writeUInt16(this.colors.length);
 
 		if (asTag) {
 			swf.buffer.saveTag(tag, tagBuffer);

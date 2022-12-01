@@ -1,4 +1,4 @@
-import { ClassConstructor, Points } from '../interfaces';
+import { ClassConstructor, Points } from '../utils';
 import { ScBuffer } from '../buffer';
 import { SupercellSWF } from '../swf';
 
@@ -60,10 +60,10 @@ export class Matrix {
 			divider = 0xFFFF;
 		}
 
-		this.a = swf.buffer.readInt32LE() / divider;
-		this.b = swf.buffer.readInt32LE() / divider;
-		this.c = swf.buffer.readInt32LE() / divider;
-		this.d = swf.buffer.readInt32LE() / divider;
+		this.a = swf.buffer.readInt32() / divider;
+		this.b = swf.buffer.readInt32() / divider;
+		this.c = swf.buffer.readInt32() / divider;
+		this.d = swf.buffer.readInt32() / divider;
 		this.tx = swf.buffer.readTwip();
 		this.ty = swf.buffer.readTwip();
 
@@ -80,10 +80,10 @@ export class Matrix {
 
 		const multiplier = this.detailed ? 0xFFFF : 1024;
 
-		tagBuffer.writeInt32LE(Math.round(this.a * multiplier));
-		tagBuffer.writeInt32LE(Math.round(this.b * multiplier));
-		tagBuffer.writeInt32LE(Math.round(this.c * multiplier));
-		tagBuffer.writeInt32LE(Math.round(this.d * multiplier));
+		tagBuffer.writeInt32(Math.round(this.a * multiplier));
+		tagBuffer.writeInt32(Math.round(this.b * multiplier));
+		tagBuffer.writeInt32(Math.round(this.c * multiplier));
+		tagBuffer.writeInt32(Math.round(this.d * multiplier));
 
 		tagBuffer.writeTwip(this.tx);
 		tagBuffer.writeTwip(this.ty);
