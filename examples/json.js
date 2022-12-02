@@ -5,8 +5,8 @@ const { SupercellSWF, COMPRESSION } = require('../');
 const { hrtime } = require('process');
 const { getAsset } = require('./utils');
 
-const file = 'sc/level.sc';
-const jsonFile = 'level.json';
+const file = 'sc/loading.sc';
+const jsonFile = 'loading.json';
 
 
 console.log('Getting files from the server...');
@@ -29,5 +29,6 @@ console.log(`Converting to json took ${hrtime(time)} seconds!`);
 
 time = hrtime();
 swf.fromJSON(JSON.parse(json));
+swf.compression = 0;
 swf.saveAsset(parse(file).base);
 console.log(`Converting from json took ${hrtime(time)} seconds!`);

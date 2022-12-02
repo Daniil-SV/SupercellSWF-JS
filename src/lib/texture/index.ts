@@ -381,7 +381,7 @@ export class Texture {
 	}
 
 	fromJSON(data: JSONObject): Texture {
-		data.pixelFormat = CHANNEL_FORMATS.RGBA[0];
+		this.pixelFormat = CHANNEL_FORMATS.RGBA[0];
 		if (data.pixelFormat) {
 			if (typeof data.pixelFormat === 'number') {
 				if (data.pixelFormat >= 0 && data.pixelFormat <= PIXEL_FORMATS.length) {
