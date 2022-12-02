@@ -1,4 +1,5 @@
 import { SupercellSWF } from './swf';
+import { ERRORS } from './utils';
 
 /**
  * Class for managing export names.
@@ -25,7 +26,7 @@ export class Exports {
 		for (let n = 0; exportCount > n; n++) {
 			const exportName = swf.buffer.readASCII();
 			if (!exportName) {
-				throw new Error('Invalid export name in file!');
+				throw new Error(ERRORS.INVALID_EXPORT_NAME);
 			}
 
 			this.exportsList.push(exportName);

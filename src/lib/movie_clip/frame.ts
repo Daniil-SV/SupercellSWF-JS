@@ -1,4 +1,4 @@
-import { ClassConstructor, FrameElement, IsFrameElement, JSONObject } from '../utils';
+import { ClassConstructor, ERRORS, FrameElement, IsFrameElement, JSONObject } from '../utils';
 import { ScBuffer } from '../buffer';
 import { SupercellSWF } from '../swf';
 
@@ -101,7 +101,7 @@ export class MovieClipFrame {
 				if (IsFrameElement(element)) {
 					this.elements.push(element);
 				} else {
-					throw new Error('Wrong FrameElement object in MovieClipFrame!');
+					throw new Error(ERRORS.INVALID_FRAME_ELEMENT_OBJECT);
 				}
 			}
 		} else {

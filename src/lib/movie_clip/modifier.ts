@@ -1,4 +1,4 @@
-import { ClassConstructor, JSONObject } from '../utils';
+import { ClassConstructor, ERRORS, JSONObject } from '../utils';
 import { ScBuffer } from '../buffer';
 import { SupercellSWF } from '../swf';
 
@@ -124,7 +124,7 @@ export class MovieClipModifier {
 			} else if (typeof data.modifier === 'number') {
 				this.modifier = data.modifier;
 			} else {
-				throw new Error('Unknown Modifier type!');
+				throw new Error(ERRORS.INVALID_MODIFIER_OBJECT);
 			}
 		}
 		return this;

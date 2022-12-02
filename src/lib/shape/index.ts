@@ -52,7 +52,7 @@ export class Shape {
 			const bitmapTagLength = swf.buffer.readInt32();
 
 			if (this.bitmaps.length > bitmapCount) {
-				throw new Error((`Too many bitmaps in shape with id ${id}`));
+				throw new Error(ERRORS.INVALID_SHAPE_BITMAP_COUNT);
 			}
 
 			switch (bitmapTag) {
@@ -68,7 +68,7 @@ export class Shape {
 					break;
 
 				case 6:
-					throw new Error('Tag ShapeDrawColorFillCommand is unsupported! Aborting...');
+					throw new Error(ERRORS.INVALID_SHAPE_BITMAP_TAG);
 
 				default:
 					console.error(ERRORS.UNKNOWN_TAG);

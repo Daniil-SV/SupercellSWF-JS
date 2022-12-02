@@ -25,7 +25,22 @@ export const ERRORS = {
 	INVALID_WRITE_BEYOND_BOUNDS: 'Attempted to write beyond the bounds of the managed data.',
 
 	// SWF
-	UNKNOWN_TAG: 'Unknown tag found! It will be skipped but the file may not be read correctly!'
+	UNKNOWN_TAG: 'Unknown tag found! It will be skipped but the file may not be read correctly!',
+	INVALID_EXPORT_NAME: 'Wrong export name reached! It must not be empty!',
+	INVALID_EXTERNAL_TEXTURE: 'Texture file was not found! You can try using loadAsset method to load .sc file only.',
+	INVALID_MOVIECLIP_TAG: 'Tags MovieClip and MovieClip4 is unsupported! Aborting...',
+	INVALID_MOVIECLIP_FRAME_TAG: 'Tag MovieClipFrame is unsupported!',
+	INVALID_SHAPE_BITMAP_TAG: 'Tag ShapeDrawColorFillCommand is unsupported!',
+
+	INVALID_SHAPE_COUNT: 'Trying to load too many Shapes!',
+	INVALID_TEXTFIELD_COUNT: 'Trying to load too many Textfields!',
+	INVALID_MOVIECLIP_FRAME_COUNT: 'Trying to load too many MovieClip frames!',
+	INVALID_SHAPE_BITMAP_COUNT: 'Too many bitmaps in shape',
+
+	INVALID_FRAME_ELEMENT_OBJECT: 'Wrong FrameElement object in MovieClipFrame!',
+	INVALID_BIND_OBJECT: 'Wrong Bind object in MovieClip!',
+	INVALID_MODIFIER_OBJECT: 'Unknown Modifier type!',
+	INVALID_FILTER: 'Unknown Filter type!'
 };
 
 /**

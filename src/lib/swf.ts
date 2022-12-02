@@ -218,7 +218,7 @@ export class SupercellSWF {
 			}
 
 			if (texturePath === undefined) {
-				throw new Error('Texture file not exist!');
+				throw new Error(ERRORS.INVALID_EXTERNAL_TEXTURE);
 			}
 
 			this.loadExternalTexture(texturePath);
@@ -688,7 +688,7 @@ export class SupercellSWF {
 				case 2:
 				case 18: // Shape
 					if (shapesLoaded >= this._shapeCount) {
-						throw new Error('Trying to load too many Shapes! Aborting...');
+						throw new Error(ERRORS.INVALID_SHAPE_COUNT);
 					}
 
 					new Shape().load(tag, this);
@@ -719,7 +719,7 @@ export class SupercellSWF {
 				case 43:
 				case 44: // Textfield
 					if (textfieldsLoaded >= this._textFieldsCount) {
-						throw new Error(('Trying to load too many Textfields! Aborting...'));
+						throw new Error(ERRORS.INVALID_TEXTFIELD_COUNT);
 					}
 
 					new TextField().load(tag, this);

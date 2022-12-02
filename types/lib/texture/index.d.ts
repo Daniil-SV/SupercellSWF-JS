@@ -40,7 +40,23 @@ export declare class Texture {
     /**
      * {@link https://www.khronos.org/opengl/wiki/Image_Format Texture pixel type}.
      */
-    pixelFormat: string;
+    get pixelFormat(): string;
+    set pixelFormat(format: string);
+    /**
+     * Texture channels count.
+     */
+    get channels(): number;
+    set channels(count: number);
+    /**
+     * Texture image width.
+     */
+    get width(): number;
+    set width(newWidth: number);
+    /**
+     * Texture image height.
+     */
+    get height(): number;
+    set height(newHeigth: number);
     /**
      * {@link https://gdbooks.gitbooks.io/legacyopengl/content/Chapter7/MinMag.html Mag filter}.
      */
@@ -61,21 +77,7 @@ export declare class Texture {
      * Texture image.
      */
     image: Image;
-    /**
-     * Texture channels count.
-     */
-    get channels(): number;
-    set channels(count: number);
-    /**
-     * Texture image width.
-     */
-    get width(): number;
-    set width(newWidth: number);
-    /**
-     * Texture image height.
-     */
-    get height(): number;
-    set height(newHeigth: number);
+    private _pixelFormat;
     constructor(options?: Partial<Texture>);
     /**
      * Method that loads a Texture tag from a buffer.

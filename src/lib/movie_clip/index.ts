@@ -91,7 +91,7 @@ export class MovieClip {
 	 */
 	load(tag: number, swf: SupercellSWF): MovieClip {
 		if ([3, 14].includes(tag)) {
-			throw new Error('Tags MovieClip and MovieClip4 is unsupported! Aborting...');
+			throw new Error(ERRORS.INVALID_FRAME_ELEMENT_OBJECT);
 		}
 
 		const id = swf.buffer.readUInt16();
@@ -150,11 +150,11 @@ export class MovieClip {
 					break;
 
 				case 5:
-					throw new Error('Tag MovieClipFrame is unsupported! Aborting...');
+					throw new Error(ERRORS.INVALID_MOVIECLIP_FRAME_TAG);
 
 				case 11:
 					if (framesLoaded >= frameCount) {
-						throw new Error(`Too many frames in movieclip with id ${id}`);
+						throw new Error(ERRORS.INVALID_MOVIECLIP_FRAME_COUNT);
 					}
 
 					const elementsCount = this.frames[framesLoaded].load(frameTag, swf);
@@ -399,7 +399,7 @@ export class MovieClip {
 				if (IsBind(bind)) {
 					this.binds.push(bind);
 				} else {
-					throw new Error('Wrong Bind in MovieClip object!');
+					throw new Error(ERRORS.INVALID_BIND_OBJECT);
 				}
 			}
 		}

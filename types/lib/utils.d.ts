@@ -21,6 +21,19 @@ export declare const ERRORS: {
     INVALID_READ_BEYOND_BOUNDS: string;
     INVALID_WRITE_BEYOND_BOUNDS: string;
     UNKNOWN_TAG: string;
+    INVALID_EXPORT_NAME: string;
+    INVALID_EXTERNAL_TEXTURE: string;
+    INVALID_MOVIECLIP_TAG: string;
+    INVALID_MOVIECLIP_FRAME_TAG: string;
+    INVALID_SHAPE_BITMAP_TAG: string;
+    INVALID_SHAPE_COUNT: string;
+    INVALID_TEXTFIELD_COUNT: string;
+    INVALID_MOVIECLIP_FRAME_COUNT: string;
+    INVALID_SHAPE_BITMAP_COUNT: string;
+    INVALID_FRAME_ELEMENT_OBJECT: string;
+    INVALID_BIND_OBJECT: string;
+    INVALID_MODIFIER_OBJECT: string;
+    INVALID_FILTER: string;
 };
 /**
  * A generic type for a class constructor that prompts you to select certain options for initialization.

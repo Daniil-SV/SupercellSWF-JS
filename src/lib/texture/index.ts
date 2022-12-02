@@ -1,6 +1,6 @@
-import Image, { ImageKind } from 'image-js';
+import Image, { ColorModel, ImageKind } from 'image-js';
 import { ScBuffer } from '../buffer';
-import { JSONObject } from '../utils';
+import { ERRORS, JSONObject } from '../utils';
 import { SupercellSWF, STATES } from '../swf';
 import { PIXEL_READ_FUNCTIONS } from './pixel_read';
 import { PIXEL_WRITE_FUNCTIONS } from './pixel_write';
@@ -87,7 +87,90 @@ export class Texture {
 	/**
 	 * {@link https://www.khronos.org/opengl/wiki/Image_Format Texture pixel type}.
 	 */
-	pixelFormat = 'GL_RGBA8';
+	get pixelFormat() {
+		return this._pixelFormat;
+	}
+	set pixelFormat(format: string) {
+		format = format.toLocaleUpperCase();
+		if (this.pixelFormat === format) {
+			return;
+		}
+
+		if (CHANNEL_FORMATS['RGBA'].includes(format)) {
+			this.channels = 4;
+		} else if (CHANNEL_FORMATS['RGB'].includes(format)) {
+			this.channels = 3;
+		} else if (CHANNEL_FORMATS['GREYA'].includes(format)) {
+			this.channels = 2;
+		} else if (CHANNEL_FORMATS['GREY'].includes(format)) {
+			this.channels = 1;
+		} else {
+			return;
+		}
+
+		this._pixelFormat = format;
+	}
+
+	/**
+	 * Texture channels count.
+	 */
+	get channels() {
+		return this.image.channels;
+	}
+	set channels(count: number) {
+		if (count === this.channels) {
+			return;
+		}
+
+		// Remove alpha
+		if ((this.channels - 1 === count) && (this.channels !== 3 && this.channels !== 1)) {
+			this.image = this.image.add(255, { channels: [this.channels - 1] });
+
+		}
+
+		// Add alpha
+		if ((this.channels + 1 === count) && (this.channels === 1 || this.channels === 3)) {
+			this.image = this.image.rgba8();
+
+		}
+
+		// RGB to GRAY
+		if ((this.channels === 3 || this.channels === 4) && (count === 1 || count === 2)) {
+			this.image = this.image.combineChannels(function (pixel) {
+				return (pixel[0] + pixel[1] + pixel[2]) / 3;
+			}, { keepAlpha: count !== 1 });
+		}
+
+		// GRAY to RGBA
+		if ((this.channels === 1 || this.channels === 2) && (count === 3 || count === 4)) {
+			console.log('egg');
+			this.image = this.image.rgba8();
+			/* if (count === 3 || count === 1) {
+				this.image = this.image.add(255, { channels: [this.channels - 1] });
+			} */
+
+		}
+	}
+
+	/**
+	 * Texture image width.
+	 */
+	get width() {
+		return this.image.width;
+	}
+	set width(newWidth: number) {
+		this.image = this.image.resize({ width: newWidth, preserveAspectRatio: false });
+	}
+
+	/**
+	 * Texture image height.
+	 */
+	get height() {
+		return this.image.height;
+	}
+	set height(newHeigth: number) {
+		this.image = this.image.resize({ height: newHeigth, preserveAspectRatio: false });
+	}
 
 	/**
 	 * {@link https://gdbooks.gitbooks.io/legacyopengl/content/Chapter7/MinMag.html Mag filter}.
@@ -114,61 +197,7 @@ export class Texture {
 	 */
 	image: Image = new Image();
 
-	/**
-	 * Texture channels count.
-	 */
-	get channels() {
-		return this.image.channels;
-	}
-	set channels(count: number) {
-		if (count === this.channels) {
-			return;
-		}
-
-		// Remove alpha
-		if (this.channels - 1 === count && this.channels !== 3 && this.channels !== 1) {
-			this.image = this.image.add(255, { channels: [this.channels - 1] });
-		}
-		// Add alpha
-		if (this.channels + 1 === count && this.channels === 1 || this.channels === 3) {
-			this.image = this.image.rgba8();
-		}
-
-		// RGB to GRAY
-		if (this.channels === 3 || this.channels === 4 && count === 1 || count === 2) {
-			this.image = this.image.combineChannels(function (pixel) {
-				return (pixel[0] + pixel[1] + pixel[2]) / 3;
-			}, { keepAlpha: count !== 1 });
-		}
-
-		// GRAY to RGBA
-		if (this.channels === 1 || this.channels === 2 && count === 3 || count === 4) {
-			this.image = this.image.rgba8();
-			if (count === 3 || count === 1) {
-				this.image = this.image.add(255, { channels: [this.channels - 1] });
-			}
-		}
-	}
-
-	/**
-	 * Texture image width.
-	 */
-	get width() {
-		return this.image.width;
-	}
-	set width(newWidth: number) {
-		this.image = this.image.resize({ width: newWidth, preserveAspectRatio: false });
-	}
-
-	/**
-	 * Texture image height.
-	 */
-	get height() {
-		return this.image.height;
-	}
-	set height(newHeigth: number) {
-		this.image = this.image.resize({ height: newHeigth, preserveAspectRatio: false });
-	}
+	private _pixelFormat = 'GL_RGBA8';
 
 	constructor(options?: Partial<Texture>) {
 		Object.assign(this, options);
@@ -189,7 +218,7 @@ export class Texture {
 		const width = swf.buffer.readUInt16();
 		const height = swf.buffer.readUInt16();
 
-		this.pixelFormat = PIXEL_FORMATS[pixelTypeIndex];
+		this._pixelFormat = PIXEL_FORMATS[pixelTypeIndex];
 
 		this.magFilter = FILTERS.GL_LINEAR;
 		this.minFilter = FILTERS.GL_NEAREST;
@@ -270,11 +299,11 @@ export class Texture {
 		let tag = 1;
 		const tagBuffer = new ScBuffer();
 
-		const textureKind = this.image.colorModel + (this.image.alpha ? 'A' : '');
+		const textureKind = (this.image.components === 3 ? 'RGB' : 'GREY') + (this.image.alpha ? 'A' : '');
 		const pixelTypeIndex = PIXEL_FORMATS.indexOf(this.pixelFormat);
 
 		if (!CHANNEL_FORMATS[textureKind].includes(PIXEL_FORMATS[pixelTypeIndex])) {
-			this.pixelFormat = CHANNEL_FORMATS[textureKind][0];
+			this._pixelFormat = CHANNEL_FORMATS[textureKind][0];
 		}
 
 		const image = this.image.clone().resize({ factor: isLowres ? 0.5 : 1 });
@@ -381,7 +410,6 @@ export class Texture {
 	}
 
 	fromJSON(data: JSONObject): Texture {
-		this.pixelFormat = CHANNEL_FORMATS.RGBA[0];
 		if (data.pixelFormat) {
 			if (typeof data.pixelFormat === 'number') {
 				if (data.pixelFormat >= 0 && data.pixelFormat <= PIXEL_FORMATS.length) {
@@ -418,7 +446,7 @@ export class Texture {
 			} else if (typeof data.magFilter === 'number') {
 				this.magFilter = data.magFilter;
 			} else {
-				throw new Error('Unknown magFilter type!');
+				throw new Error(ERRORS.INVALID_FILTER);
 			}
 		}
 
@@ -428,21 +456,18 @@ export class Texture {
 			} else if (typeof data.minFilter === 'number') {
 				this.minFilter = data.minFilter;
 			} else {
-				throw new Error('Unknown minFilter type!');
+				throw new Error(ERRORS.INVALID_FILTER);
 			}
 		}
 
 		if (data.width && typeof data.width === 'number') {
 			this.width = data.width;
-		} else {
-			this.width = 1;
 		}
 
 		if (data.height && typeof data.height === 'number') {
 			this.height = data.height;
-		} else {
-			this.height = 1;
 		}
+
 		return this;
 	}
 }
