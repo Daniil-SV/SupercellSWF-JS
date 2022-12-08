@@ -8,6 +8,7 @@ import { MovieClip } from './movie_clip';
 import { TextField } from './textfield';
 import { MovieClipModifier } from './movie_clip/modifier';
 import { ClassConstructor, ERRORS, JSONObject, State } from './utils';
+import * as readline from 'readline';
 
 /**
  * Contains all states that SupercellSWF instance sends during some event.
@@ -145,20 +146,20 @@ export class SupercellSWF {
 		switch (state) {
 			case STATES.resources_load:
 				process.stdout.clearLine(0);
-				process.stdout.cursorTo(0);
+				readline.cursorTo(process.stdout, 0);
 				process.stdout.write(`Resources loading: ${property}%\r`);
 				break;
 
 			case STATES.resources_save:
 				process.stdout.clearLine(0);
-				process.stdout.cursorTo(0);
+				readline.cursorTo(process.stdout, 0);
 				process.stdout.write(`Resources writing: ${property}%\r`);
 				break;
 
 			case STATES.texture_load:
 				// for cases when only textures are loaded, and we do not know the number of textures
 				process.stdout.clearLine(0);
-				process.stdout.cursorTo(0);
+				readline.cursorTo(process.stdout, 0);
 				if (property[1] + 1 !== this.textures.length) {
 					process.stdout.write(`Loading ${property[1] + 1}/${this.textures.length} textures: ${property[0]}%\r`);
 				} else {
@@ -168,7 +169,7 @@ export class SupercellSWF {
 
 			case STATES.texture_save:
 				process.stdout.clearLine(0);
-				process.stdout.cursorTo(0);
+				readline.cursorTo(process.stdout, 0);
 				process.stdout.write(`Saving ${property[1] + 1}/${this.textures.length} textures: ${property[0]}%\r`);
 				break;
 
@@ -182,12 +183,12 @@ export class SupercellSWF {
 
 			case STATES.saving:
 				process.stdout.clearLine(0);
-				process.stdout.cursorTo(0);
+				readline.cursorTo(process.stdout, 0);
 				process.stdout.write(`Writing file: ${property}`);
 				break;
 
 			case STATES.savingFinish:
-				process.stdout.write(`\nSaving ${property} comleted.`);
+				process.stdout.write(`\nSaving ${property} comleted.\n`);
 				break;
 		}
 	};

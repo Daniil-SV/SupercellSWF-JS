@@ -5,7 +5,7 @@
         "module": "commonjs",
         "sourceMap": false,
         "moduleResolution": "node",
-        "outDir": "build",
+        "outDir": "./",
         "watch": false,
         "declaration": true,
         "declarationDir": "types",

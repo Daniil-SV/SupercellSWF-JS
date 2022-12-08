@@ -3,10 +3,9 @@ import {
 	checkEncoding, isFiniteInteger
 } from './utils';
 import { createHash } from 'crypto';
-import * as lzma from 'lzma-native';
-import deasync = require('deasync');
 import { CompressOptions } from './utils';
-import * as zstd from '@mongodb-js/zstd';
+import * as lzma from './compression/lzma';
+import * as zstd from './compression/zstd';
 
 /**
  * Object interface for constructing new ScBuffer instances.
@@ -271,17 +270,13 @@ class ScBuffer {
 	 * @returns Decompressed buffer
 	 */
 	static lzmaDecompress(buffer: Buffer): ScBuffer {
-		let decompressed: Buffer;
-
-		lzma.decompress(Buffer.concat([
+		buffer = Buffer.concat([
 			buffer.slice(0, 9),
 			Buffer.alloc(4),
 			buffer.slice(9, buffer.length)
-		]), {}, function (result) {
-			decompressed = result;
-		});
+		]);
+		const decompressed = lzma.decompress(buffer);
 
-		deasync.loopWhile(function () { return decompressed === undefined; });
 		return new ScBuffer({ buff: decompressed, isLittleEndian: true });
 	}
 
@@ -293,13 +288,8 @@ class ScBuffer {
 	 * @returns Decompressed buffer
 	 */
 	static zstdDecompress(buffer: Buffer): ScBuffer {
-		let decompressed: Buffer;
-		(async () => {
-			decompressed = await zstd.decompress(buffer);
-		})();
-
-		deasync.loopWhile(function () { return decompressed === undefined; });
-		return new ScBuffer({ buff: decompressed, isLittleEndian: true });
+		const data = zstd.decompress(buffer);
+		return new ScBuffer({ buff: data, isLittleEndian: true });
 	}
 
 	/**
@@ -399,33 +389,14 @@ class ScBuffer {
 	 * @returns Compressed LZMA buffer
 	 */
 	lzmaCompress(mode: 0 | 1 = 1): Buffer {
-		let compressed: Buffer;
-		const options = { pb: 2, lc: 3, lp: 0, mode: 1, dictSize: 256 * 1024 };
+		let compressed = lzma.compress(this.internalBuffer, mode);
 
-		if (mode === 1) {
-			options.lc = 4;
-			options.mode = 2;
-		}
+		const bufferLength = Buffer.alloc(4);
+		bufferLength.writeUint32LE(this.length);
 
-		// @ts-ignore
-		const stream = lzma.createStream('aloneEncoder', options);
-
-		stream.once('error', (error) => {
-			throw error;
-		});
-
-		const buffers = [];
-		stream.on('data', (b) => {
-			buffers.push(b);
-		});
-		stream.once('end', () => {
-			compressed = Buffer.concat(buffers);
-		});
-		stream.end(this.internalBuffer);
-
-		deasync.loopWhile(function () { return compressed === undefined; });
 		compressed = Buffer.concat([
-			compressed.slice(0, 9),
+			compressed.slice(0, 5),
+			bufferLength,
 			compressed.slice(13, compressed.length)
 		]);
 		return compressed;
@@ -435,13 +406,7 @@ class ScBuffer {
 	 * @returns Compressed ZSTD buffer
 	 */
 	zstdCompress(mode: 0 | 1 = 1): Buffer {
-		let compressed: Buffer;
-		(async () => {
-			compressed = await zstd.compress(this.internalBuffer, mode === 0 ? 3 : 17);
-		})();
-
-		deasync.loopWhile(function () { return compressed === undefined; });
-		return compressed;
+		return zstd.compress(this.internalBuffer, mode);
 	}
 
 	// Other
