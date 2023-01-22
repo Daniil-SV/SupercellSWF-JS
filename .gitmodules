@@ -1,0 +1,4 @@
+[submodule "deps/SC"]
+	path = deps/SC
+	url = https://github.com/scwmake/SC
+	branch = cpp-dev

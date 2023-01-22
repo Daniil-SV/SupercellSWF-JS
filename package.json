@@ -1,0 +1,24 @@
+{
+  "name": "SupercellCompression",
+  "version": "0.1.0",
+  "description": "",
+  "main": "lib/index.js",
+  "scripts": {
+    "install": "npm run build:ts && npm run build:native",
+    "build": "node-gyp build",
+    "build:debug": "node-gyp build --debug"
+  },
+  "gypfile": true,
+  "types": "./types",
+  "devDependencies": {
+    "@types/node": "^16.18.8",
+    "prebuildify": "^5.0.1",
+    "typescript": "^5.0.0-dev.20230115"
+  },
+  "author": "DaniilSV",
+  "license": "MIT",
+  "dependencies": {
+    "node-addon-api": "^5.0.0",
+    "node-gyp-build": "^4.5.0"
+  }
+}

@@ -1,0 +1,5 @@
+/node_modules
+/prebuilds
+/.vscode
+/build
+/tests/Output
