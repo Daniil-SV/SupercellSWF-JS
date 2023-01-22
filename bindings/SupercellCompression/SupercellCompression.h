@@ -1,6 +1,7 @@
 #include <string>
 #include <napi.h>
 #include <SupercellCompression.h>
+#include "Utils.h"
 
 namespace scNode
 {
@@ -20,5 +21,6 @@ namespace scNode
     /* Compressor functions */
     static Napi::Value compressFile(const Napi::CallbackInfo &info);
     static Napi::Value compress(const Napi::CallbackInfo &info);
+    static Napi::Value commonCompress(const Napi::CallbackInfo &info);
   };
 }

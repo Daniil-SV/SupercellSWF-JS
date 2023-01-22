@@ -60,6 +60,7 @@ namespace scNode
 
     compressorObject.Set("compressFile", Napi::Function::New(env, &SupercellCompression::compressFile));
     compressorObject.Set("compress", Napi::Function::New(env, &SupercellCompression::compress));
+    compressorObject.Set("commonCompress", Napi::Function::New(env, &SupercellCompression::commonCompress));
   }
 
 }

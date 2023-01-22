@@ -8,10 +8,12 @@
             'cflags_cc!': [ '-fno-exceptions' ],
             "sources": [
                 "bindings/Main.cpp",
+                "bindings/Utils.cpp",
                 "<!@(node -p \"require('fs').readdirSync('./bindings/SupercellCompression/').map(f=>'bindings/SupercellCompression/'+f).filter(f=>f.endsWith('.cpp')).join(' ')\")"
             ],
             "include_dirs": [
                 "<!@(node -p \"require('node-addon-api').include\")",
+                "bindings/",
                 "deps/SC/SupercellSWF/src",
                 "deps/SC/SupercellCompression/src/"
             ],

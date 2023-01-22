@@ -60,14 +60,14 @@ interface SupercellCompressionCompressor {
      * @param filebuffer .sc file decompressed buffer
      * @param props .sc file header props
      */
-    compress(filebuffer: Buffer, props: CompressedSwfProps): Buffer; // TODO
+    compress(filebuffer: Buffer, props: CompressedSwfProps): Buffer;
 
     /**
      * Compress data buffer with specified signature
      * @param filebuffer Decompressed data buffer
      * @param signature Buffer compression method
      */
-    commonCompress(filebuffer: Buffer, signature: CompressionSignature): Buffer; // TODO
+    commonCompress(filebuffer: Buffer, signature: CompressionSignature): Buffer;
 }
 
 interface SupercellCompression {

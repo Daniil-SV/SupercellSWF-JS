@@ -6,27 +6,15 @@ namespace scNode
     {
         Napi::Env env = info.Env();
 
-        if (info.Length() < 1)
-        {
-            Napi::TypeError::New(env, "Wrong number of arguments")
-                .ThrowAsJavaScriptException();
-            return env.Undefined();
-        }
-
         if (!info[0].IsString())
         {
-            Napi::TypeError::New(env, "Wrong arguments").ThrowAsJavaScriptException();
+            Napi::TypeError::New(env, "First argument must be a String!").ThrowAsJavaScriptException();
             return env.Undefined();
         }
 
         std::string outputPath;
         sc::CompressorError result = sc::Decompressor::decompress(info[0].ToString().Utf8Value(), outputPath);
-        if (result != sc::CompressorError::OK)
-        {
-            Napi::TypeError::New(env, "Failed to decompress file!").ThrowAsJavaScriptException();
-            return env.Undefined();
-        }
-
+        Utils::processCompressorError(env, result);
         return Napi::String::New(env, outputPath);
     }
 
@@ -34,16 +22,9 @@ namespace scNode
     {
         Napi::Env env = info.Env();
 
-        if (info.Length() < 1)
-        {
-            Napi::TypeError::New(env, "Wrong number of arguments")
-                .ThrowAsJavaScriptException();
-            return env.Undefined();
-        }
-
         if (!info[0].IsBuffer())
         {
-            Napi::TypeError::New(env, "Wrong arguments").ThrowAsJavaScriptException();
+            Napi::TypeError::New(env, "First argument must be a Buffer!").ThrowAsJavaScriptException();
             return env.Undefined();
         }
 
@@ -56,11 +37,7 @@ namespace scNode
         sc::BufferStream outputStream(&outputBuffer);
 
         sc::CompressorError result = sc::Decompressor::decompress(inputStream, outputStream);
-        if (result != sc::CompressorError::OK)
-        {
-            Napi::TypeError::New(env, "Failed to decompress file!").ThrowAsJavaScriptException();
-            return env.Undefined();
-        }
+        Utils::processCompressorError(env, result);
 
         Napi::Buffer<uint8_t> buffer = Napi::Buffer<uint8_t>::Copy(env, outputBuffer.data(), outputBuffer.size());
         inputStream.close();
@@ -73,16 +50,9 @@ namespace scNode
     {
         Napi::Env env = info.Env();
 
-        if (info.Length() < 1)
-        {
-            Napi::TypeError::New(env, "Wrong number of arguments")
-                .ThrowAsJavaScriptException();
-            return env.Undefined();
-        }
-
         if (!info[0].IsBuffer())
         {
-            Napi::TypeError::New(env, "Wrong arguments").ThrowAsJavaScriptException();
+            Napi::TypeError::New(env, "First argument must be a Buffer!").ThrowAsJavaScriptException();
             return env.Undefined();
         }
 
@@ -95,11 +65,7 @@ namespace scNode
         sc::BufferStream outputStream(&outputBuffer);
 
         sc::CompressorError result = sc::Decompressor::commonDecompress(inputStream, outputStream);
-        if (result != sc::CompressorError::OK)
-        {
-            Napi::TypeError::New(env, "Failed to decompress file!").ThrowAsJavaScriptException();
-            return env.Undefined();
-        }
+        Utils::processCompressorError(env, result);
 
         Napi::Buffer<uint8_t> buffer = Napi::Buffer<uint8_t>::Copy(env, outputBuffer.data(), outputBuffer.size());
         inputStream.close();
@@ -112,16 +78,9 @@ namespace scNode
     {
         Napi::Env env = info.Env();
 
-        if (info.Length() < 1)
-        {
-            Napi::TypeError::New(env, "Wrong number of arguments")
-                .ThrowAsJavaScriptException();
-            return env.Undefined();
-        }
-
         if (!info[0].IsBuffer())
         {
-            Napi::TypeError::New(env, "Wrong arguments").ThrowAsJavaScriptException();
+            Napi::TypeError::New(env, "First argument must be a Buffer!").ThrowAsJavaScriptException();
             return env.Undefined();
         }
 
