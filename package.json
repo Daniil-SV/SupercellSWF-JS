@@ -1,12 +1,13 @@
 {
-  "name": "SupercellCompression",
-  "version": "0.1.0",
-  "description": "",
+  "name": "supercell-swf",
+  "version": "2.0.0",
+  "description": "Module for loading and processing SupercellSWF assets.",
   "main": "lib/index.js",
   "scripts": {
-    "install": "npm run build:ts && npm run build:native",
+    "install": "node-gyp-build",
     "build": "node-gyp build",
-    "build:debug": "node-gyp build --debug"
+    "build:debug": "node-gyp build --debug",
+    "prebuild": "prebuildify --napi"
   },
   "gypfile": true,
   "types": "./types",
@@ -17,6 +18,10 @@
   },
   "author": "DaniilSV",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/scwmake/supercell-swf-ts.git"
+  },
   "dependencies": {
     "node-addon-api": "^5.0.0",
     "node-gyp-build": "^4.5.0"
