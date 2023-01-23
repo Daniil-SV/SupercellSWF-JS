@@ -1,3 +1,5 @@
+#pragma once
+
 #include <string>
 #include <napi.h>
 #include <SupercellCompression.h>

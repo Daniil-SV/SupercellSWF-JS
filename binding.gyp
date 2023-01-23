@@ -9,15 +9,33 @@
             "sources": [
                 "bindings/Main.cpp",
                 "bindings/Utils.cpp",
-                "<!@(node -p \"require('fs').readdirSync('./bindings/SupercellCompression/').map(f=>'bindings/SupercellCompression/'+f).filter(f=>f.endsWith('.cpp')).join(' ')\")"
+                "<!@(node -p \"require('fs').readdirSync('./bindings/SupercellCompression/').map(f=>'bindings/SupercellCompression/'+f).filter(f=>f.endsWith('.cpp')).join(' ')\")",
+                "<!@(node -p \"require('fs').readdirSync('./bindings/SupercellFlash/').map(f=>'bindings/SupercellFlash/'+f).filter(f=>f.endsWith('.cpp')).join(' ')\")"
             ],
             "include_dirs": [
                 "<!@(node -p \"require('node-addon-api').include\")",
                 "bindings/",
-                "deps/SC/SupercellSWF/src",
+                "deps/SC/SupercellFlash/src",
                 "deps/SC/SupercellCompression/src/"
             ],
-            "dependencies": ["<!(node -p \"require('node-addon-api').gyp\")", "SupercellCompression"]
+            "dependencies": ["<!(node -p \"require('node-addon-api').gyp\")", "SupercellCompression", "SupercellFlash"]
+        },
+        {
+            "target_name": "SupercellFlash",
+            "type": "static_library",
+            "include_dirs": [
+				"deps/SC/SupercellFlash/src/",
+                "deps/SC/SupercellCompression/src/"
+            ],
+            "sources": [
+				"<!@(node -p \"require('fs').readdirSync('./deps/SC/SupercellFlash/src/SupercellFlash').map(f=>'deps/SC/SupercellFlash/src/SupercellFlash/'+f).filter(f=>f.endsWith('.cpp')).join(' ')\")",
+				"<!@(node -p \"require('fs').readdirSync('./deps/SC/SupercellFlash/src/SupercellFlash/common').map(f=>'deps/SC/SupercellFlash/src/SupercellFlash/common/'+f).filter(f=>f.endsWith('.cpp')).join(' ')\")",
+				"<!@(node -p \"require('fs').readdirSync('./deps/SC/SupercellFlash/src/SupercellFlash/tag').map(f=>'deps/SC/SupercellFlash/src/SupercellFlash/tag/'+f).filter(f=>f.endsWith('.cpp')).join(' ')\")"
+            ],
+			"dependencies": ["SupercellCompression"],
+            "cflags": [
+                "-std=c17"
+            ]
         },
 		{
             "target_name": "SupercellCompression",

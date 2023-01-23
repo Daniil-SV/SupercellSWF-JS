@@ -1,44 +1,7 @@
 #include "SupercellCompression.h"
 #include <iostream>
 
-// class SupercellSWF: public sc::SupercellSWF, public Napi::ObjectWrap<SupercellSWF> {
-// public:
-//   SupercellSWF(const Napi::CallbackInfo &info);
-//   static void Initialize(Napi::Env &env, Napi::Object &target);
-//   Napi::Value node_load(const Napi::CallbackInfo &info);
-// };
-//
-// /* Class constructor initializer */
-// void SupercellSWF::Initialize(Napi::Env& env, Napi::Object& target) {
-//   Napi::Function constructor = Napi::ObjectWrap<SupercellSWF>::DefineClass(env, "SupercellSWF", {
-//
-//     Napi::ObjectWrap<SupercellSWF>::InstanceMethod("load", &SupercellSWF::node_load),
-//
-//   });
-//   target.Set("SupercellSWF", constructor);
-// }
-// /* Cpp class creation declaration */
-// SupercellSWF::SupercellSWF(const Napi::CallbackInfo &info): Napi::ObjectWrap<SupercellSWF>(info) {}
-//
-// /* Test class function declaration */
-// Napi::Value SupercellSWF::node_load(const Napi::CallbackInfo &info){
-//   Napi::Env env = info.Env();
-//
-//   if (info.Length() < 2){
-//     Napi::TypeError::New(env, "Wrong number of arguments")
-//         .ThrowAsJavaScriptException();
-//     return env.Undefined();
-//   }
-//
-//   if (!info[0].IsString()) {
-//     Napi::TypeError::New(env, "Wrong arguments").ThrowAsJavaScriptException();
-//     return env.Undefined();
-//   }
-//
-//   // load(info[0].As<std::string>());
-//
-//   return env.Undefined();
-// }
+
 
 namespace scNode
 {
