@@ -78,13 +78,13 @@ namespace scNode
                 memcpy(header.metadata.data(), metadataBuffer.Data(), header.metadata.size());
             }
 
-            if (props.Has("hash"))
+            if (props.Has("sign"))
             {
-                Napi::Buffer<uint8_t> hashBuffer = props.Get("metadata").As<Napi::Buffer<uint8_t>>();
-                if (hashBuffer.Length() == 64)
+                Napi::Buffer<uint8_t> signBuffer = props.Get("metadata").As<Napi::Buffer<uint8_t>>();
+                if (signBuffer.Length() == 64)
                 {
-                    header.hash = std::vector<uint8_t>(hashBuffer.Length());
-                    memcpy(header.hash.data(), hashBuffer.Data(), header.hash.size());
+                    header.sign = std::vector<uint8_t>(signBuffer.Length());
+                    memcpy(header.sign.data(), signBuffer.Data(), header.sign.size());
                 }
             }
 

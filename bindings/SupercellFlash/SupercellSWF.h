@@ -13,21 +13,22 @@ namespace scNode
 
     private:
         /* Compression */
-        void setCompression(const Napi::CallbackInfo &info, const Napi::Value &value); // TODO
-        Napi::Value getCompression(const Napi::CallbackInfo &info);
+        void set_сompression(const Napi::CallbackInfo &info, const Napi::Value &value);
+        Napi::Value get_сompression(const Napi::CallbackInfo &info);
 
         /* Has external texture */
-        void setHasExternalTexture(const Napi::CallbackInfo &info, const Napi::Value &value);
-        Napi::Value getHasExternalTexture(const Napi::CallbackInfo &info); // TODO
+        void set_hasExternalTexture(const Napi::CallbackInfo &info, const Napi::Value &value);
+        Napi::Value get_hasExternalTexture(const Napi::CallbackInfo &info);
 
         /* Lowres texture postfix */
-        void setLowResTexturePostfix(const Napi::CallbackInfo &info, const Napi::Value &value);
-        Napi::Value getLowResTexurePostfix(const Napi::CallbackInfo &info);
+        void setLowResTextureSuffix(const Napi::CallbackInfo &info, const Napi::Value &value);
+        Napi::Value getLowResTexureSuffix(const Napi::CallbackInfo &info);
 
         /* Highres texture postfix */
-        void setMultiresTexurePostfix(const Napi::CallbackInfo &info, const Napi::Value &value);
+        void setMultiresTexureSuffix(const Napi::CallbackInfo &info, const Napi::Value &value);
         Napi::Value getMultiResTexurePostfix(const Napi::CallbackInfo &info);
     
         Napi::Value load(const Napi::CallbackInfo &info);
+        Napi::Value loadAsset(const Napi::CallbackInfo &info);
     };
 }

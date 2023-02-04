@@ -3,3 +3,6 @@
 /.vscode
 /build
 /tests/Output
+*.lua
+/deps
+// TODO create groups for this shit

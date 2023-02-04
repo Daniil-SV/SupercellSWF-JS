@@ -7,23 +7,23 @@ const crypto = require('crypto');
 /* Defines */
 const print = console.log;
 
-const unitFile = 'Files/debug.sc';
+const unitFile = `${__dirname}/Files/debug.sc`;
 if (!fs.existsSync(unitFile)) {
     throw new Error("Unit file does not exist!")
 }
 
-const commonUnitFile = 'Files/testing.csv';
+const commonUnitFile = `${__dirname}/Files/testing.csv`;
 if (!fs.existsSync(commonUnitFile)) {
     throw new Error("Common unit file does not exist!")
 }
 
-const outputUnitFile = "Output/debug_decompressed.sc"
-const outputCompressedUnitFile = "Output/debug_compressed.sc"
-const outputCompressedBuferUnitFile = "Output/debug_compressed_buffer.sc"
-const outputCompressedUnitFile_Props = "Output/debug_compressed_props.sc"
+const outputUnitFile = `${__dirname}/Output/debug_decompressed.sc`
+const outputCompressedUnitFile = `${__dirname}/Output/debug_compressed.sc`
+const outputCompressedBuferUnitFile = `${__dirname}/Output/debug_compressed_buffer.sc`
+const outputCompressedUnitFile_Props = `${__dirname}/Output/debug_compressed_props.sc`
 
-const outputCommonFile = "Output/testing_decompressed.csv"
-const outputCompressedCommonFile = "Output/testing_compressed.csv"
+const outputCommonFile = `${__dirname}/Output/testing_decompressed.csv`
+const outputCompressedCommonFile = `${__dirname}/Output/testing_compressed.csv`
 
 const ScDecompressor = SC.SupercellCompression.Decompressor;
 const ScCompressor = SC.SupercellCompression.Compressor;
@@ -162,7 +162,8 @@ try {
 try {
 
     const commonFileBuffer = fs.readFileSync(outputCommonFile);
-    const compressedCommon = ScCompressor.commonCompress(commonFileBuffer, SC.CompressionSignature.LZMA);
+    //const compressedCommon = ScCompressor.commonCompress(commonFileBuffer, SC.CompressionSignature.LZMA);
+    const compressedCommon = ScCompressor.compress(commonFileBuffer, {});
     fs.writeFileSync(outputCompressedCommonFile, compressedCommon);
     print(`Common file compressed to ${path.resolve(outputCompressedCommonFile)}.\n`);
 

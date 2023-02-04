@@ -1,7 +1,5 @@
-#include "SupercellCompression.h"
 #include <iostream>
-
-
+#include "SupercellCompression.h"
 
 namespace scNode
 {

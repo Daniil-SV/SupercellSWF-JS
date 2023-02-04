@@ -13,7 +13,7 @@ namespace scNode
         }
 
         std::string outputPath;
-        sc::CompressorError result = sc::Decompressor::decompress(info[0].ToString().Utf8Value(), outputPath);
+        sc::CompressorError result = sc::Decompressor::decompress(info[0].ToString().Utf8Value(), outputPath, nullptr);
         Utils::processCompressorError(env, result);
         return Napi::String::New(env, outputPath);
     }
@@ -95,7 +95,7 @@ namespace scNode
         props.Set("id", Napi::Buffer<uint8_t>::Copy(env, scProps.id.data(), scProps.id.size()));
         props.Set("signature", Napi::Number::New(env, scProps.signature));
         props.Set("metadata", Napi::Buffer<uint8_t>::Copy(env, scProps.metadata.data(), scProps.metadata.size()));
-        props.Set("hash", Napi::Buffer<uint8_t>::Copy(env, scProps.hash.data(), scProps.hash.size()));
+        props.Set("sign", Napi::Buffer<uint8_t>::Copy(env, scProps.sign.data(), scProps.sign.size()));
 
         stream.close();
 

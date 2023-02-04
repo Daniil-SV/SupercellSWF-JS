@@ -9,9 +9,9 @@ export declare enum CompressionSignature {
 
 export declare interface CompressedSwfProps {
     id: Buffer,
-    signature: number,
     metadata: Buffer,
-    hash: Buffer
+    sign: Buffer
+    signature: number,
 }
 
 interface SupercellCompressionDecompressor {
