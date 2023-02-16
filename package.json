@@ -5,8 +5,9 @@
   "main": "lib/index.js",
   "scripts": {
     "install": "node-gyp-build",
-    "build": "node-gyp build",
-    "build:debug": "node-gyp build --debug",
+    "build:ts": "tsc",
+    "build:native": "node-gyp build",
+    "build:native-debug": "node-gyp build --debug",
     "prebuild": "prebuildify --napi"
   },
   "gypfile": true,
@@ -24,6 +25,7 @@
   },
   "dependencies": {
     "node-addon-api": "^5.0.0",
+    "node-binding": "^1.4.0",
     "node-gyp-build": "^4.5.0"
   }
 }

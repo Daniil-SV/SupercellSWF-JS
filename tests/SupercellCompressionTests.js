@@ -5,7 +5,13 @@ const SC = require('../');
 const crypto = require('crypto');
 
 /* Defines */
-const print = console.log;
+function print(msg, succes) {
+    if (succes) {
+        console.log(`\x1b[32m${msg}\x1b[0m`)
+    } else {
+        console.log(`\x1b[31m${msg}\x1b[0m`)
+    }
+}
 
 const unitFile = `${__dirname}/Files/debug.sc`;
 if (!fs.existsSync(unitFile)) {
@@ -38,11 +44,11 @@ const ScCompressor = SC.SupercellCompression.Compressor;
 try {
 
     const cachePath = ScDecompressor.decompressFile(unitFile);
-    print(`File decompressed to ${cachePath}.\n`)
+    print(`File decompressed to ${cachePath}.\n`, true);
 
 } catch (err) {
-    print("An error occurred while decompressing a file: ");
-    print(err + '\n');
+    print("An error occurred while decompressing a file: ", false);
+    console.log(err + '\n');
 }
 
 
@@ -54,11 +60,11 @@ try {
     const fileBuffer = fs.readFileSync(unitFile);
     const decompressedBuffer = ScDecompressor.decompress(fileBuffer);
     fs.writeFileSync(outputUnitFile, decompressedBuffer);
-    print(`File decompressed from buffer to ${path.resolve(outputUnitFile)}.\n`);
+    print(`File decompressed from buffer to ${path.resolve(outputUnitFile)}.\n`, true);
 
 } catch (err) {
-    print("An error occurred while decompressing a file from buffer: ");
-    print(err + '\n');
+    print("An error occurred while decompressing a file from buffer: ", false);
+    console.log(err + '\n');
 }
 
 
@@ -70,11 +76,11 @@ try {
     const commonFileBuffer = fs.readFileSync(commonUnitFile);
     const decompressedCommon = ScDecompressor.commonDecompress(commonFileBuffer);
     fs.writeFileSync(outputCommonFile, decompressedCommon);
-    print(`Common file decompressed to ${path.resolve(outputCommonFile)}.\n`);
+    print(`Common file decompressed to ${path.resolve(outputCommonFile)}.\n`, true);
 
 } catch (err) {
-    print("An error occurred while decompressing a common file: ");
-    print(err + '\n');
+    print("An error occurred while decompressing a common file: ", false);
+    console.log(err + '\n');
 }
 
 
@@ -86,14 +92,14 @@ try {
     const fileBuffer = fs.readFileSync(unitFile);
     const header = ScDecompressor.getProps(fileBuffer);
 
-    print("SCSWF compressed asset info:");
-    print(`Id: ${header.id.toString('hex')}`);
-    print(`Has metadata: ${header.metadata.length > 0 ? "Yes" : "No"}`);
-    print(`Has hash: ${header.hash.length > 0 ? "Yes" : "No"}`);
-    print(`Compression method: ${SC.CompressionSignature[header.signature]}\n`);
+    console.log("SCSWF compressed asset info:");
+    console.log(`Id: ${header.id.toString('hex')}`);
+    console.log(`Has metadata: ${header.metadata.length > 0 ? "Yes" : "No"}`);
+    console.log(`Has sign: ${header.sign.length > 0 ? "Yes" : "No"}`);
+    console.log(`Compression method: ${SC.CompressionSignature[header.signature]}\n`);
 
 } catch (err) {
-    console.log("An error occurred while getting info from buffer: ");
+    print("An error occurred while getting info from buffer: ", false);
     console.log(err + '\n');
 }
 
@@ -107,10 +113,10 @@ try {
 try {
 
     ScCompressor.compressFile(outputUnitFile, outputCompressedUnitFile, SC.CompressionSignature.LZMA);
-    console.log(`File compressed to ${path.resolve(outputCompressedUnitFile)}.\n`);
+    print(`File compressed to ${path.resolve(outputCompressedUnitFile)}.\n`, true);
 
 } catch (err) {
-    console.log("An error occurred while compressing a file: ");
+    print("An error occurred while compressing a file: ", false);
     console.log(err + '\n');
 }
 
@@ -123,11 +129,11 @@ try {
     const fileBuffer = fs.readFileSync(outputUnitFile);
     const compressedBuffer = ScCompressor.compress(fileBuffer, SC.CompressionSignature.LZMA);
     fs.writeFileSync(outputCompressedBuferUnitFile, compressedBuffer);
-    print(`File compressed from buffer to ${path.resolve(outputCompressedBuferUnitFile)}.\n`);
+    print(`File compressed from buffer to ${path.resolve(outputCompressedBuferUnitFile)}.\n`, true);
 
 } catch (err) {
-    print("An error occurred while compressing a file from buffer");
-    print(err + '\n');
+    print("An error occurred while compressing a file from buffer: ", false);
+    console.log(err + '\n');
 }
 
 /* 
@@ -142,18 +148,18 @@ try {
         signature: SC.CompressionSignature.LZMA
     }
 
-    print('Generated props: ');
-    print(`Id: ${props.id.toString('hex')}`);
-    print(`Compression method: ${SC.CompressionSignature[props.signature]}`);
-    print(`Metadata: "${props.metadata.toString()}"`);
+    console.log('Generated props: ');
+    console.log(`Id: ${props.id.toString('hex')}`);
+    console.log(`Compression method: ${SC.CompressionSignature[props.signature]}`);
+    console.log(`Metadata: "${props.metadata.toString()}"`);
 
     const compressedBuffer = ScCompressor.compress(fileBuffer, props);
     fs.writeFileSync(outputCompressedUnitFile_Props, compressedBuffer);
-    print(`File compressed with props to ${path.resolve(outputCompressedUnitFile_Props)}.\n`);
+    print(`File compressed with props to ${path.resolve(outputCompressedUnitFile_Props)}.\n`, true);
 
 } catch (err) {
-    print("An error occurred while compressing a file with props: ");
-    print(err + '\n');
+    print("An error occurred while compressing a file with props: ", false);
+    console.log(err + '\n');
 }
 
 /* 
@@ -165,9 +171,9 @@ try {
     //const compressedCommon = ScCompressor.commonCompress(commonFileBuffer, SC.CompressionSignature.LZMA);
     const compressedCommon = ScCompressor.compress(commonFileBuffer, {});
     fs.writeFileSync(outputCompressedCommonFile, compressedCommon);
-    print(`Common file compressed to ${path.resolve(outputCompressedCommonFile)}.\n`);
+    print(`Common file compressed to ${path.resolve(outputCompressedCommonFile)}.\n`, true);
 
 } catch (err) {
-    print("An error occurred while compressing a common file: ");
-    print(err + '\n');
+    print("An error occurred while compressing a common file: ", false);
+    console.log(err + '\n');
 }

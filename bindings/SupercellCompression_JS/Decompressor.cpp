@@ -1,8 +1,8 @@
 #include "SupercellCompression.h"
 
-namespace scNode
+namespace scNapi
 {
-    Napi::Value SupercellCompression::decompressFile(const Napi::CallbackInfo &info)
+    Napi::Value SupercellCompression::decompressFile(const Napi::CallbackInfo& info)
     {
         Napi::Env env = info.Env();
 
@@ -13,12 +13,17 @@ namespace scNode
         }
 
         std::string outputPath;
-        sc::CompressorError result = sc::Decompressor::decompress(info[0].ToString().Utf8Value(), outputPath, nullptr);
-        Utils::processCompressorError(env, result);
+        sc::CompressorError result = sc::Decompressor::decompress(info[0].ToString().Utf8Value(), outputPath);
+
+        if (!Utils::processCompressorError(env, result))
+        {
+            return env.Undefined();
+        }
         return Napi::String::New(env, outputPath);
+
     }
 
-    Napi::Value SupercellCompression::decompress(const Napi::CallbackInfo &info)
+    Napi::Value SupercellCompression::decompress(const Napi::CallbackInfo& info)
     {
         Napi::Env env = info.Env();
 
@@ -36,17 +41,17 @@ namespace scNode
         std::vector<uint8_t> outputBuffer;
         sc::BufferStream outputStream(&outputBuffer);
 
-        sc::CompressorError result = sc::Decompressor::decompress(inputStream, outputStream);
-        Utils::processCompressorError(env, result);
+        //sc::CompressorError result = sc::Decompressor::decompress(inputStream, outputStream);
+        //Utils::processCompressorError(env, result);
 
-        Napi::Buffer<uint8_t> buffer = Napi::Buffer<uint8_t>::Copy(env, outputBuffer.data(), outputBuffer.size());
+        Napi::Buffer<uint8_t> buffer = Napi::Buffer<uint8_t>::Copy(env, inputStreamBuffer.data(), inputStreamBuffer.size());
         inputStream.close();
         outputStream.close();
 
         return buffer;
     }
 
-    Napi::Value SupercellCompression::commonDecompress(const Napi::CallbackInfo &info)
+    Napi::Value SupercellCompression::commonDecompress(const Napi::CallbackInfo& info)
     {
         Napi::Env env = info.Env();
 
@@ -74,7 +79,7 @@ namespace scNode
         return buffer;
     }
 
-    Napi::Value SupercellCompression::getProps(const Napi::CallbackInfo &info)
+    Napi::Value SupercellCompression::getProps(const Napi::CallbackInfo& info)
     {
         Napi::Env env = info.Env();
 

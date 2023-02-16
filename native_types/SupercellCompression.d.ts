@@ -70,9 +70,7 @@ interface SupercellCompressionCompressor {
     commonCompress(filebuffer: Buffer, signature: CompressionSignature): Buffer;
 }
 
-interface SupercellCompression {
+export declare const SupercellCompression: {
     Decompressor: SupercellCompressionDecompressor,
     Compressor: SupercellCompressionCompressor
-}
-
-export declare const SupercellCompression: SupercellCompression;
+};

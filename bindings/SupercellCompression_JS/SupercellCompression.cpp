@@ -1,9 +1,8 @@
-#include <iostream>
 #include "SupercellCompression.h"
 
-namespace scNode
+namespace scNapi
 {
-  void SupercellCompression::Initialize(Napi::Env &env, Napi::Object &target)
+  void SupercellCompression::Init(Napi::Env &env, Napi::Object &target)
   {
     Napi::Object classObject = Napi::Object::New(env);
     target.Set("SupercellCompression", classObject);

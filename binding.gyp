@@ -6,14 +6,20 @@
             'win_delay_load_hook': 'false',
             'defines': ['NAPI_CPP_EXCEPTIONS'],
             'cflags_cc': ['-fexceptions'],
+            "msvs_settings": {
+                "VCCLCompilerTool": {
+                    "ExceptionHandling": 1
+                }
+            },
             'sources': [
                 'bindings/Main.cpp',
                 'bindings/Utils.cpp',
-                "<!@(node -p \"require('fs').readdirSync('./bindings/SupercellCompression/').map(f=>'bindings/SupercellCompression/'+f).filter(f=>f.endsWith('.cpp')).join(' ')\")",
-                "<!@(node -p \"require('fs').readdirSync('./bindings/SupercellFlash/').map(f=>'bindings/SupercellFlash/'+f).filter(f=>f.endsWith('.cpp')).join(' ')\")"
+                'bindings/SupercellFlash_JS/common/Export.cpp',
+                "<!@(node -p \"require('fs').readdirSync('./bindings/SupercellCompression_JS/').map(f=>'bindings/SupercellCompression_JS/'+f).filter(f=>f.endsWith('.cpp')).join(' ')\")",
+                "<!@(node -p \"require('fs').readdirSync('./bindings/SupercellFlash_JS/').map(f=>'bindings/SupercellFlash_JS/'+f).filter(f=>f.endsWith('.cpp')).join(' ')\")"
             ],
             'include_dirs': [
-                "<!@(node -p \"require('node-addon-api').include\")",
+                "<!@(node -p \"require('node-binding').include\")",
                 'bindings/',
                 'deps/SC/SupercellFlash/src',
                 'deps/SC/SupercellCompression/src/'

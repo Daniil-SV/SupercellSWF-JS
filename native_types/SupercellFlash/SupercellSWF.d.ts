@@ -1,6 +1,26 @@
-import { CompressionSignature } from "./SupercellCompression";
+/* Sub-classes */
+import { Export } from "./common/exports";
+
+import { vector_get_length, vector_items_push_back, vector_item_getter, vector_set_length } from "../../src/node/Vector";
+import { CompressionSignature } from "../SupercellCompression";
 
 export declare class SupercellSWF {
+	/* 
+	* Functions
+	*/
+
+	/**
+	 * Loads content of .sc file.
+	 *
+	 * @param filepath Path to .sc file
+	 * @returns Current SupercellSWF instance
+	 */
+	load(filepath: String): void;
+
+
+	/* 
+	& Simple members
+	*/
 	/**
 	 * Specifies which compression method the file will use. Please note that there is no compression by default, and the file may crash.
 	*/
@@ -9,7 +29,7 @@ export declare class SupercellSWF {
 	/**
 	 * When enabled, uses second file for textures, otherwise writes everything to one file.
 	 */
-	hasExternalTexture: boolean;
+	useExternalTexture: boolean;
 
 	/**
 	 * When this and hasExternalTexture variable is enabled,
@@ -20,7 +40,7 @@ export declare class SupercellSWF {
 	/**
 	 * Ыpecifies whether file can automatically use lowres file.
 	 */
-	useLowresTexture: boolean;
+	useLowResTexture: boolean;
 
 	/**
 	 * Suffix for uncammon texture.
@@ -33,22 +53,16 @@ export declare class SupercellSWF {
 	lowResTextureSuffix: string;
 
 	/* 
-	! Functions !
+	! Arrays getters
 	*/
 
-	/**
-	 * Loads content of .sc file.
-	 *
-	 * @param filepath Path to .sc file
-	 * @returns Current SupercellSWF instance
-	 */
-	load(filepath: String): void;
+	/* 
+	! Exports array
+	*/
 
-	/**
-     * Loads content of .sc file only, for example, if you need to edit something only in .sc file.
-     *
-     * @param path Path to .sc file
-     * @returns Current SupercellSWF instance
-     */
-	loadAsset(path: string): void;
+	protected get_export_item: vector_item_getter<Export>;
+	protected push_export_items: vector_items_push_back<Export>;
+	protected get_exports_length: vector_get_length;
+	protected set_exports_length: vector_set_length;
+
 }

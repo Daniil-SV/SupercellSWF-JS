@@ -1,6 +1,6 @@
 #include "SupercellCompression.h"
 
-namespace scNode
+namespace scNapi
 {
     Napi::Value SupercellCompression::compressFile(const Napi::CallbackInfo &info)
     {

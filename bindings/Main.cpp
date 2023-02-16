@@ -1,14 +1,15 @@
 #include "string"
 #include <napi.h>
 
-#include "SupercellCompression/SupercellCompression.h"
-#include "SupercellFlash/SupercellSWF.h"
+#include "SupercellCompression_JS/SupercellCompression.h"
+#include "SupercellFlash_JS/SupercellSWF.h"
 
 /* Node.js initialize */
 Napi::Object Init(Napi::Env env, Napi::Object exports)
 {
-  scNode::SupercellCompression::Initialize(env, exports);
-  scNode::SupercellSWF::Initialize(env, exports);
+  scNapi::SupercellCompression::Init(env, exports);
+  scNapi::SupercellSWF::Init(env, exports);
+  //scNode::Export::Init(env, exports);
 
 	return exports;
 }

@@ -1,2 +1,2 @@
-export * from "./SupercellCompression";
-export * from "./SupercellSWF";
+export * from "./node/SupercellCompression";
+export * from "./node/SupercellFlash";
