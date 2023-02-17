@@ -5,11 +5,14 @@
 
 namespace scNapi
 {
-    class SupercellSWF : public Napi::ObjectWrap<SupercellSWF>, public sc::SupercellSWF
+    class SupercellSWF : public Napi::ObjectWrap<SupercellSWF>
     {
     public:
-        SupercellSWF(const Napi::CallbackInfo &info);
-        static void Init(Napi::Env &env, Napi::Object &target);
+        static void Initialize(Napi::Env &env, Napi::Object &target); // Export initialize in Addon
+        SupercellSWF(const Napi::CallbackInfo &info);// Node constructor
+        static Napi::FunctionReference constructor; // C++ constrcutor to init class in Node.js
+
+        sc::SupercellSWF* parent = nullptr; // SCSWF instance parent
 
         /* 
         * Class Functions

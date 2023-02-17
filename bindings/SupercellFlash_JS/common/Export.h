@@ -13,9 +13,7 @@ namespace scNapi
     {
     public:
         static void Initialize(Napi::Env& env, Napi::Object& target); // Export initialize in Addon
-
         Export(const Napi::CallbackInfo& info); // Node constructor
-        
         static Napi::FunctionReference constructor; // C++ constrcutor to init class in Node.js
 
         sc::Export *parent = nullptr; // Pointer to object that this class is attached to

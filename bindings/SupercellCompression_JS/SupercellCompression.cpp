@@ -2,7 +2,7 @@
 
 namespace scNapi
 {
-  void SupercellCompression::Init(Napi::Env &env, Napi::Object &target)
+  void SupercellCompression::Initialization(Napi::Env &env, Napi::Object &target)
   {
     Napi::Object classObject = Napi::Object::New(env);
     target.Set("SupercellCompression", classObject);

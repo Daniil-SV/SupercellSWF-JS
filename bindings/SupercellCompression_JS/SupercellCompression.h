@@ -10,10 +10,9 @@ namespace scNapi
 	class SupercellCompression: public Napi::ObjectWrap<SupercellCompression>
 	{
 	public:
-		/* Class initialize */
+		static void Initialization(Napi::Env& env, Napi::Object& target); // Addon initialization
 		SupercellCompression(const Napi::CallbackInfo& info): Napi::ObjectWrap<SupercellCompression>(info) {};
-		static void Init(Napi::Env& env, Napi::Object& target);
-
+		
 		/* Decompressor functions */
 		static Napi::Value decompressFile(const Napi::CallbackInfo& info);
 		static Napi::Value decompress(const Napi::CallbackInfo& info);

@@ -11,9 +11,32 @@ using namespace node_binding;
 
 namespace scNapi
 {
-    SupercellSWF::SupercellSWF(const Napi::CallbackInfo& info): Napi::ObjectWrap<SupercellSWF>(info) {}
+    SupercellSWF::SupercellSWF(const Napi::CallbackInfo& info): Napi::ObjectWrap<SupercellSWF>(info)
+    {
+        if (info.Length() != 1)
+        {
+            return;
+        }
 
-    void SupercellSWF::Init(Napi::Env& env, Napi::Object& exports)
+        // Init from C++
+        if (info[0].IsExternal())
+        {
+            parent = info[0].As<Napi::External<sc::SupercellSWF>>().Data();
+        }
+        else
+        {
+            parent = new sc::SupercellSWF();
+        }
+
+        // Init from JS
+        if (info[0].IsObject())
+        {
+            // TODO
+        }
+
+    }
+
+    void SupercellSWF::Initialize(Napi::Env& env, Napi::Object& exports)
     {
         Napi::Function func =
 
@@ -65,7 +88,7 @@ namespace scNapi
         }
 
         std::string filepath = info[0].ToString().Utf8Value();
-        sc::SupercellSWF::load(filepath);
+        parent->load(filepath);
 
         return info.This();
     }
@@ -80,23 +103,23 @@ namespace scNapi
 
     Napi::Value SupercellSWF::get_exports_length(const Napi::CallbackInfo& info)
     {
-        return Napi::Number::New(info.Env(), sc::SupercellSWF::exports.size());
+        return Napi::Number::New(info.Env(), parent->exports.size());
     }
     void SupercellSWF::set_exports_length(const Napi::CallbackInfo& info)
     {
         uint32_t new_size = info[0].ToNumber().Int32Value();
-        sc::SupercellSWF::exports.resize(static_cast<size_t>(new_size));
-        //return info.Env().Undefined();
+        parent->exports.resize(static_cast<size_t>(new_size));
     }
     Napi::Value SupercellSWF::get_export_item(const Napi::CallbackInfo& info)
     {
         Napi::Env env = info.Env();
         uint32_t index = info[0].ToNumber().Int32Value();
-        if (sc::SupercellSWF::exports.size() >= index)
+        if (parent->exports.size() >= index)
         {
-            sc::Export* exportName = &(exports.at(index));
-            return Export::constructor.New({Napi::External<sc::Export>::New(env, exportName)});
-        } else {
+            return Export::constructor.New({ Napi::External<sc::Export>::New(env, &(parent->exports.at(index))) });
+        }
+        else
+        {
             return env.Undefined();
         }
     }
@@ -114,12 +137,12 @@ namespace scNapi
     {
         if (value.IsNumber())
         {
-            compression = static_cast<sc::CompressionSignature>(value.ToNumber().Int32Value());
+            parent->compression = static_cast<sc::CompressionSignature>(value.ToNumber().Int32Value());
         }
     }
     Napi::Value SupercellSWF::get_Compression(const Napi::CallbackInfo& info)
     {
-        return Napi::Number::New(info.Env(), Napi::Number::New(info.Env(), static_cast<double>(compression)));
+        return Napi::Number::New(info.Env(), Napi::Number::New(info.Env(), static_cast<double>(parent->compression)));
     }
 
     /*
@@ -129,12 +152,12 @@ namespace scNapi
     {
         if (value.IsBoolean())
         {
-            sc::SupercellSWF::useExternalTexture(value.ToBoolean().Value());
+            parent->useExternalTexture(value.ToBoolean().Value());
         }
     }
     Napi::Value SupercellSWF::get_UseExternalTexture(const Napi::CallbackInfo& info)
     {
-        return Napi::Boolean::New(info.Env(), sc::SupercellSWF::useExternalTexture());
+        return Napi::Boolean::New(info.Env(), parent->useExternalTexture());
     }
 
 
@@ -145,12 +168,12 @@ namespace scNapi
     {
         if (value.IsBoolean())
         {
-            sc::SupercellSWF::useLowResTexture(value.ToBoolean().Value());
+            parent->useLowResTexture(value.ToBoolean().Value());
         }
     };
     Napi::Value SupercellSWF::get_UseLowResTexture(const Napi::CallbackInfo& info)
     {
-        return Napi::Boolean::New(info.Env(), useLowResTexture());
+        return Napi::Boolean::New(info.Env(), parent->useLowResTexture());
     };
 
 
@@ -161,12 +184,12 @@ namespace scNapi
     {
         if (value.IsBoolean())
         {
-            sc::SupercellSWF::useMultiResTexture(value.ToBoolean().Value());
+            parent->useMultiResTexture(value.ToBoolean().Value());
         }
     };
     Napi::Value SupercellSWF::get_UseMultiResTexture(const Napi::CallbackInfo& info)
     {
-        return Napi::Boolean::New(info.Env(), useMultiResTexture());
+        return Napi::Boolean::New(info.Env(), parent->useMultiResTexture());
     };
 
 
@@ -177,12 +200,12 @@ namespace scNapi
     {
         if (value.IsString())
         {
-            sc::SupercellSWF::multiResFileSuffix(value.ToString().Utf8Value());
+            parent->multiResFileSuffix(value.ToString().Utf8Value());
         }
     }
     Napi::Value SupercellSWF::get_MultiResTexurePostfix(const Napi::CallbackInfo& info)
     {
-        return Napi::String::New(info.Env(), sc::SupercellSWF::multiResFileSuffix());
+        return Napi::String::New(info.Env(), parent->multiResFileSuffix());
     }
 
 
@@ -193,11 +216,11 @@ namespace scNapi
     {
         if (value.IsString())
         {
-            sc::SupercellSWF::lowResFileSuffix(value.ToString().Utf8Value());
+            parent->lowResFileSuffix(value.ToString().Utf8Value());
         }
     }
     Napi::Value SupercellSWF::get_LowResTexureSuffix(const Napi::CallbackInfo& info)
     {
-        return Napi::String::New(info.Env(), sc::SupercellSWF::lowResFileSuffix());
+        return Napi::String::New(info.Env(), parent->lowResFileSuffix());
     }
 }
