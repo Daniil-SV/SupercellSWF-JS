@@ -20,7 +20,7 @@ export class Vector<P, C> {
         return "Vector Object";
     }
 
-    /* Proxy */
+    /* Definition for proxy */
     private static proxy: ProxyHandler<Vector<any, any>> = {
         get(target, property, receiver): any {
             let value = Reflect.get(target, property, receiver);
@@ -35,37 +35,17 @@ export class Vector<P, C> {
         }
     }
 
-    /* Iterator */
-    private make_iterator() {
-        let nextIndex = 0;
-        let iter_length = this.length;
-        let iter_at = this.data.get_item;
-        return {
-            next() {
-                return nextIndex < iter_length
-                    ? {
-                        value: iter_at(nextIndex++),
-                        done: false,
-                    }
-                    : {
-                        done: true,
-                    };
-            },
-        };
-    }
-
     /* Object with setters and getters */
-    private readonly data: VectorGetters<P, C>;
+    protected readonly data: VectorGetters<P, C>;
 
     /*
      ! Object constructor !
     */
-
     constructor(
         data: VectorGetters<P, C>,
-        context: P,
+        context?: P,
     ) {
-        if (!data.context) {
+        if (context) {
             data.context = context
         }
         this.data = data;
@@ -74,6 +54,24 @@ export class Vector<P, C> {
     }
 
     /* Iterator */
+    private make_iterator() {
+        let nextIndex = 0;
+        const iter_length = this.length;
+        const iter_at = this.data.get_item;
+        const iter_context = this.data.context;
+        return {
+            next() {
+                return nextIndex < iter_length
+                    ? {
+                        value: iter_at.call(iter_context, nextIndex++),
+                        done: false,
+                    }
+                    : {
+                        done: true,
+                    };
+            },
+        };
+    }
     [Symbol.iterator]() {
         return this.make_iterator();
     }
@@ -83,13 +81,13 @@ export class Vector<P, C> {
     */
 
     at(index: number): C | undefined {
-        return this.data.get_item(index);
+        return this.data.get_item.call(this.data.context, index);
     }
 
     push(...items: C[]): number {
         let item_count = 0;
         for (const item of items) {
-            if (this.data.push_back(item)) {
+            if (this.data.push_back.call(this.data.context, item)) {
                 item_count++;
             }
         }
@@ -97,10 +95,10 @@ export class Vector<P, C> {
     }
 
     get length(): number {
-        return this.data.get_length.bind(this.data.context)();
+        return this.data.get_length.call(this.data.context);
     }
 
     set length(num: number) {
-        this.data.set_length(num);
+        this.data.set_length.call(this.data.context, num);
     }
 }

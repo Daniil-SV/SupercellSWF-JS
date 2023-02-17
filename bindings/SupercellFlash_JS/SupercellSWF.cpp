@@ -65,7 +65,6 @@ namespace scNapi
         }
 
         std::string filepath = info[0].ToString().Utf8Value();
-        std::cout << filepath << std::endl;
         sc::SupercellSWF::load(filepath);
 
         return info.This();
@@ -93,11 +92,12 @@ namespace scNapi
     {
         Napi::Env env = info.Env();
         uint32_t index = info[0].ToNumber().Int32Value();
-        if (sc::SupercellSWF::exports.size() < index)
+        if (sc::SupercellSWF::exports.size() >= index)
         {
-            return env.Undefined();
+            sc::Export* exportName = &(exports.at(index));
+            return Export::constructor.New({Napi::External<sc::Export>::New(env, exportName)});
         } else {
-            return env.Undefined(); // TODO, very big TODO
+            return env.Undefined();
         }
     }
     Napi::Value SupercellSWF::push_export_items(const Napi::CallbackInfo& info)
