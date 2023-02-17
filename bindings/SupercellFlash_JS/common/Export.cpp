@@ -7,10 +7,6 @@ namespace scNapi
     Export::Export(const Napi::CallbackInfo& info)
         : Napi::ObjectWrap<Export>(info)
     {
-        if (info.Length() != 1) {
-            return;
-        }
-
         // Init from C++
         if (info[0].IsExternal()) {
             parent = info[0].As<Napi::External<sc::Export>>().Data();
@@ -53,10 +49,10 @@ namespace scNapi
 
     void Export::set_id(const Napi::CallbackInfo& info, const Napi::Value& value)
     {
-        if (value.IsNumber())
+        /* if (value.IsNumber())
         {
             parent->id = static_cast<uint16_t>(value.ToNumber().Int32Value());
-        }
+        } */
     }
     Napi::Value Export::get_id(const Napi::CallbackInfo& info)
     {

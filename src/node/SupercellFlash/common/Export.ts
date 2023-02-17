@@ -1,5 +1,19 @@
-import { NativeExport } from "../../../native"
+import { NativeExport } from "../../../native";
+import * as util from "util";
 
-const Export = NativeExport;
+export class Export extends NativeExport {
+    [Symbol.toStringTag]() {
+        return "ExportName"
+    };
 
-export { Export }
+    [util.inspect.custom]() {
+        return `<${this[Symbol.toStringTag]()} Id: ${this.id} Name: ${this.name}>`
+    };
+
+    toJSON() {
+        return {
+            id: this.id,
+            name: this.name
+        }
+    }
+}

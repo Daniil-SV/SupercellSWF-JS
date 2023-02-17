@@ -1,20 +1,19 @@
 import { NativeSupercellSWF } from "../../native";
+import { extend_to } from "../utils";
 
 import { Vector } from "../Vector";
 
-import { Export } from "../../../native_types";
+import { Export } from "./common/Export";
+import { NativeExport } from "../../native";
 
 export class SupercellSWF extends NativeSupercellSWF {
-    constructor() {
-        super();
-
-
-    }
-
     exports = new Vector<SupercellSWF, Export>({
-        get_item: this.get_export_item,
-        push_back: this.push_export_items,
-        get_length: this.get_exports_length,
-        set_length: this.set_exports_length
+        get_item: function(index: number) {
+            const item = this["__get_export_item__"](index);
+            return item ? extend_to<typeof NativeExport, Export>(item, (Export as any)) : item;},
+        insert_item: this.__insert_export_item__,
+        remove_item: this.__remove_export_item__,
+        get_length: this.__get_exports_length__,
+        set_length: this.__set_exports_length__
     }, this)
 }
