@@ -32,7 +32,18 @@ export class Vector<Parent, T> {
             }
         },
         set(target, property, value): boolean {
-            return true; // TODO
+            const index = Number(property);
+            if (Number.isNaN(index)) {
+                return false;
+            }
+
+            if (target.length > index) {
+                target.splice(Number(property), 1, value);
+            } else {
+                return target.push(value) == 1;
+            }
+
+            return true;
         }
     }
 
@@ -251,11 +262,9 @@ export class Vector<Parent, T> {
     * returning true or false as appropriate.
     */
     includes(item: T): boolean {
-        for (const item of this) {
-            for (const second_item of this) {
-                if (item == second_item) {
-                    return true;
-                }
+        for (const second_item of this) {
+            if (item == second_item) {
+                return true;
             }
         }
         return false;
@@ -305,7 +314,7 @@ export class Vector<Parent, T> {
             return undefined;
         }
         const item = this[-1];
-        this.data.remove_item(this.length - 1);
+        this.data.remove_item.call(this.data.context, this.length - 1);
         return item;
     }
 
@@ -334,7 +343,7 @@ export class Vector<Parent, T> {
             return undefined;
         }
         const item = this[0];
-        this.data.remove_item(0);
+        this.data.remove_item.call(this.data.context, 0);
         return item;
     }
 
@@ -350,17 +359,17 @@ export class Vector<Parent, T> {
     /* 
     * The splice() method changes the contents of an array by removing or replacing existing elements and/or adding new elements in place
     */
-    splice(start: number, deleteCount?: number, ...args: T[]){
+    splice(start: number, deleteCount?: number, ...args: T[]) {
         if (deleteCount != undefined) {
-            for (let d = 0; deleteCount > d; d++){
+            for (let d = 0; deleteCount > d; d++) {
                 const target = start + deleteCount;
-                if (this.length >= target){
-                    this.data.remove_item(target - 1);
+                if (this.length >= target) {
+                    this.data.remove_item.call(this.data.context, target - 1);
                 }
             }
         }
-        for(const item of args) {
-            this.data.insert_item(item, start);
+        for (const item of args) {
+            this.data.insert_item.call(this.data.context, item, start);
         }
         return this;
     }
@@ -376,8 +385,8 @@ export class Vector<Parent, T> {
     * The unshift() method adds one or more elements to the beginning of an array and returns the new length of the array.
     */
     unshift(...args: T[]) {
-        for(const item of args){
-            this.data.insert_item(item, 0);
+        for (const item of args) {
+            this.data.insert_item.call(this.data.context, item, 0);
         }
         return this.length
     }
