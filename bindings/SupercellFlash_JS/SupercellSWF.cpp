@@ -1,11 +1,11 @@
 #include "SupercellSWF.h"
+
 #include <node_binding/constructor.h>
 #include <node_binding/type_convertor.h>
+#include <SupercellCompression/Signature.h>
 
 #include "common/Export.h"
-
-#include <SupercellCompression/Signature.h>
-#include <iostream>
+//#include "tag/Shape.h"
 
 using namespace node_binding;
 
@@ -30,6 +30,8 @@ namespace scNapi
         {
             // TODO
         }
+
+        exports = new Vector<sc::Export>(&parent->exports, &Export::constructor);
 
     }
 
@@ -103,44 +105,28 @@ namespace scNapi
     /*
     ! Exports
     */
-
-    Napi::Value SupercellSWF::get_exports_length(const Napi::CallbackInfo& info)
-    {
-        return Napi::Number::New(info.Env(), parent->exports.size());
-    }
-    void SupercellSWF::set_exports_length(const Napi::CallbackInfo& info)
-    {
-        int32_t new_size = info[0].ToNumber().Int32Value();
-        parent->exports.resize(static_cast<size_t>(new_size));
-    }
     Napi::Value SupercellSWF::get_export_item(const Napi::CallbackInfo& info)
     {
-        Napi::Env env = info.Env();
-        uint32_t index = info[0].ToNumber().Int32Value();
-        try{
-            sc::Export* item = &(parent->exports.at(index));
-            return Export::constructor.New({ Napi::External<sc::Export>::New(env, item) });
-        } catch (const std::out_of_range& err) {
-            return info.Env().Undefined();
-        }
+        return exports->get_item(info);
     }
     Napi::Value SupercellSWF::insert_export_item(const Napi::CallbackInfo& info)
     {
-        Export* item = Export::Unwrap(info[0].ToObject());
-        parent->exports.insert(
-            parent->exports.begin() +
-            ToNativeValue<uint32_t>(info[1].ToNumber()),
-            *item->parent);
-
-        return Napi::Boolean::New(info.Env(), true);
+        return exports->insert_item(info, Export::Unwrap(info[0].ToObject())->get_parent());
     };
     Napi::Value SupercellSWF::remove_export_item(const Napi::CallbackInfo& info)
     {
-        parent->exports.erase(parent->exports.begin() + ToNativeValue<uint32_t>(info[0].ToNumber()));
-        return Napi::Boolean::New(info.Env(), true);
+        return exports->remove_item(info);
     };
+    Napi::Value SupercellSWF::get_exports_length(const Napi::CallbackInfo& info)
+    {
+        return exports->get_length(info);
+    }
+    void SupercellSWF::set_exports_length(const Napi::CallbackInfo& info)
+    {
+        return exports->set_length(info);
+    }
 
-    /* 
+    /*
     & & Getters
     */
 

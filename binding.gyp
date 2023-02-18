@@ -13,7 +13,9 @@
             },
             'sources': [
                 'bindings/Main.cpp',
-                'bindings/Utils.cpp',
+                'bindings/Utils.hpp',
+                'bindings/Vector.hpp',
+                'bindings/ScObject.hpp',
                 'bindings/SupercellFlash_JS/common/Export.cpp',
                 "<!@(node -p \"require('fs').readdirSync('./bindings/SupercellCompression_JS/').map(f=>'bindings/SupercellCompression_JS/'+f).filter(f=>f.endsWith('.cpp')).join(' ')\")",
                 "<!@(node -p \"require('fs').readdirSync('./bindings/SupercellFlash_JS/').map(f=>'bindings/SupercellFlash_JS/'+f).filter(f=>f.endsWith('.cpp')).join(' ')\")"

@@ -3,6 +3,8 @@
 #include <SupercellFlash.h>
 #include <Napi.h>
 
+#include "../Vector.hpp"
+
 namespace scNapi
 {
     class SupercellSWF: public Napi::ObjectWrap<SupercellSWF>
@@ -13,6 +15,7 @@ namespace scNapi
         static Napi::FunctionReference constructor; // C++ constrcutor to init class in Node.js
 
         sc::SupercellSWF* parent = nullptr; // SCSWF instance parent
+        Vector<sc::Export>* exports = nullptr;
 
         /*
         * Class Functions

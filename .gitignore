@@ -1,10 +1,16 @@
-/node_modules
-/prebuilds
-/.vscode
-/build
-/tests/Output
+prebuilds
+deps
+.vscode
+
+// Build files
+// CXX
 *.lua
-/deps
-/types
-/lib
-// TODO create groups for this shit
+build
+// JS
+types
+lib
+node_modules
+
+// Tests
+tests/Output
+Sandbox

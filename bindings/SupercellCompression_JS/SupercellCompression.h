@@ -3,7 +3,7 @@
 #include <string>
 #include <napi.h>
 #include <iostream>
-#include "Utils.h"
+#include "Utils.hpp"
 
 namespace scNapi
 {
