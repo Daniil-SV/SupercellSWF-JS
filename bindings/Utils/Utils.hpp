@@ -47,13 +47,14 @@ namespace scNapi
         template <class T>
         static void initializeClass(ScObject<T>* context, const Napi::CallbackInfo& info)
         {
-            if (info[0].IsExternal())
+            if (info[0].IsObject())
+            {
+                context->new_parent();
+                context->fromObject(info[0].ToObject());
+            }
+            else if (info[0].IsExternal())
             {
                 context->set_parent(info[0].As<Napi::External<T>>().Data());
-            }
-            else if (info[0].IsObject())
-            {
-                context->fromObject(info[0].ToObject());
             }
             else
             {
