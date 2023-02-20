@@ -418,4 +418,12 @@ export class Vector<Parent, T> {
     set length(num: number) {
         this.data.set_length.call(this.data.context, num);
     }
+
+    toJSON() {
+        let arrayObject = [];
+        for (const item of this) {
+            arrayObject.push(item)
+        }
+        return arrayObject;
+    }
 }

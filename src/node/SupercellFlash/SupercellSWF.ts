@@ -40,6 +40,9 @@ export class SupercellSWF extends NativeSupercellSWF {
     };
 
     toJSON() {
-        return {}; // TODO
+        return {
+            "useExternalTexture": this.useExternalTexture,
+            "shapes": this.shapes
+        };
     }
 }

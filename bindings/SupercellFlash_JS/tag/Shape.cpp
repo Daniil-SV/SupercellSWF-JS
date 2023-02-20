@@ -18,6 +18,8 @@ namespace scNapi
         Napi::Function func =
             DefineClass(env, "Shape",
                 {
+                    InstanceAccessor("id", &Shape::get_id, &Shape::set_id),
+
                     InstanceMethod("__get_command__", &Shape::get_command),
                     InstanceMethod("__insert_command__", &Shape::insert_command),
                     InstanceMethod("__remove_command__", &Shape::remove_command),
@@ -39,6 +41,20 @@ namespace scNapi
 
         commands = new Vector<sc::ShapeDrawBitmapCommand>(&parent->commands, &Shape::constructor);
     };
+
+    /* 
+    & Id getter
+    */
+
+    void Shape::set_id(const Napi::CallbackInfo& info, const Napi::Value& value)
+    {
+        //parent->id(ToNativeValue<uint16_t>(value));
+    }
+    Napi::Value Shape::get_id(const Napi::CallbackInfo& info)
+    {
+        return ToJSValue(info, 0);
+        //return ToJSValue(info, parent->id);
+    }
 
     /*
     ! Bitmap getters

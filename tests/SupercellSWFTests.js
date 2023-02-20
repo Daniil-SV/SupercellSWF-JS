@@ -1,8 +1,6 @@
 const {
     SupercellSWF,
-    CompressionSignature,
-    Export,
-    Shape
+    CompressionSignature
 } = require('../');
 const {
     hrtime

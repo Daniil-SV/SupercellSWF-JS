@@ -2,6 +2,7 @@ import { vector_get_length, vector_set_length, vector_item_getter, vector_item_r
 
 export class Shape {
     constructor(obj: Object);
+    id: number;
 
     protected __get_command__: vector_item_getter<ShapeDrawBitmapCommand>;
     protected __insert_command__: vector_item_setter<ShapeDrawBitmapCommand>;

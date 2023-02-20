@@ -26,18 +26,11 @@ namespace scNapi
 
     void Export::set_id(const Napi::CallbackInfo& info, const Napi::Value& value)
     {
-        if (value.IsNumber())
-        {
-            parent->id = static_cast<uint16_t>(value.ToNumber().Int32Value());
-        }
+        parent->id = ToNativeValue<uint16_t>(value);
     }
     Napi::Value Export::get_id(const Napi::CallbackInfo& info)
     {
-        if (parent != nullptr) {
-            return Napi::Number::New(info.Env(), parent->id);
-        } else {
-            return info.Env().Null();
-        }
+        return ToJSValue(info, parent->id);
     }
 
     void Export::set_name(const Napi::CallbackInfo& info, const Napi::Value& value)

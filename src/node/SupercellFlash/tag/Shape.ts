@@ -33,6 +33,7 @@ export class Shape extends NativeShape {
 
     toJSON() {
         return {
+            id: this.id,
             commands: this.commands
         }
     }

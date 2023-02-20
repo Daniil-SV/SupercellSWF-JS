@@ -26,12 +26,5 @@
     },
     "include": [
         "src/**/*.ts"
-    ],
-    "exclude": [
-        "node_modules",
-        "build",
-        "lib",
-        "native_types",
-        "types"
     ]
 }

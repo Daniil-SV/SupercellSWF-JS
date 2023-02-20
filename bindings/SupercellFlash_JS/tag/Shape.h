@@ -38,6 +38,10 @@ namespace scNapi
         Vector<sc::ShapeDrawBitmapCommand>* commands = nullptr;
         sc::Shape* parent = new sc::Shape(); // Pointer to object that this class is attached to
 
+         /* Id */
+        void set_id(const Napi::CallbackInfo& info, const Napi::Value& value);
+        Napi::Value get_id(const Napi::CallbackInfo& info);
+
         /*
         ! Bitmaps
         */

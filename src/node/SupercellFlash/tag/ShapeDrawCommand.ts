@@ -48,9 +48,9 @@ export class ShapeDrawCommandVertex extends NativeShapeDrawCommandVertex {
     };
 
     toJSON() {
-        return [
-            [this.x, this.y],
-            [this.u, this.v]
-        ]
+        return {
+            xy: [this.x, this.y],
+            uv: [this.u, this.v]
+        }
     }
 }
