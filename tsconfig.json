@@ -2,7 +2,7 @@
     "compileOnSave": true,
     "compilerOptions": {
         "target": "ES2022",
-        "module": "commonjs",
+        "module": "NodeNext",
         "moduleResolution": "node",
         "outDir": "lib",
         "watch": false,
@@ -19,6 +19,7 @@
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "forceConsistentCasingInFileNames": true,
+        "skipLibCheck": true,
         "typeRoots": [
             "node_modules/@types"
         ],

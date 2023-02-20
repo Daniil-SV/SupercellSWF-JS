@@ -15,8 +15,6 @@ let time = hrtime();
 const swf = new SupercellSWF()
     .load(unitFile);
 
-print(swf);
-
 console.log(`Loading took ${hrtime(time)} seconds!\n`);
 
 print("SCSWF asset info: ");

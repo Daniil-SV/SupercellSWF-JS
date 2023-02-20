@@ -1,2 +1,10 @@
-export { SupercellCompression, CompressionSignature } from "./node/SuperecllCompression"
-export { SupercellSWF, Shape, ShapeDrawCommand, ShapeDrawCommandVertex } from "./node/SupercellFlash"
+export {
+  SupercellCompression,
+  CompressionSignature,
+} from "./node/SuperecllCompression";
+export {
+  SupercellSWF,
+  Shape,
+  ShapeDrawCommand,
+  ShapeDrawCommandVertex,
+} from "./node/SupercellFlash";

@@ -1,0 +1,6 @@
+.vscode
+build
+deps
+node_modules
+sandbox
+src

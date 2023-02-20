@@ -1,3 +1,5 @@
+#pragma once
+
 #include <SupercellFlash.h>
 
 #include <napi.h>

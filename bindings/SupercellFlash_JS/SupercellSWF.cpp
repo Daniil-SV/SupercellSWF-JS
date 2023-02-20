@@ -4,9 +4,6 @@
 #include <node_binding/type_convertor.h>
 #include <SupercellCompression/Signature.h>
 
-#include "common/Export.h"
-#include "tag/Shape.h"
-
 using namespace node_binding;
 
 namespace scNapi

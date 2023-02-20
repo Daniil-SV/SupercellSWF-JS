@@ -1,40 +1,49 @@
-import { NativeShape, NativeShapeDrawCommand } from "../../../native";
-import { Vector } from "../../Utils/Vector";
-import { ShapeDrawCommand } from "./ShapeDrawCommand";
-import { assert_item } from "../../Utils/utils";
 import * as util from "util";
 
-export class Shape extends NativeShape {
-    commands = new Vector<Shape, ShapeDrawCommand>({
-        get_item: function (index: number) {
-            return assert_item<typeof NativeShapeDrawCommand, ShapeDrawCommand>(this["__get_command__"](index), ShapeDrawCommand)
-        },
-        insert_item: this.__insert_command__,
-        remove_item: this.__remove_command__,
-        get_length: this.__get_commands_length__,
-        set_length: this.__set_commands_length__
-    }, this);
+import { NATIVE_SHAPE, type NATIVE_SHAPE_DRAW_COMMAND } from "../../../native";
+import { assert_item } from "../../Utils/utils";
+import { Vector } from "../../Utils/Vector";
 
-    [Symbol.toStringTag]() {
-        return "Shape";
-    };
+import { ShapeDrawCommand } from "./ShapeDrawCommand";
 
-    [util.inspect.custom](depth: number) {
-        const depthLength = 2 * depth;
-        const length = depthLength > this.commands.length ? this.commands.length : depthLength;
+export class Shape extends NATIVE_SHAPE {
+  commands = new Vector<Shape, ShapeDrawCommand>(
+    {
+      getItem: function (index: number) {
+        return assert_item<typeof NATIVE_SHAPE_DRAW_COMMAND, ShapeDrawCommand>(
+          this["__get_command__"](index),
+          ShapeDrawCommand
+        );
+      },
+      insertItem: this.__insert_command__,
+      removeItem: this.__remove_command__,
+      getLength: this.__get_commands_length__,
+      setLength: this.__set_commands_length__,
+    },
+    this
+  );
 
-        let commands = ''
-        for (let i = 0; length > i; i++) {
-            commands += `${util.inspect(this.commands[i], false, depth - 1)} `
-        }
+  [Symbol.toStringTag](): string {
+    return "Shape";
+  }
 
-        return `<${this[Symbol.toStringTag]()} commands: [ ${commands}]>`
-    };
+  [util.inspect.custom](depth: number): string {
+    const depthLength = 2 * depth;
+    const length =
+      depthLength > this.commands.length ? this.commands.length : depthLength;
 
-    toJSON() {
-        return {
-            id: this.id,
-            commands: this.commands
-        }
+    let commands = "";
+    for (let i = 0; length > i; i++) {
+      commands += `${util.inspect(this.commands[i], false, depth - 1)} `;
     }
+
+    return `<${this[Symbol.toStringTag]()} commands: [ ${commands}]>`;
+  }
+
+  toJSON(): object {
+    return {
+      id: this.id,
+      commands: this.commands,
+    };
+  }
 }

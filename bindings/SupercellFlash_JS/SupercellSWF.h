@@ -5,6 +5,9 @@
 
 #include "Utils/Vector.hpp"
 
+#include "common/Export.h"
+#include "tag/Shape.h"
+
 namespace scNapi
 {
     class SupercellSWF: public Napi::ObjectWrap<SupercellSWF>, public ScObject<sc::SupercellSWF>
@@ -24,12 +27,72 @@ namespace scNapi
             parent = item;
         };
 
-        void new_parent() override {
+        void new_parent() override
+        {
             parent = new sc::SupercellSWF();
         }
 
         void fromObject(Napi::Object object) override
         {
+            if (object.Has("useMultiResTexture"))
+            {
+                parent->useMultiResTexture(ToNativeValue<bool>(object.Get("useMultiResTexture")));
+            }
+
+            if (object.Has("useLowResTexture"))
+            {
+                parent->useLowResTexture(ToNativeValue<bool>(object.Get("useLowResTexture")));
+            }
+
+            if (object.Has("useExternalTexture"))
+            {
+                parent->useExternalTexture(ToNativeValue<bool>(object.Get("useExternalTexture")));
+            }
+
+            if (object.Has("shapes"))
+            {
+                if (object.Get("shapes").IsArray())
+                {
+                    Napi::Array vertex_array = object.Get("shapes").As<Napi::Array>();
+                    uint32_t length = vertex_array.Length();
+
+                    for (uint32_t i = 0; length > i; i++)
+                    {
+                        Napi::Value shapeValue = vertex_array.Get(i);
+                        if (!shapeValue.IsObject())
+                        {
+                            continue;
+                        }
+
+                        parent->shapes.push_back(*(
+                            Shape::Unwrap(shapeValue.ToObject())->get_parent()
+                            )
+                        );
+                    }
+                }
+            }
+
+            if (object.Has("exports")) {
+                if (object.Get("exports").IsArray())
+                {
+                    Napi::Array vertex_array = object.Get("exports").As<Napi::Array>();
+                    uint32_t length = vertex_array.Length();
+
+                    for (uint32_t i = 0; length > i; i++)
+                    {
+                        Napi::Value exportValue = vertex_array.Get(i);
+                        if (!exportValue.IsObject())
+                        {
+                            continue;
+                        }
+
+                        parent->exports.push_back(*(
+                            Export::Unwrap(exportValue.ToObject())->get_parent()
+                            )
+                        );
+                    }
+                }
+            }
             // TODO
         }
 
