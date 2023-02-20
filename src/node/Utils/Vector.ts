@@ -61,7 +61,7 @@ export class Vector<Parent, T> {
         if (context) {
             this.data.context = context;
         }
-
+        
         return new Proxy(this, Vector.proxy);
     }
 

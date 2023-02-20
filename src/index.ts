@@ -1,2 +1,2 @@
-export * from "./node/SupercellCompression"
+export * from "./node/SuperecllCompression"
 export * from "./node/SupercellFlash"

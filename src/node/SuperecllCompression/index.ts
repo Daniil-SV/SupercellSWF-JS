@@ -1,4 +1,4 @@
-import { native } from "../native/native"
+import { native } from "../../native/native"
 
 export enum CompressionSignature {
     NONE = 0,

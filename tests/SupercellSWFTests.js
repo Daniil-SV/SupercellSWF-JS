@@ -1,11 +1,13 @@
 const {
     SupercellSWF,
     CompressionSignature,
-    Export
+    Export,
+    Shape
 } = require('../');
 const {
     hrtime
 } = require('process');
+const util = require("util")
 const print = console.log;
 const unitFile = `${__dirname}/Files/debug.sc`;
 
@@ -14,6 +16,8 @@ let time = hrtime();
 
 const swf = new SupercellSWF()
     .load(unitFile);
+
+print(swf);
 
 console.log(`Loading took ${hrtime(time)} seconds!\n`);
 
@@ -26,4 +30,9 @@ print(`Exports (${swf.exports.length} items): `);
 
 for (const exportName of swf.exports) {
     print(exportName);
+}
+
+print(`Shapes ${swf.shapes.length} items: `);
+for (const shape of swf.shapes) {
+    print(util.inspect(shape, false, 1));
 }

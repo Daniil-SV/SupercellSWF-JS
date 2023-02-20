@@ -3,19 +3,41 @@
 #include <SupercellFlash.h>
 #include <Napi.h>
 
-#include "../Vector.hpp"
+#include "Utils/Vector.hpp"
 
 namespace scNapi
 {
-    class SupercellSWF: public Napi::ObjectWrap<SupercellSWF>
+    class SupercellSWF: public Napi::ObjectWrap<SupercellSWF>, public ScObject<sc::SupercellSWF>
     {
     public:
         static void Initialize(Napi::Env& env, Napi::Object& target); // Export initialize in Addon
         SupercellSWF(const Napi::CallbackInfo& info);// Node constructor
         static Napi::FunctionReference constructor; // C++ constrcutor to init class in Node.js
 
+        sc::SupercellSWF* get_parent() override
+        {
+            return parent;
+        };
+
+        void set_parent(sc::SupercellSWF* item) override
+        {
+            parent = item;
+        };
+
+        void new_parent() override {
+            parent = new sc::SupercellSWF();
+        }
+
+        void fromObject(Napi::Object object) override
+        {
+            // TODO
+        }
+
+    private:
         sc::SupercellSWF* parent = nullptr; // SCSWF instance parent
+
         Vector<sc::Export>* exports = nullptr;
+        Vector<sc::Shape>* shapes = nullptr;
 
         /*
         * Class Functions
@@ -38,6 +60,15 @@ namespace scNapi
         Napi::Value remove_export_item(const Napi::CallbackInfo& info);
         Napi::Value get_exports_length(const Napi::CallbackInfo& info);
         void set_exports_length(const Napi::CallbackInfo& info);
+
+        /*
+        ! Shapes
+        */
+        Napi::Value get_shape(const Napi::CallbackInfo& info);
+        Napi::Value insert_shape(const Napi::CallbackInfo& info);
+        Napi::Value remove_shape(const Napi::CallbackInfo& info);
+        Napi::Value get_shapes_length(const Napi::CallbackInfo& info);
+        void set_shapes_length(const Napi::CallbackInfo& info);
 
         /*
         & Class Getters

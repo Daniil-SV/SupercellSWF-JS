@@ -1,7 +1,8 @@
 /* Sub-classes */
-import { Export } from "./common/exports";
+import { Export } from "./common/export";
+import { Shape } from "./tag/shape";
 
-import { vector_get_length, vector_item_getter, vector_item_remove, vector_item_setter, vector_set_length } from "../../src/node/Vector";
+import { vector_get_length, vector_item_getter, vector_item_remove, vector_item_setter, vector_set_length } from "../../src/node/Utils/Vector";
 import { CompressionSignature } from "../SupercellCompression";
 
 export declare class SupercellSWF {
@@ -64,6 +65,16 @@ export declare class SupercellSWF {
 	protected __insert_export_item__: vector_item_setter<Export>;
 	protected __remove_export_item__: vector_item_remove;
 	protected __get_exports_length__: vector_get_length;
-	protected __set_exports_length__: vector_set_length; // Yes, python like style variables, why not?
+	protected __set_exports_length__: vector_set_length;
+
+	/* 
+	! Shapes array
+	*/
+
+	protected __get_shape__: vector_item_getter<Shape>;
+	protected __insert_shape__: vector_item_setter<Shape>;
+	protected __remove_shape__: vector_item_remove;
+	protected __get_shapes_length__: vector_get_length;
+	protected __set_shapes_length__: vector_set_length;
 
 }

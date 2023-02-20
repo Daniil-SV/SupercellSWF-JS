@@ -4,7 +4,7 @@
         "target": "ES2022",
         "module": "commonjs",
         "moduleResolution": "node",
-        "outDir": "./lib",
+        "outDir": "lib",
         "watch": false,
         "declaration": true,
         "declarationDir": "types",
@@ -30,6 +30,8 @@
     "exclude": [
         "node_modules",
         "build",
-        "lib"
+        "lib",
+        "native_types",
+        "types"
     ]
 }

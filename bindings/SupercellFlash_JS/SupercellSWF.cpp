@@ -5,7 +5,7 @@
 #include <SupercellCompression/Signature.h>
 
 #include "common/Export.h"
-//#include "tag/Shape.h"
+#include "tag/Shape.h"
 
 using namespace node_binding;
 
@@ -15,23 +15,10 @@ namespace scNapi
     SupercellSWF::SupercellSWF(const Napi::CallbackInfo& info)
         : Napi::ObjectWrap<SupercellSWF>(info)
     {
-        // Init from C++
-        if (info[0].IsExternal())
-        {
-            parent = info[0].As<Napi::External<sc::SupercellSWF>>().Data();
-        }
-        else
-        {
-            parent = new sc::SupercellSWF();
-        }
-
-        // Init from JS
-        if (info[0].IsObject())
-        {
-            // TODO
-        }
+        Utils::initializeClass(this, info);
 
         exports = new Vector<sc::Export>(&parent->exports, &Export::constructor);
+        shapes = new Vector<sc::Shape>(&parent->shapes, &Shape::constructor);
 
     }
 
@@ -63,7 +50,16 @@ namespace scNapi
                     InstanceMethod("__insert_export_item__", &SupercellSWF::insert_export_item),
                     InstanceMethod("__remove_export_item__", &SupercellSWF::remove_export_item),
                     InstanceMethod("__get_exports_length__", &SupercellSWF::get_exports_length),
-                    InstanceMethod("__set_exports_length__", &SupercellSWF::set_exports_length)
+                    InstanceMethod("__set_exports_length__", &SupercellSWF::set_exports_length),
+
+                    /* 
+                    ! Shapes array getters
+                    */
+                    InstanceMethod("__get_shape__", &SupercellSWF::get_shape),
+                    InstanceMethod("__insert_shape__", &SupercellSWF::insert_shape),
+                    InstanceMethod("__remove_shape__", &SupercellSWF::remove_shape),
+                    InstanceMethod("__get_shapes_length__", &SupercellSWF::get_shapes_length),
+                    InstanceMethod("__set_shapes_length__", &SupercellSWF::set_shapes_length)
 
                 });
 
@@ -124,6 +120,25 @@ namespace scNapi
     void SupercellSWF::set_exports_length(const Napi::CallbackInfo& info)
     {
         return exports->set_length(info);
+    }
+
+    /* 
+    ! Shapes
+    */
+    Napi::Value SupercellSWF::get_shape(const Napi::CallbackInfo& info) {
+        return shapes->get_item(info);
+    }
+    Napi::Value SupercellSWF::insert_shape(const Napi::CallbackInfo& info) {
+        return shapes->insert_item(info, Shape::Unwrap(info[0].ToObject())->get_parent());
+    }
+    Napi::Value SupercellSWF::remove_shape(const Napi::CallbackInfo& info) {
+        return shapes->remove_item(info);
+    }
+    Napi::Value SupercellSWF::get_shapes_length(const Napi::CallbackInfo& info) {
+        return shapes->get_length(info);
+    }
+    void SupercellSWF::set_shapes_length(const Napi::CallbackInfo& info) {
+        return shapes->set_length(info);
     }
 
     /*

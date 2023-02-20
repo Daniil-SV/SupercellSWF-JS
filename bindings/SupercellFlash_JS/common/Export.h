@@ -1,10 +1,13 @@
-#include <napi.h>
 #include <SupercellFlash.h>
 
-#include "node_binding/constructor.h"
+#include <napi.h>
+#include <node_binding/constructor.h>
+#include <node_binding/type_convertor.h>
 
-#include "Utils.hpp"
-#include "../../ScObject.hpp"
+#include "Utils/Utils.hpp"
+#include "Utils/ScObject.hpp"
+
+using namespace node_binding;
 
 namespace scNapi
 {
@@ -19,6 +22,24 @@ namespace scNapi
         {
             return parent;
         };
+
+        void set_parent(sc::Export* item) override
+        {
+            parent = item;
+        }; 
+
+        void new_parent() override {
+            parent = new sc::Export();
+        }
+
+        void fromObject(Napi::Object object) override {
+            if (object.Has("id")) {
+                parent->id = ToNativeValue<uint16_t>(object.Get("id"));
+            }
+            if (object.Has("name")) {
+                parent->name = ToNativeValue<std::string>(object.Get("name"));
+            }
+        }
 
     private:
         sc::Export* parent = nullptr; // Pointer to object that this class is attached to

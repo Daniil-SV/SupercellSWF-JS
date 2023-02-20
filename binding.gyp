@@ -13,12 +13,11 @@
             },
             'sources': [
                 'bindings/Main.cpp',
-                'bindings/Utils.hpp',
-                'bindings/Vector.hpp',
-                'bindings/ScObject.hpp',
-                'bindings/SupercellFlash_JS/common/Export.cpp',
+                "<!@(node -p \"require('fs').readdirSync('./bindings/SupercellFlash_JS/tag/').map(f=>'bindings/SupercellFlash_JS/tag/'+f).filter(f=>f.endsWith('.cpp')).join(' ')\")",
+                "<!@(node -p \"require('fs').readdirSync('./bindings/SupercellFlash_JS/common/').map(f=>'bindings/SupercellFlash_JS/common/'+f).filter(f=>f.endsWith('.cpp')).join(' ')\")",
                 "<!@(node -p \"require('fs').readdirSync('./bindings/SupercellCompression_JS/').map(f=>'bindings/SupercellCompression_JS/'+f).filter(f=>f.endsWith('.cpp')).join(' ')\")",
-                "<!@(node -p \"require('fs').readdirSync('./bindings/SupercellFlash_JS/').map(f=>'bindings/SupercellFlash_JS/'+f).filter(f=>f.endsWith('.cpp')).join(' ')\")"
+                "<!@(node -p \"require('fs').readdirSync('./bindings/SupercellFlash_JS/').map(f=>'bindings/SupercellFlash_JS/'+f).filter(f=>f.endsWith('.cpp')).join(' ')\")",
+                "<!@(node -p \"require('fs').readdirSync('./bindings/Utils/').map(f=>'bindings/Utils/'+f).join(' ')\")",
             ],
             'include_dirs': [
                 "<!@(node -p \"require('node-binding').include\")",

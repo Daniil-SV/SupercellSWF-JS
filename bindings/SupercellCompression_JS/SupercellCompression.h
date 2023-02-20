@@ -3,14 +3,14 @@
 #include <string>
 #include <napi.h>
 #include <iostream>
-#include "Utils.hpp"
+#include "Utils/Utils.hpp"
 
 namespace scNapi
 {
 	class SupercellCompression: public Napi::ObjectWrap<SupercellCompression>
 	{
 	public:
-		static void Initialization(Napi::Env& env, Napi::Object& target); // Addon initialization
+		static void Initialize(Napi::Env& env, Napi::Object& target); // Addon initialization
 		SupercellCompression(const Napi::CallbackInfo& info): Napi::ObjectWrap<SupercellCompression>(info) {};
 		
 		/* Decompressor functions */

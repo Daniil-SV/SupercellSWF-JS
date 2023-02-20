@@ -1,8 +1,5 @@
-export function extend_to<NATIVE, NODE>(item: NATIVE, prototype: any): NODE {
-    return Object.setPrototypeOf(
-        item,
-        Object.getPrototypeOf(new prototype())
-    )
+export function assert_item<T, R>(item: T, proto: any): undefined | R {
+    return item ? new proto(item) : item
 }
 
 export type IteratorType<T> = () => {
@@ -15,7 +12,7 @@ export class Iterable<T> {
         this.next = iterator;
         return this;
     }
-    
+
     readonly next: IteratorType<T>;
     // next() { return { value: undefined, done: true } }
 

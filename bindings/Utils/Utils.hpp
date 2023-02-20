@@ -2,6 +2,7 @@
 
 #include <napi.h>
 #include <SupercellCompression.h>
+#include "ScObject.hpp"
 
 namespace scNapi
 {
@@ -41,6 +42,23 @@ namespace scNapi
         static void throwException(Napi::Env env, const std::string message)
         {
             Napi::TypeError::New(env, message.c_str()).ThrowAsJavaScriptException();
+        }
+
+        template <class T>
+        static void initializeClass(ScObject<T>* context, const Napi::CallbackInfo& info)
+        {
+            if (info[0].IsExternal())
+            {
+                context->set_parent(info[0].As<Napi::External<T>>().Data());
+            }
+            else if (info[0].IsObject())
+            {
+                context->fromObject(info[0].ToObject());
+            }
+            else
+            {
+                context->new_parent();
+            }
         }
     };
 }
