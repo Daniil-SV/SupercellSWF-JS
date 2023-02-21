@@ -8,6 +8,7 @@
 #include "common/Export.h"
 #include "tag/Shape.h"
 #include "tag/SWFTexture.h"
+#include "tag/TextField.h"
 
 namespace scNapi
 {
@@ -103,6 +104,7 @@ namespace scNapi
         Vector<sc::Export>* exports = nullptr;
         Vector<sc::Shape>* shapes = nullptr;
         Vector<sc::SWFTexture>* textures = nullptr;
+        Vector<sc::TextField>* textFields = nullptr;
 
         /*
         * Class Functions
@@ -145,6 +147,16 @@ namespace scNapi
         Napi::Value remove_texture(const Napi::CallbackInfo& info);
         Napi::Value get_texture_length(const Napi::CallbackInfo& info);
         void set_texture_length(const Napi::CallbackInfo& info);
+
+        /* 
+        ! TextFields
+         */
+
+        Napi::Value get_textfield(const Napi::CallbackInfo& info);
+        Napi::Value insert_textfield(const Napi::CallbackInfo& info);
+        Napi::Value remove_textfield(const Napi::CallbackInfo& info);
+        Napi::Value get_textfields_length(const Napi::CallbackInfo& info);
+        void set_textfields_length(const Napi::CallbackInfo& info);
         
 
         /*

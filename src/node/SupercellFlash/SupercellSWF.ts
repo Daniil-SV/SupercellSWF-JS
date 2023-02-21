@@ -5,6 +5,7 @@ import {
   type NATIVE_SHAPE,
   NATIVE_SUPERCELL_SWF,
   type NATIVE_SWFTEXTURE,
+  type NATIVE_TEXTFIELD,
 } from "../../native";
 import { assert_item } from "../Utils/utils";
 import { Vector } from "../Utils/Vector";
@@ -12,6 +13,7 @@ import { Vector } from "../Utils/Vector";
 import { Export } from "./common/Export";
 import { Shape } from "./tag/Shape";
 import { SWFTexture } from "./tag/SWFTexture";
+import { TextField } from "./tag/TextField";
 
 export class SupercellSWF extends NATIVE_SUPERCELL_SWF {
   exports = new Vector<SupercellSWF, Export>(
@@ -58,6 +60,22 @@ export class SupercellSWF extends NATIVE_SUPERCELL_SWF {
       removeItem: this.__remove_texture__,
       getLength: this.__get_texture_length__,
       setLength: this.__set_texture_length__,
+    },
+    this
+  );
+
+  textFields = new Vector<SupercellSWF, TextField>(
+    {
+      getItem: function (index: number) {
+        return assert_item<typeof NATIVE_TEXTFIELD, TextField>(
+          this["__get_textfield__"](index),
+          TextField
+        );
+      },
+      insertItem: this.__insert_textfield__,
+      removeItem: this.__remove_textfield__,
+      getLength: this.__get_textfields_length__,
+      setLength: this.__set_textfields_length__,
     },
     this
   );

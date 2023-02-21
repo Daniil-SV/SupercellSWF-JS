@@ -30,7 +30,29 @@ namespace scNapi {
 
         void fromObject(Napi::Object object) override
         {
-            
+            if (object.Has("magFilter")) {
+                parent->magFilter((sc::SWFTexture::Filter)ToNativeValue<uint8_t>(object.Get("magFilter")));
+            }
+            if (object.Has("minFilter")) {
+                parent->minFilter((sc::SWFTexture::Filter)ToNativeValue<uint8_t>(object.Get("minFilter")));
+            }
+            if (object.Has("pixelFormat")) {
+                parent->pixelFormat((sc::SWFTexture::PixelFormat)ToNativeValue<uint8_t>(object.Get("pixelFormat")));
+            }
+            if (object.Has("linear")) {
+                parent->linear(ToNativeValue<bool>(object.Get("linear")));
+            }
+            if (object.Has("width")) {
+                parent->width(ToNativeValue<uint16_t>(object.Get("width")));
+            }
+            if (object.Has("height")) {
+                parent->height(ToNativeValue<uint16_t>(object.Get("height")));
+            }
+            if (object.Has("data")) {
+                Napi::Buffer<uint8_t> buffer = object.Get("data").As<Napi::Buffer<uint8_t>>();
+                parent->data = std::vector<uint8_t>(buffer.Length());
+                memcpy(parent->data.data(), buffer.Data(), buffer.Length());
+            }
         }
 
     private:

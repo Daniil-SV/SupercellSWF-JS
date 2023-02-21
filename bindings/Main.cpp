@@ -6,6 +6,7 @@
 #include "SupercellFlash_JS/common/Export.h"
 #include "SupercellFlash_JS/tag/Shape.h"
 #include "SupercellFlash_JS/tag/SWFTexture.h"
+#include "SupercellFlash_JS/tag/TextField.h"
 
 /* Node.js initialize */
 Napi::Object Init(Napi::Env env, Napi::Object exports)
@@ -22,6 +23,9 @@ Napi::Object Init(Napi::Env env, Napi::Object exports)
 
   /* Texture */
   scNapi::SWFTexture::Initialize(env, exports);
+
+  /* TextField */
+  scNapi::TextField::Initialize(env, exports);
 
 	return exports;
 }

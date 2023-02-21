@@ -17,6 +17,7 @@ namespace scNapi
         exports = new Vector<sc::Export>(&parent->exports, &Export::constructor);
         shapes = new Vector<sc::Shape>(&parent->shapes, &Shape::constructor);
         textures = new Vector<sc::SWFTexture>(&parent->textures, &SWFTexture::constructor);
+        textFields = new Vector<sc::TextField>(&parent->textFields, &TextField::constructor);
 
     }
 
@@ -67,6 +68,15 @@ namespace scNapi
                     InstanceMethod("__remove_texture__", &SupercellSWF::remove_texture),
                     InstanceMethod("__get_texture_length__", &SupercellSWF::get_texture_length),
                     InstanceMethod("__set_texture_length__", &SupercellSWF::set_texture_length),
+
+                    /* 
+                    ! TextField array getters
+                     */
+                    InstanceMethod("__get_textfield__", &SupercellSWF::get_textfield),
+                    InstanceMethod("__insert_textfield__", &SupercellSWF::insert_textfield),
+                    InstanceMethod("__remove_textfield__", &SupercellSWF::remove_textfield),
+                    InstanceMethod("__get_textfields_length__", &SupercellSWF::get_textfields_length),
+                    InstanceMethod("__set_textfields_length__", &SupercellSWF::set_textfields_length)
 
                 });
 
@@ -166,6 +176,26 @@ namespace scNapi
     }
     void SupercellSWF::set_texture_length(const Napi::CallbackInfo& info) {
         return textures->set_length(info);
+    }
+
+    /* 
+    ! TextFields
+     */
+
+    Napi::Value SupercellSWF::get_textfield(const Napi::CallbackInfo& info) {
+        return textFields->get_item(info);
+    }
+    Napi::Value SupercellSWF::insert_textfield(const Napi::CallbackInfo& info) {
+        return textFields->insert_item(info, TextField::Unwrap(info[0].ToObject())->get_parent());
+    }
+    Napi::Value SupercellSWF::remove_textfield(const Napi::CallbackInfo& info) {
+        return textFields->remove_item(info);
+    }
+    Napi::Value SupercellSWF::get_textfields_length(const Napi::CallbackInfo& info) {
+        return textFields->get_length(info);
+    }
+    void SupercellSWF::set_textfields_length(const Napi::CallbackInfo& info) {
+        return textFields->set_length(info);
     }
 
     /*

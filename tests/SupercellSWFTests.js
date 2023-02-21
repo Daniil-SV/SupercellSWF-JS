@@ -37,3 +37,9 @@ print(`Textures ${swf.textures.length} items: `)
 for (const texture of swf.textures) {
     print(texture);
 }
+
+print(`TextField ${swf.textFields.length} items: `)
+for (const field of swf.textFields) {
+    index++;
+    print(field);
+}

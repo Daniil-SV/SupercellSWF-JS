@@ -8,6 +8,7 @@ import {
   type SupercellCompression,
   type SupercellSWF,
   type SWFTexture,
+  type TextField,
 } from "./types/";
 
 declare interface NativeInterface {
@@ -19,6 +20,7 @@ declare interface NativeInterface {
   ShapeDrawBitmapCommand: typeof ShapeDrawBitmapCommand;
   ShapeDrawBitmapCommandVertex: typeof ShapeDrawBitmapCommandVertex;
   SWFTexture: typeof SWFTexture;
+  TextField: typeof TextField;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires

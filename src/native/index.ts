@@ -13,3 +13,4 @@ export const NATIVE_SHAPE_DRAW_COMMAND_VERTEX =
   native.ShapeDrawBitmapCommandVertex;
 /* Texture */
 export const NATIVE_SWFTEXTURE = native.SWFTexture;
+export const NATIVE_TEXTFIELD = native.TextField;
