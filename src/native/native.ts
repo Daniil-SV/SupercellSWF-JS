@@ -2,6 +2,7 @@ import * as path from "path";
 
 import {
   type Export,
+  type Matrix2x3,
   type MovieClipModifier,
   type Shape,
   type ShapeDrawBitmapCommand,
@@ -23,6 +24,7 @@ declare interface NativeInterface {
   SWFTexture: typeof SWFTexture;
   TextField: typeof TextField;
   MovieClipModifier: typeof MovieClipModifier;
+  Matrix2x3: typeof Matrix2x3;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires

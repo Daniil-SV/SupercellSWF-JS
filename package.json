@@ -2,17 +2,21 @@
   "name": "supercell-swf",
   "version": "2.0.0",
   "description": "Module for loading and processing SupercellSWF assets.",
-  "main": "./lib/index.js",
+  "main": "lib/index.js",
   "scripts": {
     "install": "node-gyp-build",
+    "prepack": "npm run test & npm run build:ts",
     "build:ts": "tsc",
     "build:native": "node-gyp build",
     "build:native-debug": "node-gyp build --debug",
-    "prebuild": "prebuildify --napi"
+    "prebuild": "prebuildify --napi",
+    "test": "jest & make-coverage-badge --output-path \"./resources/images/coverage.svg\""
   },
   "gypfile": true,
   "types": "./types",
   "devDependencies": {
+    "@jest/globals": "^29.4.3",
+    "@types/jest": "^29.4.0",
     "@types/node": "^16.18.8",
     "@typescript-eslint/eslint-plugin": "^5.52.0",
     "@typescript-eslint/parser": "^5.52.0",
@@ -24,9 +28,14 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-simple-import-sort": "^10.0.0",
+    "jest-coverage-badges": "^1.1.2",
+    "make-coverage-badge": "^1.2.0",
+    "node-addon-api": "^6.0.0",
+    "node-binding": "^1.4.0",
     "prebuildify": "^5.0.1",
     "prettier": "^2.8.4",
     "prettier-config-standard": "^5.0.0",
+    "ts-jest": "^29.0.5",
     "typescript": "^4.9.5"
   },
   "author": "DaniilSV",
@@ -36,8 +45,6 @@
     "url": "https://github.com/scwmake/supercell-swf-ts.git"
   },
   "dependencies": {
-    "node-addon-api": "^5.0.0",
-    "node-binding": "^1.4.0",
     "node-gyp-build": "^4.5.0"
   }
 }

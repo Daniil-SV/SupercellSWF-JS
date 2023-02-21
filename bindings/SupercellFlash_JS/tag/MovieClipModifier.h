@@ -30,7 +30,9 @@ namespace scNapi {
 
         void fromObject(Napi::Object object) override
         {
-            
+            if (object.Has("type")) {
+                parent->type((sc::MovieClipModifier::Type)ToNativeValue<uint8_t>(object.Get("type")));
+            }
         }
 
     private:

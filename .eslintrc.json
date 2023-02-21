@@ -23,7 +23,7 @@
         "ecmaVersion": "latest",
         "sourceType": "script"
     },
-    "ignorePatterns": ["**/sandbox/*.js", "**/types/*.js", "**/tests/*.js"],
+    "ignorePatterns": ["**/sandbox/*.js", "**/types/*.ts", "**/tests/*.ts"],
     "rules": {
         "no-console": [
             "error",

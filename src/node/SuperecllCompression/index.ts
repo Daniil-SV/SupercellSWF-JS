@@ -1,12 +1,7 @@
-import { native } from "../../native/native"
+import { native } from "../../native/native";
 
-export enum CompressionSignature {
-    NONE = 0,
-    LZMA,
-    LZHAM,
-    ZSTD,
-}
+export { CompressionSignature } from "../../native/types/SupercellCompression";
 
-const SupercellCompression = native.SupercellCompression;
+const SUPERCELL_COMPRESSION = native.SupercellCompression;
 
-export { SupercellCompression }
+export { SUPERCELL_COMPRESSION as SupercellCompression };

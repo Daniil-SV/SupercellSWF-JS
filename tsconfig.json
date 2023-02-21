@@ -2,7 +2,7 @@
     "compileOnSave": true,
     "compilerOptions": {
         "target": "ES2022",
-        "module": "NodeNext",
+        "module": "CommonJS",
         "moduleResolution": "node",
         "outDir": "lib",
         "watch": false,

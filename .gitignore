@@ -1,6 +1,7 @@
 prebuilds
 deps
 .vscode
+.cache
 
 // Build files
 // CXX
@@ -12,5 +13,4 @@ lib
 node_modules
 
 // Tests
-tests/Output
-Sandbox
+coverage

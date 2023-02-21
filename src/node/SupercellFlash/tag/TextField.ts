@@ -14,6 +14,6 @@ export class TextField extends NATIVE_TEXTFIELD {
   }
 
   toJSON(): object {
-    return {};
+    return {}; // TODO
   }
 }

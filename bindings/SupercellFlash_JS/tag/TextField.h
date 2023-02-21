@@ -31,7 +31,7 @@ namespace scNapi
 
         void fromObject(Napi::Object object) override
         {
-            
+            // TODO
         }
 
     private:
