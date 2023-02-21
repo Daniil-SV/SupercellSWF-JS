@@ -18,7 +18,7 @@ namespace scNapi
         shapes = new Vector<sc::Shape>(&parent->shapes, &Shape::constructor);
         textures = new Vector<sc::SWFTexture>(&parent->textures, &SWFTexture::constructor);
         textFields = new Vector<sc::TextField>(&parent->textFields, &TextField::constructor);
-
+        movieClipModifiers = new Vector<sc::MovieClipModifier>(&parent->movieClipModifiers, &MovieClipModifier::constructor);
     }
 
     void SupercellSWF::Initialize(Napi::Env& env, Napi::Object& exports)
@@ -76,7 +76,16 @@ namespace scNapi
                     InstanceMethod("__insert_textfield__", &SupercellSWF::insert_textfield),
                     InstanceMethod("__remove_textfield__", &SupercellSWF::remove_textfield),
                     InstanceMethod("__get_textfields_length__", &SupercellSWF::get_textfields_length),
-                    InstanceMethod("__set_textfields_length__", &SupercellSWF::set_textfields_length)
+                    InstanceMethod("__set_textfields_length__", &SupercellSWF::set_textfields_length),
+
+                    /* 
+                    ! Modifiers array getters
+                     */
+                    InstanceMethod("__get_modifier__", &SupercellSWF::get_modifier),
+                    InstanceMethod("__insert_modifier__", &SupercellSWF::insert_modifier),
+                    InstanceMethod("__remove_modifier__", &SupercellSWF::remove_modifier),
+                    InstanceMethod("__get_modifiers_length__", &SupercellSWF::get_modifiers_length),
+                    InstanceMethod("__set_modifiers_length__", &SupercellSWF::set_modifiers_length)
 
                 });
 
@@ -196,6 +205,26 @@ namespace scNapi
     }
     void SupercellSWF::set_textfields_length(const Napi::CallbackInfo& info) {
         return textFields->set_length(info);
+    }
+
+    /* 
+    ! MovieClip modifiers
+     */
+
+    Napi::Value SupercellSWF::get_modifier(const Napi::CallbackInfo& info) {
+        return movieClipModifiers->get_item(info);
+    }
+    Napi::Value SupercellSWF::insert_modifier(const Napi::CallbackInfo& info) {
+        return movieClipModifiers->insert_item(info, MovieClipModifier::Unwrap(info[0].ToObject())->get_parent());
+    }
+    Napi::Value SupercellSWF::remove_modifier(const Napi::CallbackInfo& info) {
+        return movieClipModifiers->remove_item(info);
+    }
+    Napi::Value SupercellSWF::get_modifiers_length(const Napi::CallbackInfo& info) {
+        return movieClipModifiers->get_length(info);
+    }
+    void SupercellSWF::set_modifiers_length(const Napi::CallbackInfo& info) {
+        return movieClipModifiers->set_length(info);
     }
 
     /*

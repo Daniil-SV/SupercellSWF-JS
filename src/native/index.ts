@@ -14,3 +14,4 @@ export const NATIVE_SHAPE_DRAW_COMMAND_VERTEX =
 /* Texture */
 export const NATIVE_SWFTEXTURE = native.SWFTexture;
 export const NATIVE_TEXTFIELD = native.TextField;
+export const NATIVE_MOVIECLIP_MODIFIER = native.MovieClipModifier;

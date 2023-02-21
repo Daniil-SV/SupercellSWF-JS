@@ -2,6 +2,7 @@ import * as util from "util";
 
 import {
   type NATIVE_EXPORT,
+  type NATIVE_MOVIECLIP_MODIFIER,
   type NATIVE_SHAPE,
   NATIVE_SUPERCELL_SWF,
   type NATIVE_SWFTEXTURE,
@@ -11,6 +12,7 @@ import { assert_item } from "../Utils/utils";
 import { Vector } from "../Utils/Vector";
 
 import { Export } from "./common/Export";
+import { MovieClipModifier } from "./tag/MovieClipModifier";
 import { Shape } from "./tag/Shape";
 import { SWFTexture } from "./tag/SWFTexture";
 import { TextField } from "./tag/TextField";
@@ -76,6 +78,22 @@ export class SupercellSWF extends NATIVE_SUPERCELL_SWF {
       removeItem: this.__remove_textfield__,
       getLength: this.__get_textfields_length__,
       setLength: this.__set_textfields_length__,
+    },
+    this
+  );
+
+  movieClipModifiers = new Vector<SupercellSWF, MovieClipModifier>(
+    {
+      getItem: function (index: number) {
+        return assert_item<typeof NATIVE_MOVIECLIP_MODIFIER, MovieClipModifier>(
+          this["__get_modifier__"](index),
+          MovieClipModifier
+        );
+      },
+      insertItem: this.__insert_modifier__,
+      removeItem: this.__remove_modifier__,
+      getLength: this.__get_modifiers_length__,
+      setLength: this.__set_modifiers_length__,
     },
     this
   );

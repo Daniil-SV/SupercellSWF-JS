@@ -2,6 +2,7 @@ import * as path from "path";
 
 import {
   type Export,
+  type MovieClipModifier,
   type Shape,
   type ShapeDrawBitmapCommand,
   type ShapeDrawBitmapCommandVertex,
@@ -21,6 +22,7 @@ declare interface NativeInterface {
   ShapeDrawBitmapCommandVertex: typeof ShapeDrawBitmapCommandVertex;
   SWFTexture: typeof SWFTexture;
   TextField: typeof TextField;
+  MovieClipModifier: typeof MovieClipModifier;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires

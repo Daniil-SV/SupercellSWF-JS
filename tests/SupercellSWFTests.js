@@ -40,6 +40,10 @@ for (const texture of swf.textures) {
 
 print(`TextField ${swf.textFields.length} items: `)
 for (const field of swf.textFields) {
-    index++;
     print(field);
+}
+
+print(`Modifiers ${swf.movieClipModifiers.length} items: `);
+for (const modifier of swf.movieClipModifiers) {
+    print(modifier);
 }

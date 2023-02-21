@@ -9,6 +9,7 @@
 #include "tag/Shape.h"
 #include "tag/SWFTexture.h"
 #include "tag/TextField.h"
+#include "tag/MovieClipModifier.h"
 
 namespace scNapi
 {
@@ -105,6 +106,7 @@ namespace scNapi
         Vector<sc::Shape>* shapes = nullptr;
         Vector<sc::SWFTexture>* textures = nullptr;
         Vector<sc::TextField>* textFields = nullptr;
+        Vector<sc::MovieClipModifier>* movieClipModifiers = nullptr;
 
         /*
         * Class Functions
@@ -157,6 +159,16 @@ namespace scNapi
         Napi::Value remove_textfield(const Napi::CallbackInfo& info);
         Napi::Value get_textfields_length(const Napi::CallbackInfo& info);
         void set_textfields_length(const Napi::CallbackInfo& info);
+
+        /* 
+        ! Modifiers
+         */
+
+        Napi::Value get_modifier(const Napi::CallbackInfo& info);
+        Napi::Value insert_modifier(const Napi::CallbackInfo& info);
+        Napi::Value remove_modifier(const Napi::CallbackInfo& info);
+        Napi::Value get_modifiers_length(const Napi::CallbackInfo& info);
+        void set_modifiers_length(const Napi::CallbackInfo& info);
         
 
         /*
