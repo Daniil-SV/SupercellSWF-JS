@@ -32,3 +32,8 @@ print(`Shapes ${swf.shapes.length} items: `);
 for (const shape of swf.shapes) {
     print(util.inspect(shape, false, 1));
 }
+
+print(`Textures ${swf.textures.length} items: `)
+for (const texture of swf.textures) {
+    print(texture);
+}

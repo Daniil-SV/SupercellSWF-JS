@@ -6,32 +6,20 @@ namespace scNapi
     {
         Napi::Env env = info.Env();
 
-        if (!info[0].IsString())
-        {
-            Napi::TypeError::New(env, "First argument must be a String!").ThrowAsJavaScriptException();
-            return env.Undefined();
-        }
-
         std::string outputPath;
-        sc::CompressorError result = sc::Decompressor::decompress(info[0].ToString().Utf8Value(), outputPath);
+        sc::CompressorError result = sc::Decompressor::decompress(ToNativeValue<std::string>(info[0]), outputPath);
 
         if (!Utils::processCompressorError(env, result))
         {
             return env.Undefined();
         }
-        return Napi::String::New(env, outputPath);
+        return ToJSValue(info, outputPath);
 
     }
 
     Napi::Value SupercellCompression::decompress(const Napi::CallbackInfo& info)
     {
         Napi::Env env = info.Env();
-
-        if (!info[0].IsBuffer())
-        {
-            Napi::TypeError::New(env, "First argument must be a Buffer!").ThrowAsJavaScriptException();
-            return env.Undefined();
-        }
 
         Napi::Buffer<uint8_t> inputBuffer = info[0].As<Napi::Buffer<uint8_t>>();
         std::vector<uint8_t> inputStreamBuffer(inputBuffer.Length());
@@ -41,10 +29,10 @@ namespace scNapi
         std::vector<uint8_t> outputBuffer;
         sc::BufferStream outputStream(&outputBuffer);
 
-        //sc::CompressorError result = sc::Decompressor::decompress(inputStream, outputStream);
-        //Utils::processCompressorError(env, result);
+        sc::CompressorError result = sc::Decompressor::decompress(inputStream, outputStream);
+        Utils::processCompressorError(env, result);
 
-        Napi::Buffer<uint8_t> buffer = Napi::Buffer<uint8_t>::Copy(env, inputStreamBuffer.data(), inputStreamBuffer.size());
+        Napi::Buffer<uint8_t> buffer = Napi::Buffer<uint8_t>::Copy(env, outputBuffer.data(), outputBuffer.size());
         inputStream.close();
         outputStream.close();
 
@@ -54,12 +42,6 @@ namespace scNapi
     Napi::Value SupercellCompression::commonDecompress(const Napi::CallbackInfo& info)
     {
         Napi::Env env = info.Env();
-
-        if (!info[0].IsBuffer())
-        {
-            Napi::TypeError::New(env, "First argument must be a Buffer!").ThrowAsJavaScriptException();
-            return env.Undefined();
-        }
 
         Napi::Buffer<uint8_t> inputBuffer = info[0].As<Napi::Buffer<uint8_t>>();
         std::vector<uint8_t> inputStreamBuffer(inputBuffer.Length());
@@ -82,12 +64,6 @@ namespace scNapi
     Napi::Value SupercellCompression::getProps(const Napi::CallbackInfo& info)
     {
         Napi::Env env = info.Env();
-
-        if (!info[0].IsBuffer())
-        {
-            Napi::TypeError::New(env, "First argument must be a Buffer!").ThrowAsJavaScriptException();
-            return env.Undefined();
-        }
 
         Napi::Buffer<uint8_t> buffer = info[0].As<Napi::Buffer<uint8_t>>();
         std::vector<uint8_t> streamBuffer(buffer.Length());

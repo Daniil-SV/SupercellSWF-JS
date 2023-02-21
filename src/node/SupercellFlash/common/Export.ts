@@ -8,7 +8,7 @@ export class Export extends NATIVE_EXPORT {
   }
 
   [util.inspect.custom](): string {
-    return `<${this[Symbol.toStringTag]()} Id: ${this.id} Name: "${
+    return `<${this[Symbol.toStringTag]()} Id: ${this.id}, Name: "${
       this.name
     }">`;
   }

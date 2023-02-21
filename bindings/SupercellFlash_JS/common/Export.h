@@ -7,7 +7,6 @@
 #include <node_binding/type_convertor.h>
 
 #include "Utils/Utils.hpp"
-#include "Utils/ScObject.hpp"
 
 using namespace node_binding;
 

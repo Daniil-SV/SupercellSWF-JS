@@ -7,6 +7,7 @@
 
 #include "common/Export.h"
 #include "tag/Shape.h"
+#include "tag/SWFTexture.h"
 
 namespace scNapi
 {
@@ -101,6 +102,7 @@ namespace scNapi
 
         Vector<sc::Export>* exports = nullptr;
         Vector<sc::Shape>* shapes = nullptr;
+        Vector<sc::SWFTexture>* textures = nullptr;
 
         /*
         * Class Functions
@@ -127,11 +129,23 @@ namespace scNapi
         /*
         ! Shapes
         */
+    
         Napi::Value get_shape(const Napi::CallbackInfo& info);
         Napi::Value insert_shape(const Napi::CallbackInfo& info);
         Napi::Value remove_shape(const Napi::CallbackInfo& info);
         Napi::Value get_shapes_length(const Napi::CallbackInfo& info);
         void set_shapes_length(const Napi::CallbackInfo& info);
+
+        /* 
+        ! Tetxures
+         */
+
+        Napi::Value get_texture(const Napi::CallbackInfo& info);
+        Napi::Value insert_texture(const Napi::CallbackInfo& info);
+        Napi::Value remove_texture(const Napi::CallbackInfo& info);
+        Napi::Value get_texture_length(const Napi::CallbackInfo& info);
+        void set_texture_length(const Napi::CallbackInfo& info);
+        
 
         /*
         & Class Getters

@@ -16,6 +16,7 @@ namespace scNapi
 
         exports = new Vector<sc::Export>(&parent->exports, &Export::constructor);
         shapes = new Vector<sc::Shape>(&parent->shapes, &Shape::constructor);
+        textures = new Vector<sc::SWFTexture>(&parent->textures, &SWFTexture::constructor);
 
     }
 
@@ -56,7 +57,16 @@ namespace scNapi
                     InstanceMethod("__insert_shape__", &SupercellSWF::insert_shape),
                     InstanceMethod("__remove_shape__", &SupercellSWF::remove_shape),
                     InstanceMethod("__get_shapes_length__", &SupercellSWF::get_shapes_length),
-                    InstanceMethod("__set_shapes_length__", &SupercellSWF::set_shapes_length)
+                    InstanceMethod("__set_shapes_length__", &SupercellSWF::set_shapes_length),
+
+                    /* 
+                    ! Texture array getters
+                     */
+                    InstanceMethod("__get_texture__", &SupercellSWF::get_texture),
+                    InstanceMethod("__insert_texture__", &SupercellSWF::insert_texture),
+                    InstanceMethod("__remove_texture__", &SupercellSWF::remove_texture),
+                    InstanceMethod("__get_texture_length__", &SupercellSWF::get_texture_length),
+                    InstanceMethod("__set_texture_length__", &SupercellSWF::set_texture_length),
 
                 });
 
@@ -136,6 +146,26 @@ namespace scNapi
     }
     void SupercellSWF::set_shapes_length(const Napi::CallbackInfo& info) {
         return shapes->set_length(info);
+    }
+
+    /* 
+    ! Textures
+     */
+
+    Napi::Value SupercellSWF::get_texture(const Napi::CallbackInfo& info) {
+        return textures->get_item(info);
+    }
+    Napi::Value SupercellSWF::insert_texture(const Napi::CallbackInfo& info) {
+        return textures->insert_item(info, SWFTexture::Unwrap(info[0].ToObject())->get_parent());
+    }
+    Napi::Value SupercellSWF::remove_texture(const Napi::CallbackInfo& info) {
+        return textures->remove_item(info);
+    }
+    Napi::Value SupercellSWF::get_texture_length(const Napi::CallbackInfo& info) {
+        return textures->get_length(info);
+    }
+    void SupercellSWF::set_texture_length(const Napi::CallbackInfo& info) {
+        return textures->set_length(info);
     }
 
     /*

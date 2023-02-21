@@ -3,6 +3,7 @@
 #include <napi.h>
 #include <SupercellCompression.h>
 #include "ScObject.hpp"
+#include "Vector.hpp"
 
 namespace scNapi
 {

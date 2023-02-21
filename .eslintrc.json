@@ -21,9 +21,9 @@
     "parserOptions": {
         "project": "tsconfig.json",
         "ecmaVersion": "latest",
-        "sourceType": "module"
+        "sourceType": "script"
     },
-    "ignorePatterns": ["sandbox/", "types/", "tests/"],
+    "ignorePatterns": ["**/sandbox/*.js", "**/types/*.js", "**/tests/*.js"],
     "rules": {
         "no-console": [
             "error",

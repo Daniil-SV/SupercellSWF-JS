@@ -2,41 +2,23 @@
 
 namespace scNapi
 {
-    Napi::Value SupercellCompression::compressFile(const Napi::CallbackInfo &info)
+    Napi::Value SupercellCompression::compressFile(const Napi::CallbackInfo& info)
     {
         Napi::Env env = info.Env();
 
-        if (!info[0].IsString() || !info[1].IsString())
-        {
-            Napi::TypeError::New(env, "First and second arguments must be a String!").ThrowAsJavaScriptException();
-            return env.Undefined();
-        }
-
-        if (!info[2].IsNumber())
-        {
-            Napi::TypeError::New(env, "Third argument must be a Number!").ThrowAsJavaScriptException();
-            return env.Undefined();
-        }
-
         sc::CompressorError result = sc::Compressor::compress(
-            info[0].ToString().Utf8Value(),
-            info[1].ToString().Utf8Value(),
-            static_cast<sc::CompressionSignature>(info[2].ToNumber().Int32Value()));
+            ToNativeValue<std::string>(info[0]),
+            ToNativeValue<std::string>(info[1]),
+            static_cast<sc::CompressionSignature>(ToNativeValue<uint8_t>(info[2])));
 
         Utils::processCompressorError(env, result);
 
         return env.Undefined();
     }
 
-    Napi::Value SupercellCompression::compress(const Napi::CallbackInfo &info)
+    Napi::Value SupercellCompression::compress(const Napi::CallbackInfo& info)
     {
         Napi::Env env = info.Env();
-
-        if (!info[0].IsBuffer())
-        {
-            Napi::TypeError::New(env, "First argument must be a Buffer!").ThrowAsJavaScriptException();
-            return env.Undefined();
-        }
 
         /* Node.js Buffer to C++ Vector */
         Napi::Buffer<uint8_t> inputBuffer = info[0].As<Napi::Buffer<uint8_t>>();
@@ -111,21 +93,9 @@ namespace scNapi
         return buffer;
     }
 
-    Napi::Value SupercellCompression::commonCompress(const Napi::CallbackInfo &info)
+    Napi::Value SupercellCompression::commonCompress(const Napi::CallbackInfo& info)
     {
         Napi::Env env = info.Env();
-
-        if (!info[0].IsBuffer())
-        {
-            Napi::TypeError::New(env, "First argument must be a Buffer!").ThrowAsJavaScriptException();
-            return env.Undefined();
-        }
-
-        if (!info[1].IsNumber())
-        {
-            Napi::TypeError::New(env, "Second argument must be a Number!").ThrowAsJavaScriptException();
-            return env.Undefined();
-        }
 
         /* Node.js Buffer to C++ Vector */
         Napi::Buffer<uint8_t> inputBuffer = info[0].As<Napi::Buffer<uint8_t>>();
@@ -140,7 +110,7 @@ namespace scNapi
         sc::CompressorError result = sc::Compressor::commonCompress(
             inputStream,
             outputStream,
-            static_cast<sc::CompressionSignature>(info[1].ToNumber().Int32Value()));
+            (sc::CompressionSignature)ToNativeValue<uint8_t>(info[1]));
         Utils::processCompressorError(env, result);
 
         /* Vector to buffer */

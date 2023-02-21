@@ -40,7 +40,7 @@ export class ShapeDrawCommand extends NATIVE_SHAPE_DRAW_COMMAND {
 
     return `<${this[Symbol.toStringTag]()} textureIndex: ${
       this.textureIndex
-    }. vertices: [ ${vertices}]>`;
+    }, vertices: [ ${vertices}]>`;
   }
 
   toJSON(): object {

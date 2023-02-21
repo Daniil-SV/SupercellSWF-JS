@@ -7,6 +7,7 @@ import {
   type ShapeDrawBitmapCommandVertex,
   type SupercellCompression,
   type SupercellSWF,
+  type SWFTexture,
 } from "./types/";
 
 declare interface NativeInterface {
@@ -17,6 +18,7 @@ declare interface NativeInterface {
   Shape: typeof Shape;
   ShapeDrawBitmapCommand: typeof ShapeDrawBitmapCommand;
   ShapeDrawBitmapCommandVertex: typeof ShapeDrawBitmapCommandVertex;
+  SWFTexture: typeof SWFTexture;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires

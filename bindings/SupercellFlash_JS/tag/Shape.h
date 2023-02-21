@@ -3,7 +3,6 @@
 #include <SupercellFlash.h>
 #include <Napi.h>
 
-#include "Utils/Vector.hpp"
 #include "Utils/Utils.hpp"
 
 namespace scNapi
