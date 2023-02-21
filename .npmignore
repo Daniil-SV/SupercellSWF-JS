@@ -13,6 +13,6 @@ tests
 .gitignore
 .prettierrc
 binding.gyp
-jest.config.tests
+jest.config.ts
 tsconfig.json
 src/tsconfig.tsbuildinfo

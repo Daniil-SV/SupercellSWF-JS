@@ -11,7 +11,7 @@ import {
   type SupercellSWF,
   type SWFTexture,
   type TextField,
-} from "./types/";
+} from "./types";
 
 declare interface NativeInterface {
   SupercellCompression: SupercellCompression;

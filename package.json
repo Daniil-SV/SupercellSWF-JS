@@ -2,7 +2,8 @@
   "name": "supercell-swf",
   "version": "2.0.0",
   "description": "Module for loading and processing SupercellSWF assets.",
-  "main": "lib/index.js",
+  "main": "./lib/index.js",
+  "types": "./types/index.d.ts",
   "scripts": {
     "install": "node-gyp-build",
     "prepack": "npm run test & npm run build:ts",
@@ -12,8 +13,6 @@
     "prebuild": "prebuildify --napi",
     "test": "jest & make-coverage-badge --output-path \"./resources/images/coverage.svg\""
   },
-  "gypfile": true,
-  "types": "./types",
   "devDependencies": {
     "@jest/globals": "^29.4.3",
     "@types/jest": "^29.4.0",

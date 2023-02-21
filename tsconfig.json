@@ -4,7 +4,7 @@
         "target": "ES2022",
         "module": "CommonJS",
         "moduleResolution": "node",
-        "outDir": "lib",
+        "outDir": "./lib",
         "watch": false,
         "declaration": true,
         "declarationDir": "types",
@@ -20,6 +20,7 @@
         "noUnusedParameters": true,
         "forceConsistentCasingInFileNames": true,
         "skipLibCheck": true,
+        "esModuleInterop": true,
         "typeRoots": [
             "node_modules/@types"
         ],
@@ -27,5 +28,8 @@
     },
     "include": [
         "src/**/*.ts"
+    ],
+    "exclude": [
+        "node_modules/"
     ]
 }
