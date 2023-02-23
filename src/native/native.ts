@@ -1,6 +1,7 @@
 import * as path from "path";
 
 import {
+  type ColorTransform,
   type Export,
   type Matrix2x3,
   type MovieClipModifier,
@@ -18,13 +19,19 @@ declare interface NativeInterface {
   SupercellSWF: typeof SupercellSWF;
   /* Sub-classes */
   Export: typeof Export;
+
+  SWFTexture: typeof SWFTexture;
+
+  MovieClipModifier: typeof MovieClipModifier;
+
   Shape: typeof Shape;
   ShapeDrawBitmapCommand: typeof ShapeDrawBitmapCommand;
   ShapeDrawBitmapCommandVertex: typeof ShapeDrawBitmapCommandVertex;
-  SWFTexture: typeof SWFTexture;
+
   TextField: typeof TextField;
-  MovieClipModifier: typeof MovieClipModifier;
+
   Matrix2x3: typeof Matrix2x3;
+  ColorTransform: typeof ColorTransform;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires

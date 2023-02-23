@@ -73,6 +73,10 @@ export class Vector<Parent, T> {
 
   /* View in console */
   [util.inspect.custom](depth: number): string {
+    if (this.data === undefined || this.length <= 0) {
+      return "[]";
+    }
+
     let result = "[ ";
 
     const elements = [];

@@ -7,7 +7,7 @@ import { Vector } from "../../Utils/Vector";
 import { ShapeDrawCommand } from "./ShapeDrawCommand";
 
 export class Shape extends NATIVE_SHAPE {
-  commands = new Vector<Shape, ShapeDrawCommand>(
+  readonly commands = new Vector<Shape, ShapeDrawCommand>(
     {
       getItem: function (index: number) {
         return assert_item<typeof NATIVE_SHAPE_DRAW_COMMAND, ShapeDrawCommand>(

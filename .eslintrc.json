@@ -19,11 +19,18 @@
         "SharedArrayBuffer": "readonly"
     },
     "parserOptions": {
-        "project": "tsconfig.json",
+        "project": [
+            "./tsconfig.json",
+            "./tsconfig.tests.json"
+        ],
         "ecmaVersion": "latest",
         "sourceType": "script"
     },
-    "ignorePatterns": ["**/sandbox/*.js", "**/types/*.ts", "**/tests/*.ts"],
+    "ignorePatterns": [
+        "/types/**/*.ts",
+        "/lib/**/*.js",
+        "jest.config.ts"
+    ],
     "rules": {
         "no-console": [
             "error",
@@ -148,5 +155,15 @@
         ],
         "@typescript-eslint/dot-notation": "off",
         "import/extensions": "off"
-    }
+    },
+    "overrides": [
+        {
+            "files": [
+                "./tests/**/*.ts"
+            ],
+            "rules": {
+                "no-console": "off"
+            }
+        }
+    ]
 }

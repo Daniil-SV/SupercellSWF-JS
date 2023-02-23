@@ -9,6 +9,7 @@
 #include "SupercellFlash_JS/tag/TextField.h"
 #include "SupercellFlash_JS/tag/MovieClipModifier.h"
 #include "SupercellFlash_JS/tag/Matrix2x3.h"
+#include "SupercellFlash_JS/tag/ColorTransform.h"
 
 /* Node.js initialize */
 Napi::Object Init(Napi::Env env, Napi::Object exports)
@@ -34,6 +35,7 @@ Napi::Object Init(Napi::Env env, Napi::Object exports)
 
   /* MovieClip transforms */
   scNapi::Matrix2x3::Initialize(env, exports);
+  scNapi::ColorTransform::Initialize(env, exports);
 
 	return exports;
 }

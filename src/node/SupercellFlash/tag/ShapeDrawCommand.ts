@@ -8,7 +8,7 @@ import { assert_item } from "../../Utils/utils";
 import { Vector } from "../../Utils/Vector";
 
 export class ShapeDrawCommand extends NATIVE_SHAPE_DRAW_COMMAND {
-  vertices = new Vector<ShapeDrawCommand, ShapeDrawCommandVertex>(
+  readonly vertices = new Vector<ShapeDrawCommand, ShapeDrawCommandVertex>(
     {
       getItem: function (index: number) {
         return assert_item<
@@ -57,7 +57,7 @@ export class ShapeDrawCommandVertex extends NATIVE_SHAPE_DRAW_COMMAND_VERTEX {
 
   [util.inspect.custom](depth: number): string {
     return `<${this[Symbol.toStringTag]()} [ ${
-      depth >= 2 ? `[${this.x}, ${this.y}], [${this.u}, ${this.v}]` : "Points"
+      depth >= 2 ? `[[${this.x}, ${this.y}], [${this.u}, ${this.v}]]` : "Points"
     } ]>`;
   }
 

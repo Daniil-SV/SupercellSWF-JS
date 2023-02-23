@@ -95,6 +95,10 @@ namespace scNapi
 
         void fromObject(Napi::Object object) override
         {
+            if (object.Has("textureIndex"))
+            {
+                parent->textureIndex(ToNativeValue<uint8_t>(object.Get("textureIndex")));
+            }
             if (object.Has("vertices"))
             {
                 if (object.Get("vertices").IsArray())

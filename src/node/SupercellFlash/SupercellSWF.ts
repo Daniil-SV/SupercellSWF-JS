@@ -18,7 +18,7 @@ import { SWFTexture } from "./tag/SWFTexture";
 import { TextField } from "./tag/TextField";
 
 export class SupercellSWF extends NATIVE_SUPERCELL_SWF {
-  exports = new Vector<SupercellSWF, Export>(
+  readonly exports = new Vector<SupercellSWF, Export>(
     {
       getItem: function (index: number) {
         return assert_item<typeof NATIVE_EXPORT, Export>(
@@ -34,7 +34,7 @@ export class SupercellSWF extends NATIVE_SUPERCELL_SWF {
     this
   );
 
-  shapes = new Vector<SupercellSWF, Shape>(
+  readonly shapes = new Vector<SupercellSWF, Shape>(
     {
       getItem: function (index: number) {
         return assert_item<typeof NATIVE_SHAPE, Shape>(
@@ -50,7 +50,7 @@ export class SupercellSWF extends NATIVE_SUPERCELL_SWF {
     this
   );
 
-  textures = new Vector<SupercellSWF, SWFTexture>(
+  readonly textures = new Vector<SupercellSWF, SWFTexture>(
     {
       getItem: function (index: number) {
         return assert_item<typeof NATIVE_SWFTEXTURE, SWFTexture>(
@@ -66,7 +66,7 @@ export class SupercellSWF extends NATIVE_SUPERCELL_SWF {
     this
   );
 
-  textFields = new Vector<SupercellSWF, TextField>(
+  readonly textFields = new Vector<SupercellSWF, TextField>(
     {
       getItem: function (index: number) {
         return assert_item<typeof NATIVE_TEXTFIELD, TextField>(
@@ -82,7 +82,7 @@ export class SupercellSWF extends NATIVE_SUPERCELL_SWF {
     this
   );
 
-  movieClipModifiers = new Vector<SupercellSWF, MovieClipModifier>(
+  readonly movieClipModifiers = new Vector<SupercellSWF, MovieClipModifier>(
     {
       getItem: function (index: number) {
         return assert_item<typeof NATIVE_MOVIECLIP_MODIFIER, MovieClipModifier>(

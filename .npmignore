@@ -2,7 +2,6 @@
 .vscode
 bindings
 build
-coverage
 deps
 node_modules
 resources

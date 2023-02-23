@@ -31,6 +31,9 @@ namespace scNapi
 
         void fromObject(Napi::Object object) override
         {
+            if (object.Has("text")){
+                // parent->text(ToNativeValue<std::string>(object.Get("text")));
+            }
             // TODO
         }
 

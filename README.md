@@ -6,4 +6,3 @@
 </h3>
 <br> 
 
-![coverage](https://github.com/scwmake/supercell-swf-ts/blob/cpp/resources/images/coverage.svg?raw=true)

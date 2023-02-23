@@ -1,2 +1,2 @@
 export { SupercellCompression, CompressionSignature, } from "./node/SuperecllCompression";
-export { SupercellSWF, Shape, ShapeDrawCommand, ShapeDrawCommandVertex, } from "./node/SupercellFlash";
+export { SupercellSWF, Export, SWFTexture, MovieClipModifier, Shape, ShapeDrawCommand, ShapeDrawCommandVertex, TextField, Matrix2x3, ColorTransform, Filters, PixelFormat, ModifierType, } from "./node/SupercellFlash";

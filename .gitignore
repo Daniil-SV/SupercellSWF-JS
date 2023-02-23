@@ -11,6 +11,3 @@ build
 types
 lib
 node_modules
-
-// Tests
-coverage
