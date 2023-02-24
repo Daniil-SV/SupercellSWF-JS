@@ -11,6 +11,7 @@ export {
   ShapeDrawCommand,
   ShapeDrawCommandVertex,
   TextField,
+  MatrixBank,
   Matrix2x3,
   ColorTransform,
   Filters,

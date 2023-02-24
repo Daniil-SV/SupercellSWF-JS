@@ -20,7 +20,7 @@
                 "<!@(node -p \"require('fs').readdirSync('./bindings/Utils/').map(f=>'bindings/Utils/'+f).join(' ')\")",
             ],
             'include_dirs': [
-                "<!@(node -p \"require('node-binding').include\")",
+                "<!@(node -p \"require('node-addon-api').include\")",
                 'bindings/',
                 'deps/SC/SupercellFlash/src',
                 'deps/SC/SupercellCompression/src/'

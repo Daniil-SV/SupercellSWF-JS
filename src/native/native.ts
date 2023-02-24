@@ -4,6 +4,7 @@ import {
   type ColorTransform,
   type Export,
   type Matrix2x3,
+  type MatrixBank,
   type MovieClipModifier,
   type Shape,
   type ShapeDrawBitmapCommand,
@@ -30,6 +31,7 @@ declare interface NativeInterface {
 
   TextField: typeof TextField;
 
+  MatrixBank: typeof MatrixBank;
   Matrix2x3: typeof Matrix2x3;
   ColorTransform: typeof ColorTransform;
 }

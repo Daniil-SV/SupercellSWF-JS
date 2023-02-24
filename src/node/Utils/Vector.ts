@@ -24,7 +24,9 @@ interface VectorGetters<Parent, T> {
   setLength: VectorSetLength;
 }
 
-export class Vector<Parent, T> {
+export type Indexable<T> = Record<number, T>;
+
+export class Vector<Parent, T> implements Indexable<T> {
   /* Definition for proxy */
   private static readonly _proxy: ProxyHandler<Vector<any, any>> = {
     get(target, property, receiver): any {

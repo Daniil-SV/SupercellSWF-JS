@@ -1,6 +1,6 @@
 #pragma once
 
-#include <node_binding/type_convertor.h>
+#include "type_convertor.h"
 #include <napi.h>
 
 #include "ScObject.hpp"

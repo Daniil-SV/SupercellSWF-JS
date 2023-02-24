@@ -1,7 +1,5 @@
 #include "SupercellSWF.h"
 
-#include <node_binding/constructor.h>
-#include <node_binding/type_convertor.h>
 #include <SupercellCompression/Signature.h>
 
 using namespace node_binding;
@@ -15,10 +13,11 @@ namespace scNapi
         Utils::initializeClass(this, info);
 
         exports = new Vector<sc::Export>(&parent->exports, &Export::constructor);
-        shapes = new Vector<sc::Shape>(&parent->shapes, &Shape::constructor);
         textures = new Vector<sc::SWFTexture>(&parent->textures, &SWFTexture::constructor);
-        textFields = new Vector<sc::TextField>(&parent->textFields, &TextField::constructor);
         movieClipModifiers = new Vector<sc::MovieClipModifier>(&parent->movieClipModifiers, &MovieClipModifier::constructor);
+        shapes = new Vector<sc::Shape>(&parent->shapes, &Shape::constructor);
+        textFields = new Vector<sc::TextField>(&parent->textFields, &TextField::constructor);
+        matrixBanks = new Vector<sc::MatrixBank>(&parent->matrixBanks, &MatrixBank::constructor);
     }
 
     void SupercellSWF::Initialize(Napi::Env& env, Napi::Object& exports)
@@ -85,7 +84,16 @@ namespace scNapi
                     InstanceMethod("__insert_modifier__", &SupercellSWF::insert_modifier),
                     InstanceMethod("__remove_modifier__", &SupercellSWF::remove_modifier),
                     InstanceMethod("__get_modifiers_length__", &SupercellSWF::get_modifiers_length),
-                    InstanceMethod("__set_modifiers_length__", &SupercellSWF::set_modifiers_length)
+                    InstanceMethod("__set_modifiers_length__", &SupercellSWF::set_modifiers_length),
+
+                    /* 
+                    ! Matrix banks
+                     */
+                    InstanceMethod("__get_bank__", &SupercellSWF::get_bank),
+                    InstanceMethod("__insert_bank__", &SupercellSWF::insert_bank),
+                    InstanceMethod("__remove_bank__", &SupercellSWF::remove_bank),
+                    InstanceMethod("__get_banks_length__", &SupercellSWF::get_banks_length),
+                    InstanceMethod("__set_banks_length__", &SupercellSWF::set_banks_length)
 
                 });
 
@@ -225,6 +233,26 @@ namespace scNapi
     }
     void SupercellSWF::set_modifiers_length(const Napi::CallbackInfo& info) {
         return movieClipModifiers->set_length(info);
+    }
+
+    /* 
+    ! MovieClip modifiers
+     */
+
+    Napi::Value SupercellSWF::get_bank(const Napi::CallbackInfo& info) {
+        return matrixBanks->get_item(info);
+    }
+    Napi::Value SupercellSWF::insert_bank(const Napi::CallbackInfo& info) {
+        return matrixBanks->insert_item(info, MatrixBank::Unwrap(info[0].ToObject())->get_parent());
+    }
+    Napi::Value SupercellSWF::remove_bank(const Napi::CallbackInfo& info) {
+        return matrixBanks->remove_item(info);
+    }
+    Napi::Value SupercellSWF::get_banks_length(const Napi::CallbackInfo& info) {
+        return matrixBanks->get_length(info);
+    }
+    void SupercellSWF::set_banks_length(const Napi::CallbackInfo& info) {
+        return matrixBanks->set_length(info);
     }
 
     /*

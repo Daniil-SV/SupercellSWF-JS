@@ -15,5 +15,6 @@ export const NATIVE_SHAPE_DRAW_COMMAND_VERTEX =
 export const NATIVE_SWFTEXTURE = native.SWFTexture;
 export const NATIVE_TEXTFIELD = native.TextField;
 export const NATIVE_MOVIECLIP_MODIFIER = native.MovieClipModifier;
+export const NATIVE_MATRIX_BANK = native.MatrixBank;
 export const NATIVE_MATRIX2X3 = native.Matrix2x3;
 export const NATIVE_COLOR_TRANSFORM = native.ColorTransform;

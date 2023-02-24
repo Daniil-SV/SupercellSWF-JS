@@ -28,7 +28,7 @@ namespace scNapi {
             parent = new sc::Matrix2x3();
         }
 
-        void fromObject(Napi::Object object) override
+        void fromObject(Napi::Env&, Napi::Object object) override
         {
             if (object.Has("a")) {
                 parent->a = ToNativeValue<float>(object.Get("a"));

@@ -16,8 +16,8 @@
         "noImplicitOverride": true,
         "noImplicitReturns": true,
         "noPropertyAccessFromIndexSignature": true,
-        "noUnusedLocals": true,
-        "noUnusedParameters": true,
+        //"noUnusedLocals": true,
+        //"noUnusedParameters": true,
         "forceConsistentCasingInFileNames": true,
         "skipLibCheck": true,
         "esModuleInterop": true,
@@ -30,7 +30,6 @@
         "src/**/*.ts"
     ],
     "exclude": [
-        "node_modules/",
         "tests/"
     ]
 }

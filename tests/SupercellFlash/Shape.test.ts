@@ -121,4 +121,13 @@ describe("Shape object tests", () => {
     log(`Representation of Shape object in a string looks like: ${str}`);
     expect(str).toBeTruthy();
   });
+  test("it should create new object from Shape instance", () => {
+    const obj = new Shape(createInstance(true));
+    checkValues(obj, propertyObject);
+  });
+  test("this should show that objects at same index are different", () => {
+    const obj = createInstance(true);
+    // eslint-disable-next-line no-self-compare
+    expect(obj.commands[0] === obj.commands[0]).toBeFalsy();
+  });
 });

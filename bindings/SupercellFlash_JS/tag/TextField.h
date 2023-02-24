@@ -29,7 +29,7 @@ namespace scNapi
             parent = new sc::TextField();
         }
 
-        void fromObject(Napi::Object object) override
+        void fromObject(Napi::Env&, Napi::Object object) override
         {
             if (object.Has("text")){
                 // parent->text(ToNativeValue<std::string>(object.Get("text")));

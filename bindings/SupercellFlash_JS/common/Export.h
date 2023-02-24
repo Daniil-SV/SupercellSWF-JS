@@ -3,8 +3,6 @@
 #include <SupercellFlash.h>
 
 #include <napi.h>
-#include <node_binding/constructor.h>
-#include <node_binding/type_convertor.h>
 
 #include "Utils/Utils.hpp"
 
@@ -33,7 +31,7 @@ namespace scNapi
             parent = new sc::Export();
         }
 
-        void fromObject(Napi::Object object) override {
+        void fromObject(Napi::Env&, Napi::Object object) override {
             if (object.Has("id")) {
                 parent->id = ToNativeValue<uint16_t>(object.Get("id"));
             }

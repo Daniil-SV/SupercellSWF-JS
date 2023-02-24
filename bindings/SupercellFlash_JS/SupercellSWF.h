@@ -1,15 +1,18 @@
 #pragma once
 
 #include <SupercellFlash.h>
-#include <Napi.h>
+#include <napi.h>
 
 #include "Utils/Vector.hpp"
+#include "Utils/constructor.h"
+#include "Utils/type_convertor.h"
 
 #include "common/Export.h"
 #include "tag/Shape.h"
 #include "tag/SWFTexture.h"
 #include "tag/TextField.h"
 #include "tag/MovieClipModifier.h"
+#include "tag/MatrixBank.h"
 
 namespace scNapi
 {
@@ -35,7 +38,7 @@ namespace scNapi
             parent = new sc::SupercellSWF();
         }
 
-        void fromObject(Napi::Object object) override
+        void fromObject(Napi::Env& env, Napi::Object object) override
         {
             if (object.Has("useMultiResTexture"))
             {
@@ -54,46 +57,26 @@ namespace scNapi
 
             if (object.Has("shapes"))
             {
-                if (object.Get("shapes").IsArray())
+                Napi::Object shapesVector = object.Get("vertices").ToObject();
+                for (Napi::Value value : Utils::IteratorData(env, shapesVector))
                 {
-                    Napi::Array vertex_array = object.Get("shapes").As<Napi::Array>();
-                    uint32_t length = vertex_array.Length();
-
-                    for (uint32_t i = 0; length > i; i++)
-                    {
-                        Napi::Value shapeValue = vertex_array.Get(i);
-                        if (!shapeValue.IsObject())
-                        {
-                            continue;
-                        }
-
-                        parent->shapes.push_back(*(
-                            Shape::Unwrap(shapeValue.ToObject())->get_parent()
-                            )
-                        );
-                    }
+                    parent->shapes.push_back(*(
+                        scNapi::Shape::Unwrap(
+                            value.As<Napi::Object>()
+                        )->get_parent())
+                    );
                 }
             }
 
             if (object.Has("exports")) {
-                if (object.Get("exports").IsArray())
+                Napi::Object exportVector = object.Get("exports").ToObject();
+                for (Napi::Value value : Utils::IteratorData(env, exportVector))
                 {
-                    Napi::Array vertex_array = object.Get("exports").As<Napi::Array>();
-                    uint32_t length = vertex_array.Length();
-
-                    for (uint32_t i = 0; length > i; i++)
-                    {
-                        Napi::Value exportValue = vertex_array.Get(i);
-                        if (!exportValue.IsObject())
-                        {
-                            continue;
-                        }
-
-                        parent->exports.push_back(*(
-                            Export::Unwrap(exportValue.ToObject())->get_parent()
-                            )
-                        );
-                    }
+                    parent->exports.push_back(*(
+                        scNapi::Export::Unwrap(
+                            value.As<Napi::Object>()
+                        )->get_parent())
+                    );
                 }
             }
             // TODO
@@ -103,10 +86,11 @@ namespace scNapi
         sc::SupercellSWF* parent = nullptr; // SCSWF instance parent
 
         Vector<sc::Export>* exports = nullptr;
-        Vector<sc::Shape>* shapes = nullptr;
         Vector<sc::SWFTexture>* textures = nullptr;
-        Vector<sc::TextField>* textFields = nullptr;
         Vector<sc::MovieClipModifier>* movieClipModifiers = nullptr;
+        Vector<sc::Shape>* shapes = nullptr;
+        Vector<sc::TextField>* textFields = nullptr;
+        Vector<sc::MatrixBank>* matrixBanks = nullptr;
 
         /*
         * Class Functions
@@ -169,6 +153,16 @@ namespace scNapi
         Napi::Value remove_modifier(const Napi::CallbackInfo& info);
         Napi::Value get_modifiers_length(const Napi::CallbackInfo& info);
         void set_modifiers_length(const Napi::CallbackInfo& info);
+
+        /* 
+        ! Banks
+         */
+
+        Napi::Value get_bank(const Napi::CallbackInfo& info);
+        Napi::Value insert_bank(const Napi::CallbackInfo& info);
+        Napi::Value remove_bank(const Napi::CallbackInfo& info);
+        Napi::Value get_banks_length(const Napi::CallbackInfo& info);
+        void set_banks_length(const Napi::CallbackInfo& info);
         
 
         /*

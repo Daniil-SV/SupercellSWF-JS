@@ -4,6 +4,7 @@
 #include <Napi.h>
 
 #include "Utils/Utils.hpp"
+#include "iostream"
 
 namespace scNapi
 {
@@ -29,7 +30,7 @@ namespace scNapi
             parent = new sc::ShapeDrawBitmapCommandVertex();
         }
 
-        void fromObject(Napi::Object object) override
+        void fromObject(Napi::Env&, Napi::Object object) override
         {
             if (object.Has("x"))
             {
@@ -93,7 +94,7 @@ namespace scNapi
             parent = new sc::ShapeDrawBitmapCommand();
         }
 
-        void fromObject(Napi::Object object) override
+        void fromObject(Napi::Env& env, Napi::Object object) override
         {
             if (object.Has("textureIndex"))
             {
@@ -101,24 +102,14 @@ namespace scNapi
             }
             if (object.Has("vertices"))
             {
-                if (object.Get("vertices").IsArray())
+                Napi::Object vertexVector = object.Get("vertices").ToObject();
+                for (Napi::Value value : Utils::IteratorData(env, vertexVector))
                 {
-                    Napi::Array vertex_array = object.Get("vertices").As<Napi::Array>();
-                    uint32_t length = vertex_array.Length();
-
-                    for (uint32_t i = 0; length > i; i++)
-                    {
-                        Napi::Value vertexValue = vertex_array.Get(i);
-                        if (!vertexValue.IsObject())
-                        {
-                            continue;
-                        }
-
-                        parent->vertices.push_back(*(
-                            scNapi::ShapeDrawBitmapCommandVertex::Unwrap(vertexValue.ToObject())->get_parent()
-                            )
-                        );
-                    }
+                    parent->vertices.push_back(*(
+                        scNapi::ShapeDrawBitmapCommandVertex::Unwrap(
+                            value.As<Napi::Object>()
+                        )->get_parent())
+                    );
                 }
             }
         }
@@ -169,7 +160,7 @@ namespace scNapi
             parent = new sc::Shape();
         }
 
-        void fromObject(Napi::Object object) override
+        void fromObject(Napi::Env& env, Napi::Object object) override
         {
             if (object.Has("id"))
             {
@@ -178,26 +169,15 @@ namespace scNapi
 
             if (object.Has("commands"))
             {
-                if (object.Get("commands").IsArray())
+                Napi::Object commandVector = object.Get("commands").ToObject();
+                for (Napi::Value value : Utils::IteratorData(env, commandVector))
                 {
-                    Napi::Array commands_array = object.Get("commands").As<Napi::Array>();
-                    uint32_t length = commands_array.Length();
-
-                    for (uint32_t i = 0; length > i; i++)
-                    {
-                        Napi::Value commandValue = commands_array.Get(i);
-                        if (!commandValue.IsObject())
-                        {
-                            continue;
-                        }
-
-                        parent->commands.push_back(*(
-                            scNapi::ShapeDrawBitmapCommand::Unwrap(commandValue.ToObject())->get_parent()
-                            )
-                        );
-                    }
+                    parent->commands.push_back(*(
+                        scNapi::ShapeDrawBitmapCommand::Unwrap(
+                            value.As<Napi::Object>()
+                        )->get_parent())
+                    );
                 }
-
             }
         }
 

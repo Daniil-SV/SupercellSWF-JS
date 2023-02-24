@@ -29,7 +29,7 @@ namespace scNapi
             parent = new sc::ColorTransform();
         }
 
-        void fromObject(Napi::Object object) override
+        void fromObject(Napi::Env&, Napi::Object object) override
         {
             if (object.Has("redAdd")){
                 parent->redAdd = ToNativeValue<uint8_t>(object.Get("redAdd"));

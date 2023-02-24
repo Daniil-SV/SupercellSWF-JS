@@ -1,8 +1,5 @@
 #include "Shape.h"
 
-#include <node_binding/constructor.h>
-#include <node_binding/type_convertor.h>
-
 using namespace node_binding;
 
 namespace scNapi

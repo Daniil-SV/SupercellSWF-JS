@@ -11,6 +11,7 @@ export * from "./tag/TextField";
 export * from "./tag/Shape";
 export * from "./tag/ShapeDrawCommand";
 
+export * from "./tag/MatrixBank";
 export * from "./tag/Matrix2x3";
 export * from "./tag/ColorTransform";
 

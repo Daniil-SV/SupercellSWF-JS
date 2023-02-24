@@ -28,7 +28,7 @@ namespace scNapi {
             parent = new sc::SWFTexture();
         }
 
-        void fromObject(Napi::Object object) override
+        void fromObject(Napi::Env&, Napi::Object object) override
         {
             if (object.Has("magFilter")) {
                 parent->magFilter((sc::SWFTexture::Filter)ToNativeValue<uint8_t>(object.Get("magFilter")));

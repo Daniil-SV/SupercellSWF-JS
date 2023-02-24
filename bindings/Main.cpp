@@ -8,6 +8,7 @@
 #include "SupercellFlash_JS/tag/SWFTexture.h"
 #include "SupercellFlash_JS/tag/TextField.h"
 #include "SupercellFlash_JS/tag/MovieClipModifier.h"
+#include "SupercellFlash_JS/tag/MatrixBank.h"
 #include "SupercellFlash_JS/tag/Matrix2x3.h"
 #include "SupercellFlash_JS/tag/ColorTransform.h"
 
@@ -34,10 +35,11 @@ Napi::Object Init(Napi::Env env, Napi::Object exports)
   scNapi::MovieClipModifier::Initialize(env, exports);
 
   /* MovieClip transforms */
+  scNapi::MatrixBank::Initialize(env, exports);
   scNapi::Matrix2x3::Initialize(env, exports);
   scNapi::ColorTransform::Initialize(env, exports);
 
-	return exports;
+  return exports;
 }
 
 NODE_API_MODULE(addon, Init)
