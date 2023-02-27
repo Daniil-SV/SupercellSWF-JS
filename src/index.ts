@@ -17,4 +17,9 @@ export {
   Filters,
   PixelFormat,
   ModifierType,
+  MovieClip,
+  DisplayObjectInstance,
+  type ScalingGrid,
+  MovieClipFrame,
+  MovieClipFrameElement,
 } from "./node/SupercellFlash";

@@ -37,6 +37,10 @@ export class Shape extends NATIVE_SHAPE {
       commands += `${util.inspect(this.commands[i], false, depth - 1)} `;
     }
 
+    if (length !== this.commands.length) {
+      commands += `and ${this.commands.length - length} items..`;
+    }
+
     return `<${this[Symbol.toStringTag]()} id: ${
       this.id
     }, commands: [ ${commands}]>`;

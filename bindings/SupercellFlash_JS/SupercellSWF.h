@@ -13,6 +13,7 @@
 #include "tag/TextField.h"
 #include "tag/MovieClipModifier.h"
 #include "tag/MatrixBank.h"
+#include "tag/MovieClip.h"
 
 namespace scNapi
 {
@@ -91,6 +92,7 @@ namespace scNapi
         Vector<sc::Shape>* shapes = nullptr;
         Vector<sc::TextField>* textFields = nullptr;
         Vector<sc::MatrixBank>* matrixBanks = nullptr;
+        Vector<sc::MovieClip>* movieClips = nullptr;
 
         /*
         * Class Functions
@@ -163,6 +165,16 @@ namespace scNapi
         Napi::Value remove_bank(const Napi::CallbackInfo& info);
         Napi::Value get_banks_length(const Napi::CallbackInfo& info);
         void set_banks_length(const Napi::CallbackInfo& info);
+
+        /* 
+        ! MovieClips
+         */
+
+        Napi::Value get_movieclip(const Napi::CallbackInfo& info);
+        Napi::Value insert_movieclip(const Napi::CallbackInfo& info);
+        Napi::Value remove_movieclip(const Napi::CallbackInfo& info);
+        Napi::Value get_movieclips_length(const Napi::CallbackInfo& info);
+        void set_movieclips_length(const Napi::CallbackInfo& info);
         
 
         /*

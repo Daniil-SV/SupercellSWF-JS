@@ -18,6 +18,7 @@ namespace scNapi
         shapes = new Vector<sc::Shape>(&parent->shapes, &Shape::constructor);
         textFields = new Vector<sc::TextField>(&parent->textFields, &TextField::constructor);
         matrixBanks = new Vector<sc::MatrixBank>(&parent->matrixBanks, &MatrixBank::constructor);
+        movieClips = new Vector<sc::MovieClip>(&parent->movieClips, &MovieClip::constructor);
     }
 
     void SupercellSWF::Initialize(Napi::Env& env, Napi::Object& exports)
@@ -34,7 +35,6 @@ namespace scNapi
                     /*
                     ? Simple member accessors
                     */
-                    InstanceAccessor("compression", &SupercellSWF::get_Compression, &SupercellSWF::set_Compression),
                     InstanceAccessor("useExternalTexture", &SupercellSWF::get_UseExternalTexture, &SupercellSWF::set_UseExternalTexture),
                     InstanceAccessor("useLowResTexture", &SupercellSWF::get_UseLowResTexture, &SupercellSWF::set_UseLowResTexture),
                     InstanceAccessor("useMultiResTexture", &SupercellSWF::get_UseMultiResTexture, &SupercellSWF::set_UseMultiResTexture),
@@ -93,7 +93,16 @@ namespace scNapi
                     InstanceMethod("__insert_bank__", &SupercellSWF::insert_bank),
                     InstanceMethod("__remove_bank__", &SupercellSWF::remove_bank),
                     InstanceMethod("__get_banks_length__", &SupercellSWF::get_banks_length),
-                    InstanceMethod("__set_banks_length__", &SupercellSWF::set_banks_length)
+                    InstanceMethod("__set_banks_length__", &SupercellSWF::set_banks_length),
+
+                    /* 
+                    ! MovieClips
+                     */
+                    InstanceMethod("__get_movieclip__", &SupercellSWF::get_movieclip),
+                    InstanceMethod("__insert_movieclip__", &SupercellSWF::insert_movieclip),
+                    InstanceMethod("__remove_movieclip__", &SupercellSWF::remove_movieclip),
+                    InstanceMethod("__get_movieclips_length__", &SupercellSWF::get_movieclips_length),
+                    InstanceMethod("__set_movieclips_length__", &SupercellSWF::set_movieclips_length)
 
                 });
 
@@ -236,7 +245,7 @@ namespace scNapi
     }
 
     /* 
-    ! MovieClip modifiers
+    ! Banks
      */
 
     Napi::Value SupercellSWF::get_bank(const Napi::CallbackInfo& info) {
@@ -255,24 +264,29 @@ namespace scNapi
         return matrixBanks->set_length(info);
     }
 
+    /* 
+    ! MovieClips
+     */
+
+    Napi::Value SupercellSWF::get_movieclip(const Napi::CallbackInfo& info) {
+        return matrixBanks->get_item(info);
+    }
+    Napi::Value SupercellSWF::insert_movieclip(const Napi::CallbackInfo& info) {
+        return matrixBanks->insert_item(info, MatrixBank::Unwrap(info[0].ToObject())->get_parent());
+    }
+    Napi::Value SupercellSWF::remove_movieclip(const Napi::CallbackInfo& info) {
+        return matrixBanks->remove_item(info);
+    }
+    Napi::Value SupercellSWF::get_movieclips_length(const Napi::CallbackInfo& info) {
+        return matrixBanks->get_length(info);
+    }
+    void SupercellSWF::set_movieclips_length(const Napi::CallbackInfo& info) {
+        return matrixBanks->set_length(info);
+    }
+
     /*
     & & Getters
     */
-
-    /*
-    & Compression getter
-    */
-    void SupercellSWF::set_Compression(const Napi::CallbackInfo& info, const Napi::Value& value)
-    {
-        if (value.IsNumber())
-        {
-            parent->compression = static_cast<sc::CompressionSignature>(value.ToNumber().Int32Value());
-        }
-    }
-    Napi::Value SupercellSWF::get_Compression(const Napi::CallbackInfo& info)
-    {
-        return Napi::Number::New(info.Env(), Napi::Number::New(info.Env(), static_cast<double>(parent->compression)));
-    }
 
     /*
     & Use external texture getter

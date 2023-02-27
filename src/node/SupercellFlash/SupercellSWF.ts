@@ -3,6 +3,7 @@ import * as util from "util";
 import {
   type NATIVE_EXPORT,
   type NATIVE_MATRIX_BANK,
+  type NATIVE_MOVIECLIP,
   type NATIVE_MOVIECLIP_MODIFIER,
   type NATIVE_SHAPE,
   NATIVE_SUPERCELL_SWF,
@@ -14,6 +15,7 @@ import { Vector } from "../Utils/Vector";
 
 import { Export } from "./common/Export";
 import { MatrixBank } from "./tag/MatrixBank";
+import { MovieClip } from "./tag/MovieClip";
 import { MovieClipModifier } from "./tag/MovieClipModifier";
 import { Shape } from "./tag/Shape";
 import { SWFTexture } from "./tag/SWFTexture";
@@ -112,6 +114,22 @@ export class SupercellSWF extends NATIVE_SUPERCELL_SWF {
       removeItem: this.__remove_bank__,
       getLength: this.__get_banks_length__,
       setLength: this.__set_banks_length__,
+    },
+    this
+  );
+
+  readonly movieClips = new Vector<SupercellSWF, MovieClip>(
+    {
+      getItem: function (index: number) {
+        return assert_item<typeof NATIVE_MOVIECLIP, MovieClip>(
+          this["__get_moviclip__"](index),
+          MovieClip
+        );
+      },
+      insertItem: this.__insert_movieclip__,
+      removeItem: this.__remove_bank__,
+      getLength: this.__get_movieclips_length__,
+      setLength: this.__set_movieclips_length__,
     },
     this
   );

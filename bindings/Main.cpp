@@ -11,6 +11,8 @@
 #include "SupercellFlash_JS/tag/MatrixBank.h"
 #include "SupercellFlash_JS/tag/Matrix2x3.h"
 #include "SupercellFlash_JS/tag/ColorTransform.h"
+#include "SupercellFlash_JS/tag/MovieClip.h"
+#include "SupercellFlash_JS/tag/MovieClipFrame.h"
 
 /* Node.js initialize */
 Napi::Object Init(Napi::Env env, Napi::Object exports)
@@ -38,6 +40,12 @@ Napi::Object Init(Napi::Env env, Napi::Object exports)
   scNapi::MatrixBank::Initialize(env, exports);
   scNapi::Matrix2x3::Initialize(env, exports);
   scNapi::ColorTransform::Initialize(env, exports);
+
+  /* MovieClip */
+  scNapi::MovieClip::Initialize(env, exports);
+  scNapi::DisplayObjectInstance::Initialize(env, exports);
+  scNapi::MovieClipFrame::Initialize(env, exports);
+  scNapi::MovieClipFrameElement::Initialize(env, exports);
 
   return exports;
 }

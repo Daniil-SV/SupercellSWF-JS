@@ -2,9 +2,13 @@ import * as path from "path";
 
 import {
   type ColorTransform,
+  type DisplayObjectInstance,
   type Export,
   type Matrix2x3,
   type MatrixBank,
+  type MovieClip,
+  type MovieClipFrame,
+  type MovieClipFrameElement,
   type MovieClipModifier,
   type Shape,
   type ShapeDrawBitmapCommand,
@@ -34,6 +38,11 @@ declare interface NativeInterface {
   MatrixBank: typeof MatrixBank;
   Matrix2x3: typeof Matrix2x3;
   ColorTransform: typeof ColorTransform;
+
+  MovieClip: typeof MovieClip;
+  MovieClipFrame: typeof MovieClipFrame;
+  MovieClipFrameElement: typeof MovieClipFrameElement;
+  DisplayObjectInstance: typeof DisplayObjectInstance;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
