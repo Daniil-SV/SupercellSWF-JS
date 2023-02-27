@@ -57,7 +57,6 @@
 
             'sources': [
                 "<!@(node -p \"require('fs').readdirSync('./deps/SC/SupercellFlash/src/SupercellFlash').map(f=>'deps/SC/SupercellFlash/src/SupercellFlash/'+f).filter(f=>f.endsWith('.cpp')).join(' ')\")",
-                "<!@(node -p \"require('fs').readdirSync('./deps/SC/SupercellFlash/src/SupercellFlash/common').map(f=>'deps/SC/SupercellFlash/src/SupercellFlash/common/'+f).filter(f=>f.endsWith('.cpp')).join(' ')\")",
                 "<!@(node -p \"require('fs').readdirSync('./deps/SC/SupercellFlash/src/SupercellFlash/tag').map(f=>'deps/SC/SupercellFlash/src/SupercellFlash/tag/'+f).filter(f=>f.endsWith('.cpp')).join(' ')\")"
             ],
 

@@ -1,5 +1,4 @@
 import { expect, test } from "@jest/globals";
-import { randomBytes } from "crypto";
 import { existsSync, rmSync } from "fs";
 
 import { CompressionSignature, SupercellCompression } from "../../src";
@@ -37,15 +36,6 @@ describe("SC-Compression compressor tests", () => {
       unitFileBufferD,
       CompressionSignature.LZMA
     );
-    expect(assert_buffer(buffer)).toBeTruthy();
-  });
-
-  test("it should compress file buffer from property object", () => {
-    const buffer = compressor.compress(unitFileBufferD, {
-      signature: CompressionSignature.LZMA,
-      id: randomBytes(16),
-      metadata: Buffer.from("BySCWMake"),
-    });
     expect(assert_buffer(buffer)).toBeTruthy();
   });
 

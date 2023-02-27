@@ -7,11 +7,11 @@ namespace scNapi
         Napi::Function func =
             DefineClass(env, "ColorTransform",
                 {
+                    InstanceAccessor("alpha", &ColorTransform::get_Alpha, &ColorTransform::set_Alpha),
+
                     InstanceAccessor("redAdd", &ColorTransform::get_RedAdd, &ColorTransform::set_RedAdd),
                     InstanceAccessor("greenAdd", &ColorTransform::get_GreedAdd, &ColorTransform::set_GreedAdd),
                     InstanceAccessor("blueAdd", &ColorTransform::get_BlueAdd, &ColorTransform::set_BlueAdd),
-
-                    InstanceAccessor("alphaMul", &ColorTransform::get_AlphaMul, &ColorTransform::set_AlphaMul),
                     InstanceAccessor("redMul", &ColorTransform::get_RedMul, &ColorTransform::set_RedMul),
                     InstanceAccessor("greenMul", &ColorTransform::get_GreedMul, &ColorTransform::set_GreedMul),
                     InstanceAccessor("blueMul", &ColorTransform::get_BlueMul, &ColorTransform::set_BlueMul)
@@ -54,12 +54,12 @@ namespace scNapi
         return ToJSValue(info, parent->blueAdd);
     }
 
-    /* Alpha multiply */
-    void ColorTransform::set_AlphaMul(const Napi::CallbackInfo& info, const Napi::Value& value) {
-        parent->alphaMul = ToNativeValue<float>(value);
+    /* Alpha */
+    void ColorTransform::set_Alpha(const Napi::CallbackInfo& info, const Napi::Value& value) {
+        parent->alpha = ToNativeValue<float>(value);
     }
-    Napi::Value ColorTransform::get_AlphaMul(const Napi::CallbackInfo& info) {
-        return ToJSValue(info, parent->alphaMul);
+    Napi::Value ColorTransform::get_Alpha(const Napi::CallbackInfo& info) {
+        return ToJSValue(info, parent->alpha);
     }
 
     /* Red multiply */

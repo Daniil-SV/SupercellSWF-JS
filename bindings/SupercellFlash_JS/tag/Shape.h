@@ -118,7 +118,7 @@ namespace scNapi
     private:
         Vector<sc::ShapeDrawBitmapCommandVertex>* vertices = nullptr;
         sc::ShapeDrawBitmapCommand* parent = nullptr; // Pointer to object that this class is attached to
-
+        
         /*
         & Texture index getter
         */
@@ -164,7 +164,7 @@ namespace scNapi
         {
             if (object.Has("id"))
             {
-                //parent->id(ToNativeValue<bool>(object.Get("id")));
+                parent->id(ToNativeValue<uint16_t>(object.Get("id")));
             }
 
             if (object.Has("commands"))

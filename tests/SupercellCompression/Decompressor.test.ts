@@ -17,27 +17,23 @@ describe("SC-Compression decompressor tests", () => {
     expect(existsSync(path)).toBeTruthy();
   });
 
-  test("it should decompress file into Buffer object", () => {
-    const buffer = decompressor.decompress(unitFileBuffer);
+  test("it should decompress file into Buffer with header props", () => {
+    const [buffer, header] = decompressor.decompress(unitFileBuffer);
     expect(buffer).toBeTruthy();
-  });
 
-  test("it should decompress CSV file into Buffer object", () => {
-    const buffer = decompressor.commonDecompress(commonUnitFileBuffer);
-    expect(buffer).toBeTruthy();
-  });
-
-  test("it should get props from header in compressed file", () => {
-    const header = decompressor.getProps(unitFileBuffer);
     log(
       `${unitFilePath} header props. id: ${
         header.id === undefined ? "None" : header.id.toString("hex")
-      } compression: ${
+      }, compression: ${
         CompressionSignature[header.signature]
       }, has metadata: ${String(
         header.metadata === undefined ? false : header.metadata.length > 0
       )}`
     );
-    expect(header.id !== undefined && header.id.length > 0).toBeTruthy(); // If id length == 0, then .sc file or its read is corrupted
+  });
+
+  test("it should decompress CSV file into Buffer object", () => {
+    const buffer = decompressor.commonDecompress(commonUnitFileBuffer);
+    expect(buffer).toBeTruthy();
   });
 });

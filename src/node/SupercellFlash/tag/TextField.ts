@@ -31,7 +31,7 @@ export class TextField extends NATIVE_TEXTFIELD {
         this.right
       }, bottom: ${this.bottom}, useDeviceFont: ${String(
         this.useDeviceFont
-      )}, adjustFontBounds: ${String(this.adjustFontBounds)} `;
+      )}, adjustFontBounds: ${String(this.autoAdjustFontBounds)} `;
     }
 
     output += ">";
@@ -52,8 +52,9 @@ export class TextField extends NATIVE_TEXTFIELD {
       isItalic: this.isItalic,
       isMultiline: this.isMultiline,
       isOutlined: this.isOutlined,
+      outlineColor: this.outlineColor,
       useDeviceFont: this.useDeviceFont,
-      adjustFontBounds: this.adjustFontBounds,
+      autoAdjustFontBounds: this.autoAdjustFontBounds,
     };
   }
 }

@@ -16,7 +16,7 @@ namespace scNapi
 
                     InstanceAccessor("left", &TextField::get_Left, &TextField::set_Left),
                     InstanceAccessor("top", &TextField::get_Top, &TextField::set_Top),
-                    InstanceAccessor("right", &TextField::get_Bottom, &TextField::set_Bottom),
+                    InstanceAccessor("right", &TextField::get_Right, &TextField::set_Right),
                     InstanceAccessor("bottom", &TextField::get_Bottom, &TextField::set_Bottom),
 
                     InstanceAccessor("isBold", &TextField::get_IsBold, &TextField::set_IsBold),
@@ -24,8 +24,9 @@ namespace scNapi
                     InstanceAccessor("isMultiline", &TextField::get_IsMultiline, &TextField::set_IsMultiline),
                     InstanceAccessor("isOutlined", &TextField::get_IsOutlined, &TextField::set_IsOutlined),
 
+                    InstanceAccessor("outlineColor", &TextField::get_OutlineColor, &TextField::set_OutlineColor),
                     InstanceAccessor("useDeviceFont", &TextField::get_UseDeviceFont, &TextField::set_UseDeviceFont),
-                    InstanceAccessor("adjustFontBounds", &TextField::get_AdjustFontBounds, &TextField::set_AdjustFontBounds)
+                    InstanceAccessor("autoAdjustFontBounds", &TextField::get_AutoAdjustFontBounds, &TextField::set_AutoAdjustFontBounds)
                 });
 
         constructor = Napi::Persistent(func);
@@ -46,7 +47,7 @@ namespace scNapi
          */
 
     void TextField::set_Text(const Napi::CallbackInfo& info, const Napi::Value& value) {
-        //parent->text(ToNativeValue<std::string>(value));
+        parent->text(ToNativeValue<std::string>(value));
     }
     Napi::Value TextField::get_Text(const Napi::CallbackInfo& info) {
         return ToJSValue(info, parent->text());
@@ -57,7 +58,7 @@ namespace scNapi
      */
 
     void TextField::set_FontName(const Napi::CallbackInfo& info, const Napi::Value& value) {
-        // parent->fontName(ToNativeValue<std::string>(value));
+        parent->fontName(ToNativeValue<std::string>(value));
     }
     Napi::Value TextField::get_FontName(const Napi::CallbackInfo& info) {
         return ToJSValue(info, parent->fontName());
@@ -68,7 +69,7 @@ namespace scNapi
      */
 
     void TextField::set_FontColor(const Napi::CallbackInfo& info, const Napi::Value& value) {
-        //parent->fontColor(ToNativeValue<uint32_t>(value));
+        parent->fontColor(ToNativeValue<uint32_t>(value));
     }
     Napi::Value TextField::get_FontColor(const Napi::CallbackInfo& info) {
         return ToJSValue(info, parent->fontColor());
@@ -79,7 +80,7 @@ namespace scNapi
      */
 
     void TextField::set_FontSize(const Napi::CallbackInfo& info, const Napi::Value& value) {
-        //parent->fontSize(ToNativeValue<uint8_t>(value));
+        parent->fontSize(ToNativeValue<uint8_t>(value));
     }
     Napi::Value TextField::get_FontSize(const Napi::CallbackInfo& info) {
         return ToJSValue(info, parent->fontSize());
@@ -90,7 +91,7 @@ namespace scNapi
      */
 
     void TextField::set_FontAlign(const Napi::CallbackInfo& info, const Napi::Value& value) {
-        //parent->fontAlign(ToNativeValue<uint8_t>(value));
+        parent->fontAlign(ToNativeValue<uint8_t>(value));
     }
     Napi::Value TextField::get_FontAlign(const Napi::CallbackInfo& info) {
         return ToJSValue(info, parent->fontAlign());
@@ -101,7 +102,7 @@ namespace scNapi
      */
 
     void TextField::set_Left(const Napi::CallbackInfo& info, const Napi::Value& value) {
-        //parent->left(ToNativeValue<uint16_t>(value));
+        parent->left(ToNativeValue<uint16_t>(value));
     }
     Napi::Value TextField::get_Left(const Napi::CallbackInfo& info) {
         return ToJSValue(info, parent->left());
@@ -112,7 +113,7 @@ namespace scNapi
      */
 
     void TextField::set_Top(const Napi::CallbackInfo& info, const Napi::Value& value) {
-        //parent->top(ToNativeValue<uint16_t>(value));
+        parent->top(ToNativeValue<uint16_t>(value));
     }
     Napi::Value TextField::get_Top(const Napi::CallbackInfo& info) {
         return ToJSValue(info, parent->top());
@@ -123,7 +124,7 @@ namespace scNapi
      */
 
     void TextField::set_Right(const Napi::CallbackInfo& info, const Napi::Value& value) {
-        //parent->right(ToNativeValue<uint16_t>(value));
+        parent->right(ToNativeValue<uint16_t>(value));
     }
     Napi::Value TextField::get_Right(const Napi::CallbackInfo& info) {
         return ToJSValue(info, parent->right());
@@ -134,7 +135,7 @@ namespace scNapi
      */
 
     void TextField::set_Bottom(const Napi::CallbackInfo& info, const Napi::Value& value) {
-        //parent->bottom(ToNativeValue<uint16_t>(value));
+        parent->bottom(ToNativeValue<uint16_t>(value));
     }
     Napi::Value TextField::get_Bottom(const Napi::CallbackInfo& info) {
         return ToJSValue(info, parent->bottom());
@@ -145,7 +146,7 @@ namespace scNapi
      */
 
     void TextField::set_IsBold(const Napi::CallbackInfo& info, const Napi::Value& value) {
-        //parent->isBold(ToNativeValue<bool>(value));
+        parent->isBold(ToNativeValue<bool>(value));
     }
     Napi::Value TextField::get_IsBold(const Napi::CallbackInfo& info) {
         return ToJSValue(info, parent->isBold());
@@ -156,7 +157,7 @@ namespace scNapi
      */
 
     void TextField::set_IsItalic(const Napi::CallbackInfo& info, const Napi::Value& value) {
-        //parent->isItalic(ToNativeValue<bool>(value));
+        parent->isItalic(ToNativeValue<bool>(value));
     }
     Napi::Value TextField::get_IsItalic(const Napi::CallbackInfo& info) {
         return ToJSValue(info, parent->isItalic());
@@ -167,7 +168,7 @@ namespace scNapi
      */
 
     void TextField::set_IsMultiline(const Napi::CallbackInfo& info, const Napi::Value& value) {
-        //parent->isMultiline(ToNativeValue<bool>(value));
+        parent->isMultiline(ToNativeValue<bool>(value));
     }
     Napi::Value TextField::get_IsMultiline(const Napi::CallbackInfo& info) {
         return ToJSValue(info, parent->isMultiline());
@@ -178,7 +179,7 @@ namespace scNapi
      */
 
     void TextField::set_IsOutlined(const Napi::CallbackInfo& info, const Napi::Value& value) {
-        //parent->isOutlined(ToNativeValue<bool>(value));
+        parent->isOutlined(ToNativeValue<bool>(value));
     }
     Napi::Value TextField::get_IsOutlined(const Napi::CallbackInfo& info) {
         return ToJSValue(info, parent->isOutlined());
@@ -188,8 +189,19 @@ namespace scNapi
     & UseDeviceFont
      */
 
+    void TextField::set_OutlineColor(const Napi::CallbackInfo& info, const Napi::Value& value) {
+        parent->outlineColor(ToNativeValue<uint32_t>(value));
+    }
+    Napi::Value TextField::get_OutlineColor(const Napi::CallbackInfo& info) {
+        return ToJSValue(info, parent->outlineColor());
+    }
+
+    /*
+    & UseDeviceFont
+     */
+
     void TextField::set_UseDeviceFont(const Napi::CallbackInfo& info, const Napi::Value& value) {
-        //parent->useDeviceFont(ToNativeValue<bool>(value));
+        parent->useDeviceFont(ToNativeValue<bool>(value));
     }
     Napi::Value TextField::get_UseDeviceFont(const Napi::CallbackInfo& info) {
         return ToJSValue(info, parent->useDeviceFont());
@@ -199,11 +211,11 @@ namespace scNapi
     & AdjustFontBounds
      */
 
-    void TextField::set_AdjustFontBounds(const Napi::CallbackInfo& info, const Napi::Value& value) {
-        //parent->adjustFontBounds(ToNativeValue<bool>(value));
+    void TextField::set_AutoAdjustFontBounds(const Napi::CallbackInfo& info, const Napi::Value& value) {
+        parent->autoAdjustFontBounds(ToNativeValue<bool>(value));
     }
-    Napi::Value TextField::get_AdjustFontBounds(const Napi::CallbackInfo& info) {
-        return ToJSValue(info, parent->adjustFontBounds());
+    Napi::Value TextField::get_AutoAdjustFontBounds(const Napi::CallbackInfo& info) {
+        return ToJSValue(info, parent->autoAdjustFontBounds());
     }
 
 

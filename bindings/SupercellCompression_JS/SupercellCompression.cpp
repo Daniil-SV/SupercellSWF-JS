@@ -13,7 +13,6 @@ namespace scNapi
     decompressorObject.Set("decompressFile", Napi::Function::New(env, &SupercellCompression::decompressFile));
     decompressorObject.Set("decompress", Napi::Function::New(env, &SupercellCompression::decompress));
     decompressorObject.Set("commonDecompress", Napi::Function::New(env, &SupercellCompression::commonDecompress));
-    decompressorObject.Set("getProps", Napi::Function::New(env, &SupercellCompression::getProps));
 
     Napi::Object compressorObject = Napi::Object::New(env);
     classObject.Set("Compressor", compressorObject);

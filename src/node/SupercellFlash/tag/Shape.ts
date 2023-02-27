@@ -37,7 +37,9 @@ export class Shape extends NATIVE_SHAPE {
       commands += `${util.inspect(this.commands[i], false, depth - 1)} `;
     }
 
-    return `<${this[Symbol.toStringTag]()} commands: [ ${commands}]>`;
+    return `<${this[Symbol.toStringTag]()} id: ${
+      this.id
+    }, commands: [ ${commands}]>`;
   }
 
   toJSON(): object {

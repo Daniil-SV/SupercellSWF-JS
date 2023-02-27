@@ -6,10 +6,10 @@ import { ColorTransform } from "../../";
 import { checkValues, setValues } from "../Utils";
 
 const propertyObject = {
+  alpha: 0.5,
   redAdd: 255,
   greenAdd: 127,
   blueAdd: 64,
-  alphaMul: 0.5,
   redMul: 0.1,
   greenMul: 0.5,
   blueMul: 0.7,

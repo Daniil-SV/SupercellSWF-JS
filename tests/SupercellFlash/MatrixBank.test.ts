@@ -7,7 +7,7 @@ import { checkValues, setValues } from "../Utils";
 
 const propertyObject = {
   matrices: [new Matrix2x3({ tx: 10, ty: 50 })],
-  colorTransforms: [new ColorTransform({ alphaMul: 0.5 })],
+  colorTransforms: [new ColorTransform({ alpha: 0.5 })],
 };
 
 function createInstance(setProperty: boolean = false): MatrixBank {

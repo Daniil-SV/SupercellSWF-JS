@@ -28,6 +28,7 @@ function createCommandInstance(setProperty: boolean = false): ShapeDrawCommand {
 }
 
 const propertyObject = {
+  id: 15,
   commands: [createCommandInstance(true)],
 };
 

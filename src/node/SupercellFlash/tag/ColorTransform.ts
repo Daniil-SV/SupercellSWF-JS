@@ -13,8 +13,8 @@ export class ColorTransform extends NATIVE_COLOR_TRANSFORM {
     } else {
       return `<${this[Symbol.toStringTag]()} redAdd: ${
         this.redAdd
-      }, greenAdd: ${this.greenAdd}, blueAdd: ${this.blueAdd}, alphaMul: ${
-        this.alphaMul
+      }, greenAdd: ${this.greenAdd}, blueAdd: ${this.blueAdd}, alpha: ${
+        this.alpha
       }, redMul: ${this.redMul}, greenMul: ${this.greenMul}, blueMul: ${
         this.blueMul
       } >`;
@@ -23,10 +23,10 @@ export class ColorTransform extends NATIVE_COLOR_TRANSFORM {
 
   toJSON(): object {
     return {
+      alpha: this.alpha,
       redAdd: this.redAdd,
       greenAdd: this.greenAdd,
       blueAdd: this.blueAdd,
-      alphaMul: this.alphaMul,
       redMul: this.redMul,
       greenMul: this.greenMul,
       blueMul: this.blueMul,

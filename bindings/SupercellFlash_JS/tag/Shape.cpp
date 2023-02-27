@@ -45,12 +45,11 @@ namespace scNapi
 
     void Shape::set_id(const Napi::CallbackInfo& info, const Napi::Value& value)
     {
-        //parent->id(ToNativeValue<uint16_t>(value));
+        parent->id(ToNativeValue<uint16_t>(value));
     }
     Napi::Value Shape::get_id(const Napi::CallbackInfo& info)
     {
-        return ToJSValue(info, 0);
-        //return ToJSValue(info, parent->id);
+        return ToJSValue(info, parent->id());
     }
 
     /*

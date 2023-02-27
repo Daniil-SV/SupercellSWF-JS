@@ -31,15 +31,89 @@ namespace scNapi
 
         void fromObject(Napi::Env&, Napi::Object object) override
         {
-            if (object.Has("text")){
-                // parent->text(ToNativeValue<std::string>(object.Get("text")));
+            if (object.Has("id"))
+            {
+                parent->id(ToNativeValue<uint16_t>(object.Get("id")));
             }
-            // TODO
+
+            if (object.Has("text")){
+                parent->text(ToNativeValue<std::string>(object.Get("text")));
+            }
+
+            if (object.Has("fontName")){
+                parent->fontName(ToNativeValue<std::string>(object.Get("fontName")));
+            }
+
+            if (object.Has("fontSize")){
+                parent->fontSize(ToNativeValue<uint8_t>(object.Get("fontSize")));
+            }
+
+            if (object.Has("fontColor")){
+                parent->fontColor(ToNativeValue<int32_t>(object.Get("fontColor")));
+            }
+
+            if (object.Has("fontSize")){
+                parent->fontSize(ToNativeValue<uint8_t>(object.Get("fontSize")));
+            }
+
+            if (object.Has("fontAlign")){
+                parent->fontAlign(ToNativeValue<uint8_t>(object.Get("fontAlign")));
+            }
+
+            if (object.Has("left")){
+                parent->left(ToNativeValue<uint16_t>(object.Get("left")));
+            }
+
+            if (object.Has("top")){
+                parent->top(ToNativeValue<uint16_t>(object.Get("top")));
+            }
+
+            if (object.Has("right")){
+                parent->right(ToNativeValue<uint16_t>(object.Get("right")));
+            }
+
+            if (object.Has("bottom")){
+                parent->bottom(ToNativeValue<uint16_t>(object.Get("bottom")));
+            }
+
+            if (object.Has("isBold")){
+                parent->isBold(ToNativeValue<bool>(object.Get("isBold")));
+            }
+
+            if (object.Has("isItalic")){
+                parent->isItalic(ToNativeValue<bool>(object.Get("isItalic")));
+            }
+
+            if (object.Has("isMultiline")){
+                parent->isMultiline(ToNativeValue<bool>(object.Get("isMultiline")));
+            }
+
+            if (object.Has("isOutlined")){
+                parent->isOutlined(ToNativeValue<bool>(object.Get("isOutlined")));
+            }
+
+            if (object.Has("outlineColor")){
+                parent->outlineColor(ToNativeValue<int32_t>(object.Get("outlineColor")));
+            }
+
+            if (object.Has("useDeviceFont")){
+                parent->useDeviceFont(ToNativeValue<bool>(object.Get("useDeviceFont")));
+            }
+
+            if (object.Has("autoAdjustFontBounds")){
+                parent->autoAdjustFontBounds(ToNativeValue<bool>(object.Get("autoAdjustFontBounds")));
+            }
         }
 
     private:
         sc::TextField* parent = nullptr; // Pointer to object that this class is attached to
         
+        /* 
+        & Id
+         */
+        void set_id(const Napi::CallbackInfo& info, const Napi::Value& value);
+        Napi::Value get_id(const Napi::CallbackInfo& info);
+
         /* 
         & Text
          */
@@ -131,18 +205,26 @@ namespace scNapi
         void set_IsOutlined(const Napi::CallbackInfo& info, const Napi::Value& value);
         Napi::Value get_IsOutlined(const Napi::CallbackInfo& info);
 
+         /* 
+        & Outline color
+         */
+
+        void set_OutlineColor(const Napi::CallbackInfo& info, const Napi::Value& value);
+        Napi::Value get_OutlineColor(const Napi::CallbackInfo& info);
+
+
         /* 
         & UseDeviceFont
          */
 
         void set_UseDeviceFont(const Napi::CallbackInfo& info, const Napi::Value& value);
         Napi::Value get_UseDeviceFont(const Napi::CallbackInfo& info);
-
+        
         /* 
         & AdjustFontBounds
          */
 
-        void set_AdjustFontBounds(const Napi::CallbackInfo& info, const Napi::Value& value);
-        Napi::Value get_AdjustFontBounds(const Napi::CallbackInfo& info);
+        void set_AutoAdjustFontBounds(const Napi::CallbackInfo& info, const Napi::Value& value);
+        Napi::Value get_AutoAdjustFontBounds(const Napi::CallbackInfo& info);
     };
 }

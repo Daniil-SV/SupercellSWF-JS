@@ -31,6 +31,10 @@ namespace scNapi
 
         void fromObject(Napi::Env&, Napi::Object object) override
         {
+            if (object.Has("alpha")){
+                parent->alpha = ToNativeValue<float>(object.Get("alpha"));
+            }
+
             if (object.Has("redAdd")){
                 parent->redAdd = ToNativeValue<uint8_t>(object.Get("redAdd"));
             }
@@ -39,10 +43,6 @@ namespace scNapi
             }
             if (object.Has("blueAdd")){
                 parent->blueAdd = ToNativeValue<uint8_t>(object.Get("blueAdd"));
-            }
-
-            if (object.Has("alphaMul")){
-                parent->alphaMul = ToNativeValue<float>(object.Get("alphaMul"));
             }
             if (object.Has("redMul")) {
                 parent->redMul = ToNativeValue<float>(object.Get("redMul"));
@@ -71,8 +71,8 @@ namespace scNapi
         Napi::Value get_BlueAdd(const Napi::CallbackInfo& info);
 
         /* Alpha multiply */
-        void set_AlphaMul(const Napi::CallbackInfo& info, const Napi::Value& value);
-        Napi::Value get_AlphaMul(const Napi::CallbackInfo& info);
+        void set_Alpha(const Napi::CallbackInfo& info, const Napi::Value& value);
+        Napi::Value get_Alpha(const Napi::CallbackInfo& info);
 
         /* Red multiply */
         void set_RedMul(const Napi::CallbackInfo& info, const Napi::Value& value);

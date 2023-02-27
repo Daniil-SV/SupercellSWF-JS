@@ -17,7 +17,6 @@ namespace scNapi
 		static Napi::Value decompressFile(const Napi::CallbackInfo& info);
 		static Napi::Value decompress(const Napi::CallbackInfo& info);
 		static Napi::Value commonDecompress(const Napi::CallbackInfo& info);
-		static Napi::Value getProps(const Napi::CallbackInfo& info);
 
 		/* Compressor functions */
 		static Napi::Value compressFile(const Napi::CallbackInfo& info);

@@ -5,8 +5,9 @@ namespace scNapi
     void MovieClipModifier::Initialize(Napi::Env& env, Napi::Object& exports)
     {
         Napi::Function func =
-            DefineClass(env, "Shape",
+            DefineClass(env, "MovieClipModifier",
                 {
+                    InstanceAccessor("id", &MovieClipModifier::get_id, &MovieClipModifier::set_id),
                     InstanceAccessor("type", &MovieClipModifier::get_Type, &MovieClipModifier::set_Type)
                 });
 
@@ -22,6 +23,13 @@ namespace scNapi
     {
         Utils::initializeClass(this, info);
     };
+
+    void MovieClipModifier::set_id(const Napi::CallbackInfo& info, const Napi::Value& value) {
+        parent->id(ToNativeValue<uint16_t>(value));
+    }
+    Napi::Value MovieClipModifier::get_id(const Napi::CallbackInfo& info) {
+        return ToJSValue(info, parent->id());
+    }
 
     void MovieClipModifier::set_Type(const Napi::CallbackInfo& info, const Napi::Value& value)
     {

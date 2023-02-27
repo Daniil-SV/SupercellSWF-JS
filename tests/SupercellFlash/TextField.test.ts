@@ -6,6 +6,7 @@ import { TextField } from "../../src";
 import { checkValues, setValues } from "../Utils";
 
 const propertyObject = {
+  id: 10,
   text: "placeholder test",
   fontName: "someName",
   fontColor: 0xffffff,
@@ -19,8 +20,9 @@ const propertyObject = {
   isItalic: true,
   isMultiline: true,
   isOutlined: true,
+  outlineColor: 0xff00ff,
   useDeviceFont: true,
-  adjustFontBounds: true,
+  autoAdjustFontBounds: true,
 };
 
 function createInstance(setProperty: boolean): TextField {

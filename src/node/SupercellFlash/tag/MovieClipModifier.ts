@@ -9,11 +9,14 @@ export class MovieClipModifier extends NATIVE_MOVIECLIP_MODIFIER {
   }
 
   [util.inspect.custom](): string {
-    return `<${this[Symbol.toStringTag]()} type: ${ModifierType[this.type]}>`;
+    return `<${this[Symbol.toStringTag]()} id: ${this.id}, type: ${
+      ModifierType[this.type]
+    }>`;
   }
 
   toJSON(): object {
     return {
+      id: this.id,
       type: this.type,
     };
   }

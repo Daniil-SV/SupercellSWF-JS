@@ -6,6 +6,7 @@ import { ModifierType, MovieClipModifier } from "../../";
 import { checkValues, setValues } from "../Utils";
 
 const propertyObject = {
+  id: 20,
   type: ModifierType.Masked,
 };
 
