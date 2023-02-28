@@ -58,7 +58,7 @@ namespace scNapi
 
             if (object.Has("shapes"))
             {
-                Napi::Object shapesVector = object.Get("vertices").ToObject();
+                Napi::Object shapesVector = object.Get("shapes").ToObject();
                 for (Napi::Value value : Utils::IteratorData(env, shapesVector))
                 {
                     parent->shapes.push_back(*(
@@ -80,7 +80,54 @@ namespace scNapi
                     );
                 }
             }
-            // TODO
+
+            if (object.Has("textures")) {
+                Napi::Object textureVector = object.Get("textures").ToObject();
+                for (Napi::Value value : Utils::IteratorData(env, textureVector))
+                {
+                    parent->textures.push_back(*(
+                        scNapi::SWFTexture::Unwrap(
+                            value.As<Napi::Object>()
+                        )->get_parent())
+                    );
+                }
+            }
+
+            if (object.Has("textFields")) {
+                Napi::Object textfieldVector = object.Get("textFields").ToObject();
+                for (Napi::Value value : Utils::IteratorData(env, textfieldVector))
+                {
+                    parent->textFields.push_back(*(
+                        scNapi::TextField::Unwrap(
+                            value.As<Napi::Object>()
+                        )->get_parent())
+                    );
+                }
+            }
+
+            if (object.Has("movieClipModifiers")) {
+                Napi::Object modifierVector = object.Get("movieClipModifiers").ToObject();
+                for (Napi::Value value : Utils::IteratorData(env, modifierVector))
+                {
+                    parent->movieClipModifiers.push_back(*(
+                        scNapi::MovieClipModifier::Unwrap(
+                            value.As<Napi::Object>()
+                        )->get_parent())
+                    );
+                }
+            }
+
+            if (object.Has("matrixBanks")) {
+                Napi::Object modifierVector = object.Get("matrixBanks").ToObject();
+                for (Napi::Value value : Utils::IteratorData(env, modifierVector))
+                {
+                    parent->matrixBanks.push_back(*(
+                        scNapi::MatrixBank::Unwrap(
+                            value.As<Napi::Object>()
+                        )->get_parent())
+                    );
+                }
+            }
         }
 
     private:

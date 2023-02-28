@@ -122,7 +122,7 @@ export class SupercellSWF extends NATIVE_SUPERCELL_SWF {
     {
       getItem: function (index: number) {
         return assert_item<typeof NATIVE_MOVIECLIP, MovieClip>(
-          this["__get_moviclip__"](index),
+          this["__get_movieclip__"](index),
           MovieClip
         );
       },
@@ -139,7 +139,15 @@ export class SupercellSWF extends NATIVE_SUPERCELL_SWF {
   }
 
   [util.inspect.custom](): string {
-    return `<${this[Symbol.toStringTag]()} >`;
+    return `<${this[Symbol.toStringTag]()} exports: [ ${
+      this.exports.length
+    } items ], textures: [ ${this.textures.length} items ], shapes: [ ${
+      this.shapes.length
+    } items ] textFields; [ ${this.textFields.length} items ], modifiers: [${
+      this.movieClipModifiers.length
+    } items ], banks: [ ${this.matrixBanks.length} items ], movieClips: [ ${
+      this.textFields.length
+    } items ] >`;
   }
 
   toJSON(): object {
@@ -149,7 +157,13 @@ export class SupercellSWF extends NATIVE_SUPERCELL_SWF {
       useLowResTexture: this.useLowResTexture,
       multiResSuffix: this.multiResTextureSuffix,
       lowResSuffix: this.lowResTextureSuffix,
+      exports: this.exports,
+      textures: this.textures,
+      movieClipModifiers: this.movieClipModifiers,
       shapes: this.shapes,
+      textFields: this.textFields,
+      movieClips: this.movieClips,
+      matrixBanks: this.matrixBanks,
     };
   }
 }

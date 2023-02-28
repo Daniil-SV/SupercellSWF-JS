@@ -293,14 +293,11 @@ namespace scNapi
     */
     void SupercellSWF::set_UseExternalTexture(const Napi::CallbackInfo& info, const Napi::Value& value)
     {
-        if (value.IsBoolean())
-        {
-            parent->useExternalTexture(value.ToBoolean().Value());
-        }
+        parent->useExternalTexture(ToNativeValue<bool>(value));
     }
     Napi::Value SupercellSWF::get_UseExternalTexture(const Napi::CallbackInfo& info)
     {
-        return Napi::Boolean::New(info.Env(), parent->useExternalTexture());
+        return ToJSValue(info, parent->useExternalTexture());
     }
 
 
@@ -309,14 +306,11 @@ namespace scNapi
     */
     void SupercellSWF::set_UseLowResTexture(const Napi::CallbackInfo& info, const Napi::Value& value)
     {
-        if (value.IsBoolean())
-        {
-            parent->useLowResTexture(value.ToBoolean().Value());
-        }
+        parent->useLowResTexture(ToNativeValue<bool>(value));
     };
     Napi::Value SupercellSWF::get_UseLowResTexture(const Napi::CallbackInfo& info)
     {
-        return Napi::Boolean::New(info.Env(), parent->useLowResTexture());
+        return ToJSValue(info, parent->useLowResTexture());
     };
 
 
@@ -325,14 +319,11 @@ namespace scNapi
     */
     void SupercellSWF::set_UseMultiResTexture(const Napi::CallbackInfo& info, const Napi::Value& value)
     {
-        if (value.IsBoolean())
-        {
-            parent->useMultiResTexture(value.ToBoolean().Value());
-        }
+        parent->useMultiResTexture(ToNativeValue<bool>(value));
     };
     Napi::Value SupercellSWF::get_UseMultiResTexture(const Napi::CallbackInfo& info)
     {
-        return Napi::Boolean::New(info.Env(), parent->useMultiResTexture());
+        return ToJSValue(info, parent->useMultiResTexture());
     };
 
 
@@ -341,14 +332,11 @@ namespace scNapi
     */
     void SupercellSWF::set_MultiresTexureSuffix(const Napi::CallbackInfo& info, const Napi::Value& value)
     {
-        if (value.IsString())
-        {
-            parent->multiResFileSuffix(value.ToString().Utf8Value());
-        }
+        parent->multiResFileSuffix(ToNativeValue<std::string>(value));
     }
     Napi::Value SupercellSWF::get_MultiResTexurePostfix(const Napi::CallbackInfo& info)
     {
-        return Napi::String::New(info.Env(), parent->multiResFileSuffix());
+        return ToJSValue(info, parent->multiResFileSuffix());
     }
 
 
@@ -357,13 +345,10 @@ namespace scNapi
     */
     void SupercellSWF::set_LowResTextureSuffix(const Napi::CallbackInfo& info, const Napi::Value& value)
     {
-        if (value.IsString())
-        {
-            parent->lowResFileSuffix(value.ToString().Utf8Value());
-        }
+        parent->lowResFileSuffix(ToNativeValue<std::string>(value));
     }
     Napi::Value SupercellSWF::get_LowResTexureSuffix(const Napi::CallbackInfo& info)
     {
-        return Napi::String::New(info.Env(), parent->lowResFileSuffix());
+        return ToJSValue(info, parent->lowResFileSuffix());
     }
 }
