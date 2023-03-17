@@ -2,7 +2,7 @@ import { expect, test } from "@jest/globals";
 import { log } from "console";
 import { inspect } from "util";
 
-import { TextField } from "../../src";
+import { TextField } from "../../";
 import { checkValues, setValues } from "../Utils";
 
 const propertyObject = {
@@ -22,7 +22,7 @@ const propertyObject = {
   isOutlined: true,
   outlineColor: 0xff00ff,
   useDeviceFont: true,
-  autoAdjustFontBounds: true,
+  autoAdjustFontSize: true,
 };
 
 function createInstance(setProperty: boolean): TextField {

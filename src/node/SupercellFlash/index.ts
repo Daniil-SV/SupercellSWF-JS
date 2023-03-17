@@ -1,21 +1,21 @@
 export * from "./SupercellSWF";
 
-export * from "./common/Export";
+export * from "./objects/ExportName";
 
-export * from "./tag/SWFTexture";
+export * from "./objects/SWFTexture";
 
-export * from "./tag/MovieClipModifier";
+export * from "./objects/MovieClipModifier";
 
-export * from "./tag/TextField";
+export * from "./objects/TextField";
 
-export * from "./tag/Shape";
-export * from "./tag/ShapeDrawCommand";
+export * from "./objects/Shape";
+export * from "./objects/ShapeDrawCommand";
 
-export * from "./tag/MatrixBank";
-export * from "./tag/Matrix2x3";
-export * from "./tag/ColorTransform";
+export * from "./transformation/MatrixBank";
+export * from "./transformation/Matrix2x3";
+export * from "./transformation/ColorTransform";
 
-export * from "./tag/MovieClip";
+export * from "./objects/MovieClip";
 
 export { ModifierType, Filters, PixelFormat } from "../../native/types";
 export type { ScalingGrid } from "../../native/types";

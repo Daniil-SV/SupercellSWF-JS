@@ -147,7 +147,7 @@
             }
         ],
         "prettier/prettier": [
-            "error",
+            "warn",
             {},
             {
                 "usePrettierrc": false

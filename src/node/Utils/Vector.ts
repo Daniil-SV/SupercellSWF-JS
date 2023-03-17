@@ -1,8 +1,8 @@
 import * as util from "util";
 
-import { Iterable, IterableEntries, IterableRange } from "./utils";
+import { Iterable, IterableEntries, IterableRange } from "./Utils";
 
-export type VectorItemGetter<T> = (index: number) => T | undefined;
+export type VectorItemGetter = (index: number) => External | undefined;
 export type VectorItemSetter<T> = (item: T, position: number) => boolean;
 export type VectorItemRemove = (index: number) => boolean;
 export type VectorGetLength = () => number;
@@ -14,10 +14,9 @@ export type VectorCallbackType<Parent, T, R> = (
   array?: ThisType<Vector<Parent, T>>
 ) => R;
 
-interface VectorGetters<Parent, T> {
-  [x: string]: any;
-  context?: Parent;
-  getItem: VectorItemGetter<T>;
+interface VectorGetters<T> {
+  Initializer: any;
+  getItem: VectorItemGetter;
   insertItem: VectorItemSetter<T>;
   removeItem: VectorItemRemove;
   getLength: VectorGetLength;
@@ -34,6 +33,18 @@ export class Vector<Parent, T> implements Indexable<T> {
       if (typeof (target as any)[property] !== "undefined") {
         return value;
       } else {
+        /* const idx = Number(property);
+        target.update();
+
+        if (target.data.cached[idx] === undefined) {
+          const nativeItem = target.data.getItem.call(target.data.context, idx);
+          if (nativeItem === undefined) {
+            return undefined;
+          }
+          target.data.cached[idx] = new target.data.Initializer(nativeItem);
+        }
+
+        return target.data.cached[idx]; */
         return target.at(Number(property));
       }
     },
@@ -54,16 +65,31 @@ export class Vector<Parent, T> implements Indexable<T> {
   };
 
   /* Object with setters and getters */
-  protected readonly data: VectorGetters<Parent, T>;
+  protected readonly data: {
+    Initializer: any;
+    context: Parent;
+    cached: Array<T | null>;
+    getItem: VectorItemGetter;
+    insertItem: VectorItemSetter<T>;
+    removeItem: VectorItemRemove;
+    getLength: VectorGetLength;
+    setLength: VectorSetLength;
+  };
 
   /*
      ! Object constructor !
     */
-  constructor(data: VectorGetters<Parent, T>, context?: Parent) {
-    this.data = data;
-    if (context !== undefined) {
-      this.data.context = context;
-    }
+  constructor(data: VectorGetters<T>, context: Parent) {
+    this.data = {
+      context,
+      cached: [],
+      Initializer: data.Initializer,
+      getItem: data.getItem,
+      insertItem: data.insertItem,
+      removeItem: data.removeItem,
+      getLength: data.getLength,
+      setLength: data.setLength,
+    };
 
     return new Proxy(this, Vector._proxy);
   }
@@ -98,6 +124,20 @@ export class Vector<Parent, T> implements Indexable<T> {
     return new Iterable<Parent, T>(this);
   }
 
+  /*
+   * Function to update cache array with objects. Don't use this if you don't know what you're doing.
+   */
+  update(): void {
+    // kagamine
+    const len = this.data.getLength.call(this.data.context);
+    if (len === this.data.cached.length) {
+      return;
+    }
+
+    this.data.cached.length = len;
+    this.data.cached.fill(null);
+  }
+
   /* 
     ! Functions !
     */
@@ -115,7 +155,20 @@ export class Vector<Parent, T> implements Indexable<T> {
         (Math.abs(index) -
           Math.abs(Math.trunc(index / this.length)) * this.length);
     }
-    return this.data.getItem.call(this.data.context, idx);
+
+    this.update();
+
+    if (this.data.cached[idx] === null) {
+      const nativeItem = this.data.getItem.call(this.data.context, idx);
+      if (nativeItem === undefined) {
+        return undefined;
+      }
+      this.data.cached[idx] = new this.data.Initializer(nativeItem);
+    }
+
+    const obj = this.data.cached[idx];
+
+    return obj === null ? undefined : obj;
   }
 
   /*
@@ -173,7 +226,8 @@ export class Vector<Parent, T> implements Indexable<T> {
       if (result) {
         elementIndex++;
       } else {
-        this.data.removeItem(elementIndex);
+        this.data.cached.splice(elementIndex, 1);
+        this.data.removeItem.call(this.data.context, elementIndex);
       }
     }
 
@@ -307,6 +361,7 @@ export class Vector<Parent, T> implements Indexable<T> {
       return undefined;
     }
     const item = this[-1];
+    this.data.cached.splice(this.length - 1, 1);
     this.data.removeItem.call(this.data.context, this.length - 1);
     return item;
   }
@@ -324,6 +379,7 @@ export class Vector<Parent, T> implements Indexable<T> {
           this.data.getLength.call(this.data.context)
         )
       ) {
+        this.data.cached.push(item);
         itemCount++;
       }
     }
@@ -339,6 +395,7 @@ export class Vector<Parent, T> implements Indexable<T> {
       return undefined;
     }
     const item = this[0];
+    this.data.cached.splice(0, 1);
     this.data.removeItem.call(this.data.context, 0);
     return item;
   }
@@ -369,11 +426,13 @@ export class Vector<Parent, T> implements Indexable<T> {
       for (let d = 0; deleteCount > d; d++) {
         const target = start + deleteCount;
         if (this.length >= target) {
+          this.data.cached.splice(target - 1, 1);
           this.data.removeItem.call(this.data.context, target - 1);
         }
       }
     }
     for (const item of args) {
+      this.data.cached.splice(start, 0, item);
       this.data.insertItem.call(this.data.context, item, start);
     }
     return this;
@@ -391,6 +450,7 @@ export class Vector<Parent, T> implements Indexable<T> {
    */
   unshift(...args: T[]): number {
     for (const item of args) {
+      this.data.cached.splice(0, 0, item);
       this.data.insertItem.call(this.data.context, item, 0);
     }
     return this.length;

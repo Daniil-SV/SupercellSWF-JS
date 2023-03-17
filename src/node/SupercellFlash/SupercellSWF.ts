@@ -1,35 +1,21 @@
 import * as util from "util";
 
-import {
-  type NATIVE_EXPORT,
-  type NATIVE_MATRIX_BANK,
-  type NATIVE_MOVIECLIP,
-  type NATIVE_MOVIECLIP_MODIFIER,
-  type NATIVE_SHAPE,
-  NATIVE_SUPERCELL_SWF,
-  type NATIVE_SWFTEXTURE,
-  type NATIVE_TEXTFIELD,
-} from "../../native";
-import { assert_item } from "../Utils/utils";
+import { NATIVE_SUPERCELL_SWF } from "../../native";
 import { Vector } from "../Utils/Vector";
 
-import { Export } from "./common/Export";
-import { MatrixBank } from "./tag/MatrixBank";
-import { MovieClip } from "./tag/MovieClip";
-import { MovieClipModifier } from "./tag/MovieClipModifier";
-import { Shape } from "./tag/Shape";
-import { SWFTexture } from "./tag/SWFTexture";
-import { TextField } from "./tag/TextField";
+import { ExportName } from "./objects/ExportName";
+import { MovieClip } from "./objects/MovieClip";
+import { MovieClipModifier } from "./objects/MovieClipModifier";
+import { Shape } from "./objects/Shape";
+import { SWFTexture } from "./objects/SWFTexture";
+import { TextField } from "./objects/TextField";
+import { MatrixBank } from "./transformation/MatrixBank";
 
 export class SupercellSWF extends NATIVE_SUPERCELL_SWF {
-  readonly exports = new Vector<SupercellSWF, Export>(
+  readonly exports = new Vector<SupercellSWF, ExportName>(
     {
-      getItem: function (index: number) {
-        return assert_item<typeof NATIVE_EXPORT, Export>(
-          this["__get_export_item__"](index),
-          Export
-        );
-      },
+      Initializer: ExportName,
+      getItem: this.__get_export_item__,
       insertItem: this.__insert_export_item__,
       removeItem: this.__remove_export_item__,
       getLength: this.__get_exports_length__,
@@ -40,12 +26,8 @@ export class SupercellSWF extends NATIVE_SUPERCELL_SWF {
 
   readonly shapes = new Vector<SupercellSWF, Shape>(
     {
-      getItem: function (index: number) {
-        return assert_item<typeof NATIVE_SHAPE, Shape>(
-          this["__get_shape__"](index),
-          Shape
-        );
-      },
+      Initializer: Shape,
+      getItem: this.__get_shape__,
       insertItem: this.__insert_shape__,
       removeItem: this.__remove_shape__,
       getLength: this.__get_shapes_length__,
@@ -56,12 +38,8 @@ export class SupercellSWF extends NATIVE_SUPERCELL_SWF {
 
   readonly textures = new Vector<SupercellSWF, SWFTexture>(
     {
-      getItem: function (index: number) {
-        return assert_item<typeof NATIVE_SWFTEXTURE, SWFTexture>(
-          this["__get_texture__"](index),
-          SWFTexture
-        );
-      },
+      Initializer: SWFTexture,
+      getItem: this.__get_texture__,
       insertItem: this.__insert_texture__,
       removeItem: this.__remove_texture__,
       getLength: this.__get_texture_length__,
@@ -72,12 +50,8 @@ export class SupercellSWF extends NATIVE_SUPERCELL_SWF {
 
   readonly textFields = new Vector<SupercellSWF, TextField>(
     {
-      getItem: function (index: number) {
-        return assert_item<typeof NATIVE_TEXTFIELD, TextField>(
-          this["__get_textfield__"](index),
-          TextField
-        );
-      },
+      Initializer: TextField,
+      getItem: this.__get_textfield__,
       insertItem: this.__insert_textfield__,
       removeItem: this.__remove_textfield__,
       getLength: this.__get_textfields_length__,
@@ -88,12 +62,8 @@ export class SupercellSWF extends NATIVE_SUPERCELL_SWF {
 
   readonly movieClipModifiers = new Vector<SupercellSWF, MovieClipModifier>(
     {
-      getItem: function (index: number) {
-        return assert_item<typeof NATIVE_MOVIECLIP_MODIFIER, MovieClipModifier>(
-          this["__get_modifier__"](index),
-          MovieClipModifier
-        );
-      },
+      Initializer: MovieClipModifier,
+      getItem: this.__get_modifier__,
       insertItem: this.__insert_modifier__,
       removeItem: this.__remove_modifier__,
       getLength: this.__get_modifiers_length__,
@@ -104,12 +74,8 @@ export class SupercellSWF extends NATIVE_SUPERCELL_SWF {
 
   readonly matrixBanks = new Vector<SupercellSWF, MatrixBank>(
     {
-      getItem: function (index: number) {
-        return assert_item<typeof NATIVE_MATRIX_BANK, MatrixBank>(
-          this["__get_bank__"](index),
-          MatrixBank
-        );
-      },
+      Initializer: MatrixBank,
+      getItem: this.__get_bank__,
       insertItem: this.__insert_bank__,
       removeItem: this.__remove_bank__,
       getLength: this.__get_banks_length__,
@@ -120,12 +86,8 @@ export class SupercellSWF extends NATIVE_SUPERCELL_SWF {
 
   readonly movieClips = new Vector<SupercellSWF, MovieClip>(
     {
-      getItem: function (index: number) {
-        return assert_item<typeof NATIVE_MOVIECLIP, MovieClip>(
-          this["__get_movieclip__"](index),
-          MovieClip
-        );
-      },
+      Initializer: MovieClip,
+      getItem: this.__get_movieclip__,
       insertItem: this.__insert_movieclip__,
       removeItem: this.__remove_bank__,
       getLength: this.__get_movieclips_length__,

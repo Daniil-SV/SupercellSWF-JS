@@ -3,7 +3,7 @@ import * as path from "path";
 import {
   type ColorTransform,
   type DisplayObjectInstance,
-  type Export,
+  type ExportName,
   type Matrix2x3,
   type MatrixBank,
   type MovieClip,
@@ -23,7 +23,7 @@ declare interface NativeInterface {
   SupercellCompression: SupercellCompression;
   SupercellSWF: typeof SupercellSWF;
   /* Sub-classes */
-  Export: typeof Export;
+  ExportName: typeof ExportName;
 
   SWFTexture: typeof SWFTexture;
 

@@ -12,18 +12,18 @@
                 }
             },
             'sources': [
-                'bindings/Main.cpp',
-                "<!@(node -p \"require('fs').readdirSync('./bindings/SupercellFlash_JS/tag/').map(f=>'bindings/SupercellFlash_JS/tag/'+f).filter(f=>f.endsWith('.cpp')).join(' ')\")",
-                "<!@(node -p \"require('fs').readdirSync('./bindings/SupercellFlash_JS/common/').map(f=>'bindings/SupercellFlash_JS/common/'+f).filter(f=>f.endsWith('.cpp')).join(' ')\")",
-                "<!@(node -p \"require('fs').readdirSync('./bindings/SupercellCompression_JS/').map(f=>'bindings/SupercellCompression_JS/'+f).filter(f=>f.endsWith('.cpp')).join(' ')\")",
-                "<!@(node -p \"require('fs').readdirSync('./bindings/SupercellFlash_JS/').map(f=>'bindings/SupercellFlash_JS/'+f).filter(f=>f.endsWith('.cpp')).join(' ')\")",
-                "<!@(node -p \"require('fs').readdirSync('./bindings/Utils/').map(f=>'bindings/Utils/'+f).join(' ')\")",
+                'bindings/binding.cpp',
+                'bindings/SupercellFlashNapi/SupercellSWF.cpp',
+                "<!@(node -p \"require('fs').readdirSync('./bindings/SupercellFlashNapi/objects').map(f=>'bindings/SupercellFlashNapi/objects/'+f).filter(f=>f.endsWith('.cpp')).join(' ')\")",
+                "<!@(node -p \"require('fs').readdirSync('./bindings/SupercellFlashNapi/transformation').map(f=>'bindings/SupercellFlashNapi/transformation/'+f).filter(f=>f.endsWith('.cpp')).join(' ')\")",
+                "<!@(node -p \"require('fs').readdirSync('./bindings/SupercellCompressionNapi/').map(f=>'bindings/SupercellCompressionNapi/'+f).filter(f=>f.endsWith('.cpp')).join(' ')\")",
             ],
             'include_dirs': [
                 "<!@(node -p \"require('node-addon-api').include\")",
                 'bindings/',
-                'deps/SC/SupercellFlash/src',
-                'deps/SC/SupercellCompression/src/'
+                'deps/SC/SupercellBytestream/include',
+                'deps/SC/SupercellCompression/include',
+                'deps/SC/SupercellFlash/include',
             ],
             'dependencies': [
                 "<!(node -p \"require('node-addon-api').gyp\")",
@@ -51,13 +51,17 @@
             },
 
             'include_dirs': [
+                'deps/SC/SupercellBytestream/include',
+                'deps/SC/SupercellFlash/include/',
                 'deps/SC/SupercellFlash/src/',
-                'deps/SC/SupercellCompression/src/'
+                'deps/SC/SupercellCompression/include/'
             ],
 
             'sources': [
-                "<!@(node -p \"require('fs').readdirSync('./deps/SC/SupercellFlash/src/SupercellFlash').map(f=>'deps/SC/SupercellFlash/src/SupercellFlash/'+f).filter(f=>f.endsWith('.cpp')).join(' ')\")",
-                "<!@(node -p \"require('fs').readdirSync('./deps/SC/SupercellFlash/src/SupercellFlash/tag').map(f=>'deps/SC/SupercellFlash/src/SupercellFlash/tag/'+f).filter(f=>f.endsWith('.cpp')).join(' ')\")"
+                "deps/SC/SupercellFlash/src/SupercellSWF.cpp",
+                "<!@(node -p \"require('fs').readdirSync('./deps/SC/SupercellFlash/src/objects').map(f=>'deps/SC/SupercellFlash/src/objects/'+f).filter(f=>f.endsWith('.cpp')).join(' ')\")",
+                "<!@(node -p \"require('fs').readdirSync('./deps/SC/SupercellFlash/src/texture').map(f=>'deps/SC/SupercellFlash/src/texture/'+f).filter(f=>f.endsWith('.cpp')).join(' ')\")",
+                "<!@(node -p \"require('fs').readdirSync('./deps/SC/SupercellFlash/src/transformation').map(f=>'deps/SC/SupercellFlash/src/transformation/'+f).filter(f=>f.endsWith('.cpp')).join(' ')\")"
             ],
 
             'dependencies': ['SupercellCompression'],
@@ -77,16 +81,38 @@
             'target_name': 'SupercellCompression',
             'type': 'static_library',
             'include_dirs': [
+                'deps/SC/SupercellCompression/include',
                 'deps/SC/SupercellCompression/src',
-                'deps/SC/external/LZHAM/include',
-                'deps/SC/external/LZMA/include',
-                'deps/SC/external/Zstandard/include'
+                'deps/SC/SupercellBytestream/include',
+                'deps/SC/external/lzma/include',
+                'deps/SC/external/lzham/include',
+                'deps/SC/external/zstd/include'
+            ],
+            'configurations':
+            {
+                'Debug':
+                {
+                    'defines': ['SC_DEBUG']
+                },
+                'Release':
+                {
+                    'defines': ['SC_RELEASE']
+                }
+            },
+            "conditions": [
+                [
+                    "OS==\"win\"",
+                    {
+                        "defines": [
+                            "SC_MULTITHEARD"
+                        ]
+                    }
+                ]
             ],
             'sources': [
-                "<!@(node -p \"require('fs').readdirSync('./deps/SC/SupercellCompression/src/SupercellCompression').map(f=>'deps/SC/SupercellCompression/src/SupercellCompression/'+f).filter(f=>f.endsWith('.cpp')).join(' ')\")",
-                "<!@(node -p \"require('fs').readdirSync('./deps/SC/SupercellCompression/src/SupercellCompression/cache').map(f=>'deps/SC/SupercellCompression/src/SupercellCompression/cache/'+f).filter(f=>f.endsWith('.cpp')).join(' ')\")",
-                "<!@(node -p \"require('fs').readdirSync('./deps/SC/SupercellCompression/src/SupercellCompression/backend').map(f=>'deps/SC/SupercellCompression/src/SupercellCompression/backend/'+f).filter(f=>f.endsWith('.cpp')).join(' ')\")",
-                "<!@(node -p \"require('fs').readdirSync('./deps/SC/SupercellCompression/src/SupercellCompression/common').map(f=>'deps/SC/SupercellCompression/src/SupercellCompression/common/'+f).filter(f=>f.endsWith('.cpp')).join(' ')\")"
+                "<!@(node -p \"require('fs').readdirSync('./deps/SC/SupercellCompression/src/caching').map(f=>'deps/SC/SupercellCompression/src/caching/'+f).filter(f=>f.endsWith('.cpp')).join(' ')\")",
+                "<!@(node -p \"require('fs').readdirSync('./deps/SC/SupercellCompression/src/compression').map(f=>'deps/SC/SupercellCompression/src/compression/'+f).filter(f=>f.endsWith('.cpp')).join(' ')\")",
+                "<!@(node -p \"require('fs').readdirSync('./deps/SC/SupercellCompression/src/backend').map(f=>'deps/SC/SupercellCompression/src/backend/'+f).filter(f=>f.endsWith('.cpp')).join(' ')\")"
             ],
             'dependencies': ['LZMA', 'LZHAM', 'Zstandard'],
             'cflags_cc': ['-std=c++17'],
@@ -100,7 +126,7 @@
             'win_delay_load_hook': 'false',
             'type': 'static_library',
             'sources': [
-                "<!@(node -p \"require('fs').readdirSync('./deps/SC/external/LZMA/src/').map(f=>'deps/SC/external/LZMA/src/'+f).filter(f=>f.endsWith('.c')).join(' ')\")"
+                "<!@(node -p \"require('fs').readdirSync('./deps/SC/external/lzma/src/').map(f=>'deps/SC/external/lzma/src/'+f).filter(f=>f.endsWith('.c')).join(' ')\")"
             ]
         },
         {
@@ -109,15 +135,15 @@
             'type': 'static_library',
             'win_delay_load_hook': 'false',
             'include_dirs': [
-                'deps/SC/external/LZHAM/include',
-                'deps/SC/external/LZHAM/src/lzhamcomp',
-                'deps/SC/external/LZHAM/src/lzhamdecomp'
+                'deps/SC/external/lzham/include',
+                'deps/SC/external/lzham/src/lzhamcomp',
+                'deps/SC/external/lzham/src/lzhamdecomp'
             ],
 
             'sources': [
-                "<!@(node -p \"require('fs').readdirSync('./deps/SC/external/LZHAM/src/').map(f=>'deps/SC/external/LZHAM/src/'+f).filter(f=>f.endsWith('.cpp')).join(' ')\")",
-                "<!@(node -p \"require('fs').readdirSync('./deps/SC/external/LZHAM/src/lzhamcomp/').map(f=>'deps/SC/external/LZHAM/src/lzhamcomp/'+f).filter(f=>f.endsWith('.cpp')).join(' ')\")",
-                "<!@(node -p \"require('fs').readdirSync('./deps/SC/external/LZHAM/src/lzhamdecomp/').map(f=>'deps/SC/external/LZHAM/src/lzhamdecomp/'+f).filter(f=>f.endsWith('.cpp')).join(' ')\")"
+                "<!@(node -p \"require('fs').readdirSync('./deps/SC/external/lzham/src/').map(f=>'deps/SC/external/lzham/src/'+f).filter(f=>f.endsWith('.cpp')).join(' ')\")",
+                "<!@(node -p \"require('fs').readdirSync('./deps/SC/external/lzham/src/lzhamcomp/').map(f=>'deps/SC/external/lzham/src/lzhamcomp/'+f).filter(f=>f.endsWith('.cpp')).join(' ')\")",
+                "<!@(node -p \"require('fs').readdirSync('./deps/SC/external/lzham/src/lzhamdecomp/').map(f=>'deps/SC/external/lzham/src/lzhamdecomp/'+f).filter(f=>f.endsWith('.cpp')).join(' ')\")"
 
             ],
 
@@ -137,16 +163,16 @@
             'type': 'static_library',
             'win_delay_load_hook': 'false',
             'include_dirs': [
-                'deps/SC/external/Zstandard/include',
-                'deps/SC/external/Zstandard/include/common',
-                'deps/SC/external/Zstandard/include/compress',
-                'deps/SC/external/Zstandard/include/decompress'
+                'deps/SC/external/zstd/include',
+                'deps/SC/external/zstd/include/common',
+                'deps/SC/external/zstd/include/compress',
+                'deps/SC/external/zstd/include/decompress'
             ],
 
             'sources': [
-                "<!@(node -p \"require('fs').readdirSync('./deps/SC/external/Zstandard/src/common').map(f=>'deps/SC/external/Zstandard/src/common/'+f).join(' ')\")",
-                "<!@(node -p \"require('fs').readdirSync('./deps/SC/external/Zstandard/src/compress').map(f=>'deps/SC/external/Zstandard/src/compress/'+f).join(' ')\")",
-                "<!@(node -p \"require('fs').readdirSync('./deps/SC/external/Zstandard/src/decompress').map(f=>'deps/SC/external/Zstandard/src/decompress/'+f).filter(f=>f.endsWith('.c')).join(' ')\")"
+                "<!@(node -p \"require('fs').readdirSync('./deps/SC/external/zstd/src/common').map(f=>'deps/SC/external/zstd/src/common/'+f).join(' ')\")",
+                "<!@(node -p \"require('fs').readdirSync('./deps/SC/external/zstd/src/compress').map(f=>'deps/SC/external/zstd/src/compress/'+f).join(' ')\")",
+                "<!@(node -p \"require('fs').readdirSync('./deps/SC/external/zstd/src/decompress').map(f=>'deps/SC/external/zstd/src/decompress/'+f).filter(f=>f.endsWith('.c')).join(' ')\")"
             ],
 
             'conditions': [

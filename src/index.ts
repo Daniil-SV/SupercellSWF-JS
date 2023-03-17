@@ -4,11 +4,11 @@ export {
 } from "./node/SuperecllCompression";
 export {
   SupercellSWF,
-  Export,
+  ExportName,
   SWFTexture,
   MovieClipModifier,
   Shape,
-  ShapeDrawCommand,
+  ShapeDrawBitmapCommand,
   ShapeDrawCommandVertex,
   TextField,
   MatrixBank,

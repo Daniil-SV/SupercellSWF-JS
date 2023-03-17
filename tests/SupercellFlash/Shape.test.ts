@@ -2,7 +2,7 @@ import { expect, test } from "@jest/globals";
 import { log } from "console";
 import { inspect } from "util";
 
-import { Shape, ShapeDrawCommand, ShapeDrawCommandVertex } from "../../";
+import { Shape, ShapeDrawBitmapCommand, ShapeDrawCommandVertex } from "../../";
 import { checkValues, setValues } from "../Utils";
 
 const vertexPropertyObject = {
@@ -23,8 +23,10 @@ const commandPropertyObject = {
   vertices: [createVertexInstance(true)],
 };
 
-function createCommandInstance(setProperty: boolean = false): ShapeDrawCommand {
-  return new ShapeDrawCommand(setProperty ? commandPropertyObject : {});
+function createCommandInstance(
+  setProperty: boolean = false
+): ShapeDrawBitmapCommand {
+  return new ShapeDrawBitmapCommand(setProperty ? commandPropertyObject : {});
 }
 
 const propertyObject = {
@@ -70,7 +72,7 @@ describe("ShapeDrawCommand object tests", () => {
   test("it should create new ShapeDrawCommand object", () => {
     const obj = createCommandInstance();
     expect(obj).toBeTruthy();
-    expect(obj).toBeInstanceOf(ShapeDrawCommand);
+    expect(obj).toBeInstanceOf(ShapeDrawBitmapCommand);
   });
   test("it should create new ShapeDrawCommand object with property object in costructor", () => {
     const obj = createCommandInstance(true);
@@ -78,7 +80,7 @@ describe("ShapeDrawCommand object tests", () => {
   });
   test("it should set and correctly return values in ShapeDrawCommand object", () => {
     const obj = createCommandInstance();
-    setValues<ShapeDrawCommand>(obj, commandPropertyObject);
+    setValues<ShapeDrawBitmapCommand>(obj, commandPropertyObject);
     checkValues(obj, commandPropertyObject);
   });
   test("it should return JSON object with ShapeDrawCommand object values", () => {
@@ -125,10 +127,5 @@ describe("Shape object tests", () => {
   test("it should create new object from Shape instance", () => {
     const obj = new Shape(createInstance(true));
     checkValues(obj, propertyObject);
-  });
-  test("this should show that objects at same index are different", () => {
-    const obj = createInstance(true);
-    // eslint-disable-next-line no-self-compare
-    expect(obj.commands[0] === obj.commands[0]).toBeFalsy();
   });
 });

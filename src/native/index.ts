@@ -5,7 +5,7 @@ export const NATIVE_SUPERCELL_COMPRESSION = native.SupercellCompression;
 export const NATIVE_SUPERCELL_SWF = native.SupercellSWF;
 
 /* SupercellSWF native sub-classes */
-export const NATIVE_EXPORT = native.Export;
+export const NATIVE_EXPORT = native.ExportName;
 
 /* Shape and sub-classes */
 export const NATIVE_SHAPE = native.Shape;
