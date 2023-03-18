@@ -6,8 +6,6 @@ namespace scNapi
 {
     Napi::Value SupercellCompression::decompressFile(const Napi::CallbackInfo& info)
     {
-        Napi::Env env = info.Env();
-
         std::string outputPath;
         sc::Decompressor::decompress(ToNativeValue<std::string>(info[0]), outputPath);
 

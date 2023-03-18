@@ -197,7 +197,11 @@ export class Vector<Parent, T> implements Indexable<T> {
    * from a start index (default 0) to an end index (default vector.length)
    */
   fill(value: T, start?: number, end?: number): ThisType<Vector<Parent, T>> {
-    for (let i = start ?? 0; (end ?? this.length) > i; i++) {
+    for (
+      let i = start === undefined ? 0 : start;
+      (end === undefined ? this.length : end) > i;
+      i++
+    ) {
       this[i] = value;
     }
     return this;
