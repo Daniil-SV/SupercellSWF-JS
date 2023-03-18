@@ -10,7 +10,7 @@ namespace scNapi
 {
     template <class T>
     struct Vector {
-        Vector::Vector(std::vector<T>* data):
+        Vector(std::vector<T>* data):
             data(data)
         {};
 

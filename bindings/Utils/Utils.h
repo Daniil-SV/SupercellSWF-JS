@@ -18,11 +18,12 @@ namespace scNapi
 
         template <class T>
         static void initializeClass(LinkedObject<T>* context, const Napi::CallbackInfo& info)
-        {
+        {   
+            Napi::Env env = info.Env();
             if (info[0].IsObject())
             {
                 context->new_parent();
-                context->fromObject(info.Env(), info[0].ToObject());
+                context->fromObject(env, info[0].ToObject());
             }
             else if (info[0].IsExternal())
             {

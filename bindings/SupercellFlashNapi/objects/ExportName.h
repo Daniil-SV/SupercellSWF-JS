@@ -17,7 +17,7 @@ namespace scNapi
         static void Initialize(Napi::Env& env, Napi::Object& target); // ExportName initialize in Addon
         ExportName(const Napi::CallbackInfo& info); // Node constructor
 
-        void fromObject(Napi::Env&, Napi::Object object) override {
+        void fromObject(Napi::Env, Napi::Object object) override {
             if (object.Has("id")) {
                 parent->id = ToNativeValue<uint16_t>(object.Get("id"));
             }

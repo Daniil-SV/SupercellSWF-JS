@@ -14,7 +14,7 @@ namespace scNapi {
         ShapeDrawBitmapCommandVertex(const Napi::CallbackInfo& info); // Node constructor
         static Napi::FunctionReference constructor; // C++ constrcutor to init class in Node.js
 
-        void fromObject(Napi::Env&, Napi::Object object) override
+        void fromObject(Napi::Env, Napi::Object object) override
         {
             if (object.Has("x"))
             {
@@ -61,7 +61,7 @@ namespace scNapi {
         ShapeDrawBitmapCommand(const Napi::CallbackInfo& info); // Node constructor
         static Napi::FunctionReference constructor; // C++ constrcutor to init class in Node.js
 
-        void fromObject(Napi::Env& env, Napi::Object object) override
+        void fromObject(Napi::Env env, Napi::Object object) override
         {
             if (object.Has("textureIndex"))
             {

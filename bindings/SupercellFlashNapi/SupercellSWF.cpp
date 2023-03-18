@@ -10,7 +10,7 @@ namespace scNapi
     SupercellSWF::SupercellSWF(const Napi::CallbackInfo& info)
         : Napi::ObjectWrap<SupercellSWF>(info)
     {
-        Utils::initializeClass(this, info);
+        Utils::initializeClass<sc::SupercellSWF>(this, info);
 
         exports = new Vector<sc::ExportName>(&parent->exports);
         textures = new Vector<sc::SWFTexture>(&parent->textures);

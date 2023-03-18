@@ -5,7 +5,8 @@
             'target_name': 'Bindings',
             'win_delay_load_hook': 'false',
             'defines': ['NAPI_CPP_EXCEPTIONS'],
-            'cflags_cc': ['-fexceptions'],
+            'cflags_cc': ['-fexceptions', '-std=c++17'],
+            'cxxflags': ['-fexceptions', '-std=c17'],
             "msvs_settings": {
                 "VCCLCompilerTool": {
                     "ExceptionHandling": 1
@@ -35,9 +36,8 @@
             # SupercellSWF and sub-classes target
             'target_name': 'SupercellFlash',
             'type': 'static_library',
-            'defines': ['NAPI_CPP_EXCEPTIONS'],
-            'cflags_cc': ['-fexceptions'],
-
+            'cflags_cc': ['-fexceptions', '-std=c++17'],
+            'cxxflags': ['-fexceptions', '-std=c17'],
             'configurations':
             {
                 'Debug':
@@ -66,10 +66,6 @@
 
             'dependencies': ['SupercellCompression'],
 
-            'cxxflags': [
-                '-std=c17'
-            ],
-
             'msvs_settings': {
                 'VCCLCompilerTool': {
                     'AdditionalOptions': ['-std:c++17', ],
@@ -79,6 +75,8 @@
         {
             # Compression lib for compressed files handling
             'target_name': 'SupercellCompression',
+            'cflags_cc': ['-fexceptions', '-std=c++17'],
+            'cxxflags': ['-fexceptions', '-std=c17'],
             'type': 'static_library',
             'include_dirs': [
                 'deps/SC/SupercellCompression/include',
@@ -114,8 +112,7 @@
                 "<!@(node -p \"require('fs').readdirSync('./deps/SC/SupercellCompression/src/compression').map(f=>'deps/SC/SupercellCompression/src/compression/'+f).filter(f=>f.endsWith('.cpp')).join(' ')\")",
                 "<!@(node -p \"require('fs').readdirSync('./deps/SC/SupercellCompression/src/backend').map(f=>'deps/SC/SupercellCompression/src/backend/'+f).filter(f=>f.endsWith('.cpp')).join(' ')\")"
             ],
-            'dependencies': ['LZMA', 'LZHAM', 'Zstandard'],
-            'cflags_cc': ['-std=c++17'],
+            'dependencies': ['LZMA', 'LZHAM', 'Zstandard']
         },
         {
             # LZMA compression type
@@ -174,10 +171,9 @@
                 "<!@(node -p \"require('fs').readdirSync('./deps/SC/external/zstd/src/compress').map(f=>'deps/SC/external/zstd/src/compress/'+f).join(' ')\")",
                 "<!@(node -p \"require('fs').readdirSync('./deps/SC/external/zstd/src/decompress').map(f=>'deps/SC/external/zstd/src/decompress/'+f).filter(f=>f.endsWith('.c')).join(' ')\")"
             ],
-
             'conditions': [
                 ['OS!="win"', {
-                    'sources': ["deps/SC/external/Zstandard/src/decompress/huf_decompress_amd64.S"]
+                    'defines': ['ZSTD_DISABLE_ASM']
                 }],
             ]
         }
