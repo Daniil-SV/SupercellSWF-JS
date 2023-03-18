@@ -1,7 +1,7 @@
 import * as util from "util";
 
 import { NATIVE_MOVIECLIP_MODIFIER } from "../../../native";
-import { ModifierType } from "../../../native/types";
+import { ModifierType } from "../../../native/declares";
 
 export class MovieClipModifier extends NATIVE_MOVIECLIP_MODIFIER {
   [Symbol.toStringTag](): string {

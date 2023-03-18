@@ -17,5 +17,5 @@ export * from "./transformation/ColorTransform";
 
 export * from "./objects/MovieClip";
 
-export { ModifierType, Filters, PixelFormat } from "../../native/types";
-export type { ScalingGrid } from "../../native/types";
+export { ModifierType, Filters, PixelFormat } from "../../native/declares";
+export type { ScalingGrid } from "../../native/declares";

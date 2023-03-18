@@ -1,6 +1,6 @@
 import { native } from "../../native/native";
 
-export { CompressionSignature } from "../../native/types/SupercellCompression";
+export { CompressionSignature } from "../../native/declares";
 
 const SUPERCELL_COMPRESSION = native.SupercellCompression;
 

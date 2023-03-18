@@ -1,6 +1,6 @@
 import * as util from "util";
 
-import { Iterable, IterableEntries, IterableRange } from "./Utils";
+import { Iterable, IterableEntries, IterableRange } from "./Util";
 
 export type VectorItemGetter = (index: number) => External | undefined;
 export type VectorItemSetter<T> = (item: T, position: number) => boolean;

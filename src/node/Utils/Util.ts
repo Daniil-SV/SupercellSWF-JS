@@ -1,10 +1,5 @@
 import { type Vector } from "./Vector";
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
-export function assert_item<T, R>(item: T, Constuctor: any): R | undefined {
-  return item === undefined ? undefined : new Constuctor(item);
-}
-
 export class Iterable<Parent, T> {
   private _index = 0;
   private readonly _context: Vector<Parent, T>;

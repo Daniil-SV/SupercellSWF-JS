@@ -1,7 +1,7 @@
 import * as util from "util";
 
 import { NATIVE_SWFTEXTURE } from "../../../native";
-import { Filters, PixelFormat } from "../../../native/types";
+import { Filters, PixelFormat } from "../../../native/declares";
 
 export class SWFTexture extends NATIVE_SWFTEXTURE {
   [Symbol.toStringTag](): string {
