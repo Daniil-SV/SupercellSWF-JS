@@ -14,4 +14,6 @@ export declare class Matrix2x3 {
   d: number;
   tx: number;
   ty: number;
+
+  equal: (matrix: Matrix2x3) => boolean;
 }

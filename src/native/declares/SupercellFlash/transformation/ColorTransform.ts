@@ -18,4 +18,6 @@ export declare class ColorTransform {
   redMul: number;
   greenMul: number;
   blueMul: number;
+
+  equal: (color: ColorTransform) => boolean;
 }

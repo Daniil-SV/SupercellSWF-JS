@@ -1,6 +1,7 @@
 prebuilds
 .vscode
 .cache
+sandbox
 
 // Build files
 // CXX

@@ -36,6 +36,8 @@ namespace scNapi {
         }
 
     private:
+        Napi::Value equal(const Napi::CallbackInfo& info);
+    
         /*
         & X scew
          */

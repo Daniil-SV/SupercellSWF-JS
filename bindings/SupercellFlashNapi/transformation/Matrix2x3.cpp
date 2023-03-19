@@ -12,7 +12,8 @@ namespace scNapi
                     InstanceAccessor("c", &Matrix2x3::get_c, &Matrix2x3::set_c),
                     InstanceAccessor("d", &Matrix2x3::get_d, &Matrix2x3::set_d),
                     InstanceAccessor("tx", &Matrix2x3::get_tx, &Matrix2x3::set_tx),
-                    InstanceAccessor("ty", &Matrix2x3::get_ty, &Matrix2x3::set_ty)
+                    InstanceAccessor("ty", &Matrix2x3::get_ty, &Matrix2x3::set_ty),
+                    InstanceMethod("equal", &Matrix2x3::equal)
                 });
 
         constructor = Napi::Persistent(func);
@@ -27,6 +28,21 @@ namespace scNapi
     {
         Utils::initializeClass(this, info);
     };
+
+    Napi::Value Matrix2x3::equal(const Napi::CallbackInfo& info) {
+        sc::Matrix2x3* matrix = Matrix2x3::Unwrap(info[0].ToObject())->get_parent();
+
+        if (parent->a == matrix->a &&
+            parent->b == matrix->b &&
+            parent->c == matrix->c &&
+            parent->d == matrix->d &&
+            parent->tx == matrix->tx &&
+            parent->ty == matrix->ty) {
+                return ToJSValue(info, true);
+            }
+
+        return ToJSValue(info, false);
+    }
 
     /*
     & X scew

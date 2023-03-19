@@ -292,23 +292,23 @@ namespace scNapi
 
     Napi::Value SupercellSWF::get_movieclip(const Napi::CallbackInfo& info)
     {
-        return matrixBanks->get_item(info);
+        return movieClips->get_item(info);
     }
     Napi::Value SupercellSWF::insert_movieclip(const Napi::CallbackInfo& info)
     {
-        return matrixBanks->insert_item(info, MatrixBank::Unwrap(info[0].ToObject())->get_parent());
+        return movieClips->insert_item(info, MovieClip::Unwrap(info[0].ToObject())->get_parent());
     }
     Napi::Value SupercellSWF::remove_movieclip(const Napi::CallbackInfo& info)
     {
-        return matrixBanks->remove_item(info);
+        return movieClips->remove_item(info);
     }
     Napi::Value SupercellSWF::get_movieclips_length(const Napi::CallbackInfo& info)
     {
-        return matrixBanks->get_length(info);
+        return movieClips->get_length(info);
     }
     void SupercellSWF::set_movieclips_length(const Napi::CallbackInfo& info)
     {
-        return matrixBanks->set_length(info);
+        return movieClips->set_length(info);
     }
 
     /*

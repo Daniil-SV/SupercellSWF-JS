@@ -41,6 +41,8 @@ namespace scNapi
         }
 
     private:
+        Napi::Value equal(const Napi::CallbackInfo& info);
+
         /* Red add */
         void set_RedAdd(const Napi::CallbackInfo& info, const Napi::Value& value);
         Napi::Value get_RedAdd(const Napi::CallbackInfo& info);
