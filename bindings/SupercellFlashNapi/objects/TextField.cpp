@@ -201,6 +201,17 @@ namespace scNapi
     }
 
     /*
+    & IsDynamic
+     */
+
+    void TextField::set_IsDynamic(const Napi::CallbackInfo& info, const Napi::Value& value) {
+        parent->isDynamic(ToNativeValue<bool>(value));
+    }
+    Napi::Value TextField::get_IsDynamic(const Napi::CallbackInfo& info) {
+        return ToJSValue(info, parent->isDynamic());
+    }
+
+    /*
     & UseDeviceFont
      */
 

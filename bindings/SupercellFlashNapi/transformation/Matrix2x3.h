@@ -1,7 +1,7 @@
 #pragma once
 
 #include <SupercellFlash.h>
-#include <Napi.h>
+#include <napi.h>
 
 #include "Utils/Utils.h"
 

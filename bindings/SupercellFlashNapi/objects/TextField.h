@@ -1,7 +1,7 @@
 #pragma once
 
 #include <SupercellFlash.h>
-#include <Napi.h>
+#include <napi.h>
 
 #include "Utils/Utils.h"
 #include "Utils/LinkedObject.h"
@@ -76,6 +76,10 @@ namespace scNapi
 
             if (object.Has("isOutlined")){
                 parent->isOutlined(ToNativeValue<bool>(object.Get("isOutlined")));
+            }
+
+            if (object.Has("isDynamic")){
+                parent->isDynamic(ToNativeValue<bool>(object.Get("isDynamic")));
             }
 
             if (object.Has("outlineColor")){
@@ -196,6 +200,13 @@ namespace scNapi
 
         void set_IsOutlined(const Napi::CallbackInfo& info, const Napi::Value& value);
         Napi::Value get_IsOutlined(const Napi::CallbackInfo& info);
+
+        /* 
+        & isDynamic
+         */
+
+        void set_IsDynamic(const Napi::CallbackInfo& info, const Napi::Value& value);
+        Napi::Value get_IsDynamic(const Napi::CallbackInfo& info);
 
          /* 
         & Outline color

@@ -10,3 +10,6 @@ build
 types
 lib
 node_modules
+
+// Packed files
+*.tgz

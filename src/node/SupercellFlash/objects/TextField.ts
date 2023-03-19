@@ -23,7 +23,7 @@ export class TextField extends NATIVE_TEXTFIELD {
         this.isItalic
       )}, isMultiline: ${String(this.isMultiline)}, isOutlined: ${String(
         this.isOutlined
-      )} `;
+      )}, isDynamic: ${String(this.isDynamic)} `;
     }
 
     if (depth >= 4) {
@@ -52,6 +52,7 @@ export class TextField extends NATIVE_TEXTFIELD {
       isItalic: this.isItalic,
       isMultiline: this.isMultiline,
       isOutlined: this.isOutlined,
+      isDynamic: this.isDynamic,
       outlineColor: this.outlineColor,
       useDeviceFont: this.useDeviceFont,
       autoAdjustFontBounds: this.autoAdjustFontSize,

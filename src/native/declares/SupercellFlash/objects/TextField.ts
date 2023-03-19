@@ -40,10 +40,13 @@ export declare class TextField extends DisplayObject {
   right: number;
 
   bottom: number;
+
   isBold: boolean;
   isItalic: boolean;
   isMultiline: boolean;
   isOutlined: boolean;
+  isDynamic: boolean;
+
   outlineColor: number;
   useDeviceFont: boolean;
   autoAdjustFontSize: boolean;
