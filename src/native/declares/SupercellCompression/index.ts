@@ -1,4 +1,4 @@
-export declare enum CompressionSignature {
+export enum CompressionSignature {
   NONE = 0,
   LZMA = 1,
   LZHAM = 2,
@@ -34,12 +34,14 @@ interface SupercellCompressionCompressor {
     outFilepath: string,
     signature: CompressionSignature
   ) => void;
+
   /**
    * Compress .sc file buffer
    * @param filebuffer .sc file compressed buffer
    * @param signature Compress method
    */
   compress: (filebuffer: Buffer, signature: CompressionSignature) => Buffer;
+
   /**
    * Compress data buffer with specified signature
    * @param filebuffer Decompressed data buffer

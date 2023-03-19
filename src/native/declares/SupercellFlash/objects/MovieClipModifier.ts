@@ -1,6 +1,6 @@
 import { DisplayObject } from "./DisplayObject";
 
-export declare enum ModifierType {
+export enum ModifierType {
   Mask = 38,
   Masked = 39,
   Unmasked = 40,

@@ -1,14 +1,16 @@
-export declare enum Filters {
-  Linear = 0,
-  Nearest = 1,
-  LinearMipmapNearest = 2,
+/* eslint-disable @typescript-eslint/naming-convention */
+export enum Filters {
+  LINEAR = 0,
+  NEAREST = 1,
+  LINEAR_MIPMAP_NEAREST = 2,
 }
-export declare enum PixelFormat {
+
+export enum PixelFormat {
   RGBA8 = 0,
   RGBA4 = 1,
-  RGB5A1 = 2,
+  RGB5_A1 = 2,
   RGB565 = 3,
-  LUMINANCE8A8 = 4,
+  LUMINANCE8_ALPHA8 = 4,
   LUMINANCE8 = 5,
 }
 

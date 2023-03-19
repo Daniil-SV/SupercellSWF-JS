@@ -1,5 +1,7 @@
-.cache
-.vscode
+.*
+*.tgz
+*.json
+*.tsbuildinfo
 bindings
 build
 deps
@@ -8,10 +10,5 @@ resources
 src
 bindings
 tests
-.eslintrc.json
-.gitignore
-.prettierrc
 binding.gyp
 jest.config.ts
-tsconfig.json
-src/tsconfig.tsbuildinfo
