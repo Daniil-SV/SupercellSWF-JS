@@ -50,6 +50,9 @@ namespace scNapi
         Vector<sc::Matrix2x3>* matrices = nullptr;
         Vector<sc::ColorTransform>* colorTransforms = nullptr;
 
+        Napi::Value getMatrixIndex(const Napi::CallbackInfo& info);
+        Napi::Value getColorTransformIndex(const Napi::CallbackInfo& info);
+
         /*
         ! Matrcies
         */

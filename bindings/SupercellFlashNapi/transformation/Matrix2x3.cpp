@@ -32,12 +32,12 @@ namespace scNapi
     Napi::Value Matrix2x3::equal(const Napi::CallbackInfo& info) {
         sc::Matrix2x3* matrix = Matrix2x3::Unwrap(info[0].ToObject())->get_parent();
 
-        if (parent->a == matrix->a &&
-            parent->b == matrix->b &&
-            parent->c == matrix->c &&
-            parent->d == matrix->d &&
-            parent->tx == matrix->tx &&
-            parent->ty == matrix->ty) {
+        if (floatEqual(parent->a, matrix->a) &&
+            floatEqual(parent->b, matrix->b) &&
+            floatEqual(parent->c, matrix->c) &&
+            floatEqual(parent->d, matrix->d) &&
+            floatEqual(parent->tx, matrix->tx) &&
+            floatEqual(parent->ty, matrix->ty)) {
                 return ToJSValue(info, true);
             }
 

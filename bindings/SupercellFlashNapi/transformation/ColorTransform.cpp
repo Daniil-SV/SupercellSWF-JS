@@ -35,13 +35,13 @@ namespace scNapi
     {
         sc::ColorTransform* color = ColorTransform::Unwrap(info[0].ToObject())->get_parent();
 
-        if (color->alpha == parent->alpha && 
-            color->blueAdd == parent->blueAdd &&
-            color->blueMul == parent->blueMul &&
-            color->greenAdd == parent->greenAdd &&
-            color->greenMul == parent->greenMul &&
-            color->redAdd == parent->redAdd &&
-            color->redMul == parent->redMul) {
+        if (floatEqual(color->alpha, parent->alpha) && 
+            floatEqual(color->blueAdd, parent->blueAdd) &&
+            floatEqual(color->blueMul, parent->blueMul) &&
+            floatEqual(color->greenAdd, parent->greenAdd) &&
+            floatEqual(color->greenMul, parent->greenMul) &&
+            floatEqual(color->redAdd, parent->redAdd) &&
+            floatEqual(color->redMul, parent->redMul)) {
                 return ToJSValue(info, true);
             }
 

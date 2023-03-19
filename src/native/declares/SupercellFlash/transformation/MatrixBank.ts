@@ -15,6 +15,9 @@ export declare class MatrixBank {
     colorTransforms?: ColorTransform[];
   });
 
+  getMatrixIndex: (matrix: Matrix2x3) => number | undefined;
+  getColorTransformIndex: (color: ColorTransform) => number | undefined;
+
   protected __get_matrix__: VectorItemGetter;
   protected __insert_matrix__: VectorItemSetter<Matrix2x3>;
   protected __remove_matrix__: VectorItemRemove;

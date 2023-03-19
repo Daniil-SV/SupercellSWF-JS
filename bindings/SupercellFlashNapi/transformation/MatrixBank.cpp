@@ -10,6 +10,9 @@ namespace scNapi
         Napi::Function func =
             DefineClass(env, "MatrixBank",
                 {
+                    InstanceMethod("getMatrixIndex", &MatrixBank::getMatrixIndex),
+                    InstanceMethod("getColorTransformIndex", &MatrixBank::getColorTransformIndex),
+
                     /*
                     ! Matrcies
                     */
@@ -44,6 +47,32 @@ namespace scNapi
         matrices = new Vector<sc::Matrix2x3>(&parent->matrices);
         colorTransforms = new Vector<sc::ColorTransform>(&parent->colorTransforms);
     };
+
+    Napi::Value MatrixBank::getMatrixIndex(const Napi::CallbackInfo& info) {
+        sc::Matrix2x3* matrix = Matrix2x3::Unwrap(info[0].ToObject())->get_parent();
+
+        uint16_t index;
+        bool succes = parent->getMatrixIndex(matrix, index);
+
+        if (succes) {
+            return ToJSValue(info, index);
+        } else {
+            return info.Env().Undefined();
+        }
+    }
+
+    Napi::Value MatrixBank::getColorTransformIndex(const Napi::CallbackInfo& info) {
+        sc::ColorTransform* color = ColorTransform::Unwrap(info[0].ToObject())->get_parent();
+
+        uint16_t index;
+        bool succes = parent->getColorTransformIndex(color, index);
+
+        if (succes) {
+            return ToJSValue(info, index);
+        } else {
+            return info.Env().Undefined();
+        }
+    }
 
     /*
     ! Matrcies
