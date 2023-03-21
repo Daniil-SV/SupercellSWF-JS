@@ -1,7 +1,6 @@
 prebuilds
 .vscode
 .cache
-sandbox
 
 // Build files
 // CXX
@@ -14,4 +13,3 @@ node_modules
 
 // Packed files
 *.tgz
-/sandbox/sand.js
