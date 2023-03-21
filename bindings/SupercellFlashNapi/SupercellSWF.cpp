@@ -121,16 +121,68 @@ namespace scNapi
 
     Napi::Value SupercellSWF::load(const Napi::CallbackInfo& info)
     {
-        parent->load(ToNativeValue<std::string>(info[0]));
+        Napi::Env env = info.Env();
+        Napi::Value unk = env.Undefined();
+        try
+        {
+            std::string path = Utils::getPath(info.Env(), info[0], true);
+            if (path.size() == 0)
+            {
+                return unk;
+            }
+            parent->load(path);
+        }
+        catch (const std::exception& e)
+        {
+            Napi::Error::New(info.Env(), e.what()).ThrowAsJavaScriptException();
+            return unk;
+        }
+
         return info.This();
     }
-    Napi::Value SupercellSWF::loadInternal(const Napi::CallbackInfo& info) {
-        parent->loadInternal(ToNativeValue<std::string>(info[0]), ToNativeValue<bool>(info[1]));
+    Napi::Value SupercellSWF::loadInternal(const Napi::CallbackInfo& info)
+    {
+        Napi::Env env = info.Env();
+        Napi::Value unk = env.Undefined();
+        try
+        {
+            std::string path = Utils::getPath(info.Env(), info[0], true);
+            if (path.size() == 0)
+            {
+                return unk;
+            }
+            parent->loadInternal(path, ToNativeValue<bool>(info[1]));
+
+        }
+        catch (const std::exception& e)
+        {
+            Napi::Error::New(info.Env(), e.what()).ThrowAsJavaScriptException();
+            return unk;
+        }
+
         return info.This();
     }
 
-    Napi::Value SupercellSWF::save(const Napi::CallbackInfo& info) {
-        parent->save(ToNativeValue<std::string>(info[0]), (sc::CompressionSignature)ToNativeValue<uint8_t>(info[1]));
+    Napi::Value SupercellSWF::save(const Napi::CallbackInfo& info)
+    {
+        Napi::Env env = info.Env();
+        Napi::Value unk = env.Undefined();
+        try
+        {
+            std::string path = Utils::getPath(info.Env(), info[0], false);
+            if (path.size() == 0)
+            {
+                return unk;
+            }
+
+            parent->save(path, (sc::CompressionSignature)ToNativeValue<uint8_t>(info[1]));
+        }
+        catch (const std::exception& e)
+        {
+            Napi::Error::New(info.Env(), e.what()).ThrowAsJavaScriptException();
+            return unk;
+        }
+
         return info.This();
     }
 

@@ -2,10 +2,14 @@
 
 #include <napi.h>
 #include <SupercellCompression.h>
+#include <SupercellBytestream/error/FileExistException.h>
 #include "LinkedObject.h"
 #include "Vector.h"
 
 #include <iostream>
+#include <filesystem>
+
+namespace fs = std::filesystem;
 
 namespace scNapi
 {
@@ -13,12 +17,12 @@ namespace scNapi
     {
         static void throwException(Napi::Env env, const std::string message)
         {
-            Napi::TypeError::New(env, message.c_str()).ThrowAsJavaScriptException();
+            Napi::Error::New(env, message).ThrowAsJavaScriptException();
         }
 
         template <class T>
         static void initializeClass(LinkedObject<T>* context, const Napi::CallbackInfo& info)
-        {   
+        {
             Napi::Env env = info.Env();
             if (info[0].IsObject())
             {
@@ -46,7 +50,8 @@ namespace scNapi
             while (true)
             {
                 Napi::Object nextResult = next.Call(iterator, {}).As<Napi::Object>();
-                if(ToNativeValue<bool>(nextResult.Get("done"))){
+                if (ToNativeValue<bool>(nextResult.Get("done")))
+                {
                     break;
                 }
                 ret.push_back(
@@ -55,6 +60,27 @@ namespace scNapi
             }
 
             return ret;
+        }
+
+        static std::string getPath(Napi::Env env, Napi::Value path, bool mustExist)
+        {
+            std::string filepath = ToNativeValue<std::string>(path);
+            fs::path absPath = fs::absolute(filepath);
+
+            if (mustExist)
+            {
+                if (fs::exists(absPath))
+                {
+                    return absPath.string();
+                }
+                else
+                {
+                    Utils::throwException(env, "File not exist: " + filepath);
+                    return "";
+                }
+            } else {
+                return absPath.string();
+            }
         }
     };
 }

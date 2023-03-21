@@ -148,6 +148,7 @@ namespace scNapi
                     InstanceAccessor("frameRate", &MovieClip::get_FrameRate, &MovieClip::set_FrameRate),
                     InstanceAccessor("scalingGrid", &MovieClip::get_ScalingGrid, &MovieClip::set_ScalingGrid),
                     InstanceAccessor("matrixBankIndex", &MovieClip::get_MatrixBankIndex, &MovieClip::set_MatrixBankIndex),
+                    InstanceAccessor("unknownFlag", &MovieClip::get_UnknownFlag, &MovieClip::set_UnknownFlag),
 
                     InstanceMethod("__get_element__", &MovieClip::get_element),
                     InstanceMethod("__insert_element__", &MovieClip::insert_element),
@@ -274,6 +275,18 @@ namespace scNapi
     Napi::Value MovieClip::get_MatrixBankIndex(const Napi::CallbackInfo& info)
     {
         return ToJSValue(info, parent->matrixBankIndex());
+    }
+
+    /*
+    & MatrixBankIndex
+    */
+    void MovieClip::set_UnknownFlag(const Napi::CallbackInfo& info, const Napi::Value& value)
+    {
+        parent->unknownFlag(ToNativeValue<uint8_t>(value));
+    }
+    Napi::Value MovieClip::get_UnknownFlag(const Napi::CallbackInfo& info)
+    {
+        return ToJSValue(info, parent->unknownFlag());
     }
 
     /*

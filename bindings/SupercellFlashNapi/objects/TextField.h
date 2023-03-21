@@ -101,6 +101,10 @@ namespace scNapi
             if (object.Has("unknownShort")){
                 parent->unknownShort(ToNativeValue<uint16_t>(object.Get("unknownShort")));
             }
+
+            if (object.Has("unknownShort2")){
+                parent->unknownShort2(ToNativeValue<uint16_t>(object.Get("unknownShort2")));
+            }
         }
 
     private:
@@ -243,5 +247,12 @@ namespace scNapi
 
         void set_UnknownShort(const Napi::CallbackInfo& info, const Napi::Value& value);
         Napi::Value get_UnknownShort(const Napi::CallbackInfo& info);
+
+        /* 
+        & unknownShort2
+         */
+
+        void set_UnknownShort2(const Napi::CallbackInfo& info, const Napi::Value& value);
+        Napi::Value get_UnknownShort2(const Napi::CallbackInfo& info);
     };
 }

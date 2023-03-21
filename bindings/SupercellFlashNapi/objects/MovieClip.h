@@ -178,6 +178,10 @@ namespace scNapi
                     );
                 }
             }
+
+            if (object.Has("unknownFlag")) {
+                parent->unknownFlag(ToNativeValue<bool>(object.Get("unknownFlag")));
+            }
         }
 
     private:
@@ -208,6 +212,12 @@ namespace scNapi
         */
         void set_MatrixBankIndex(const Napi::CallbackInfo& info, const Napi::Value& value);
         Napi::Value get_MatrixBankIndex(const Napi::CallbackInfo& info);
+
+        /*
+        & unknownFlag
+        */
+        void set_UnknownFlag(const Napi::CallbackInfo& info, const Napi::Value& value);
+        Napi::Value get_UnknownFlag(const Napi::CallbackInfo& info);
 
         /*
         ! frameElements Array

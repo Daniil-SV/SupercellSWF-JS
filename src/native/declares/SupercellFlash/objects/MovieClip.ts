@@ -49,6 +49,7 @@ export declare class MovieClip extends DisplayObject {
     instances?: Indexable<DisplayObjectInstance>;
     frames?: Indexable<MovieClipFrame>;
     frameElements?: Indexable<MovieClipFrameElement>;
+    unknownFlag?: boolean;
   });
 
   frameRate: number;
@@ -56,6 +57,8 @@ export declare class MovieClip extends DisplayObject {
   scalingGrid: ScalingGrid;
 
   matrixBankIndex: number;
+
+  unknownFlag: boolean;
 
   protected __get_instance__: VectorItemGetter;
   protected __insert_instance__: VectorItemSetter<DisplayObjectInstance>;

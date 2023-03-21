@@ -28,7 +28,12 @@ namespace scNapi
 
                     InstanceAccessor("outlineColor", &TextField::get_OutlineColor, &TextField::set_OutlineColor),
                     InstanceAccessor("useDeviceFont", &TextField::get_UseDeviceFont, &TextField::set_UseDeviceFont),
-                    InstanceAccessor("autoAdjustFontSize", &TextField::get_AutoAdjustFontSize, &TextField::set_AutoAdjustFontSize)
+                    InstanceAccessor("autoAdjustFontSize", &TextField::get_AutoAdjustFontSize, &TextField::set_AutoAdjustFontSize),
+
+                    InstanceAccessor("unknownFlag", &TextField::get_UnknownFlag, &TextField::set_UnknownFlag),
+                    InstanceAccessor("unknownShort", &TextField::get_UnknownShort, &TextField::set_UnknownShort),
+                    InstanceAccessor("unknownShort2", &TextField::get_UnknownShort2, &TextField::set_UnknownShort2)
+
                 });
 
         constructor = Napi::Persistent(func);
@@ -264,6 +269,17 @@ namespace scNapi
     }
     Napi::Value TextField::get_UnknownShort(const Napi::CallbackInfo& info) {
         return ToJSValue(info, parent->unknownShort());
+    }
+
+    /*
+    & unknownShort2
+     */
+
+    void TextField::set_UnknownShort2(const Napi::CallbackInfo& info, const Napi::Value& value) {
+        parent->unknownShort2(ToNativeValue<uint16_t>(value));
+    }
+    Napi::Value TextField::get_UnknownShort2(const Napi::CallbackInfo& info) {
+        return ToJSValue(info, parent->unknownShort2());
     }
 
 }

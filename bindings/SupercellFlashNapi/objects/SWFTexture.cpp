@@ -133,7 +133,7 @@ namespace scNapi
 
     void SWFTexture::set_Linear(const Napi::CallbackInfo& info, const Napi::Value& value)
     {
-        ToNativeValue<bool>(info[0]);
+        parent->linear(ToNativeValue<bool>(info[0]));
     }
     Napi::Value SWFTexture::get_Linear(const Napi::CallbackInfo& info)
     {

@@ -21,6 +21,7 @@ export declare class TextField extends DisplayObject {
     autoAdjustFontBounds?: boolean;
     unknownFlag?: boolean;
     unknownShort?: number;
+    unknownShort2?: number;
   });
 
   text: string;
@@ -52,4 +53,5 @@ export declare class TextField extends DisplayObject {
   autoAdjustFontSize: boolean;
   unknownFlag: boolean;
   unknownShort: number;
+  unknownShort2: number;
 }
