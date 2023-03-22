@@ -3,6 +3,7 @@
 #include <string>
 #include <napi.h>
 #include <iostream>
+#include <SupercellCompression.h>
 #include "Utils/Utils.h"
 
 namespace scNapi

@@ -1,8 +1,6 @@
 #pragma once
 
 #include <napi.h>
-#include <SupercellCompression.h>
-#include <SupercellBytestream/error/FileExistException.h>
 #include "LinkedObject.h"
 #include "Vector.h"
 
