@@ -23,11 +23,9 @@ namespace scNapi
                 Napi::Object matrixVector = object.Get("matrices").ToObject();
                 for (Napi::Value value : Utils::IteratorData(env, matrixVector))
                 {
-                    parent->matrices.push_back(*(
-                        scNapi::Matrix2x3::Unwrap(
-                            value.As<Napi::Object>()
-                        )->get_parent())
-                    );
+                    parent->matrices.push_back(scNapi::Matrix2x3::Unwrap(
+                        value.As<Napi::Object>()
+                    )->get_parent());
                 }
             }
 
@@ -36,11 +34,9 @@ namespace scNapi
                 Napi::Object colorVector = object.Get("colorTransforms").ToObject();
                 for (Napi::Value value : Utils::IteratorData(env, colorVector))
                 {
-                    parent->colorTransforms.push_back(*(
-                        scNapi::ColorTransform::Unwrap(
-                            value.As<Napi::Object>()
-                        )->get_parent())
-                    );
+                    parent->colorTransforms.push_back(scNapi::ColorTransform::Unwrap(
+                        value.As<Napi::Object>()
+                    )->get_parent());
                 }
             }
 

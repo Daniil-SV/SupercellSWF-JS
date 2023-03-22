@@ -118,10 +118,10 @@ export class MovieClip extends NATIVE_MOVIECLIP {
       instances += `${util.inspect(this.instances[i], false, depth - 1)} `;
     }
     if (instancesLength !== this.instances.length) {
-      instances += `and ${this.instances.length - length} items..`;
+      instances += `and ${this.instances.length - instancesLength} items..`;
     }
 
-    return `<${this[Symbol.toStringTag]()} instance: [ ${instances} ] >`;
+    return `<${this[Symbol.toStringTag]()} instances: [ ${instances} ] >`;
   }
 
   toJSON(): object {

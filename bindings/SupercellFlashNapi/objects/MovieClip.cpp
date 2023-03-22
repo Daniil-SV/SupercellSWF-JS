@@ -179,7 +179,7 @@ namespace scNapi
     MovieClip::MovieClip(const Napi::CallbackInfo& info)
         : Napi::ObjectWrap<MovieClip>(info)
     {
-        Utils::initializeClass(this, info);
+        Utils::initializeClass<sc::MovieClip>(this, info);
 
         frameElements = new Vector<sc::MovieClipFrameElement>(&parent->frameElements);
         instances = new Vector<sc::DisplayObjectInstance>(&parent->instances);

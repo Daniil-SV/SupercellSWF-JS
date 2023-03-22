@@ -6,8 +6,9 @@
 #include "Utils/Utils.h"
 #include "Utils/LinkedObject.h"
 
-namespace scNapi {
- class ShapeDrawBitmapCommandVertex: public Napi::ObjectWrap<ShapeDrawBitmapCommandVertex>, public LinkedObject<sc::ShapeDrawBitmapCommandVertex>
+namespace scNapi
+{
+    class ShapeDrawBitmapCommandVertex: public Napi::ObjectWrap<ShapeDrawBitmapCommandVertex>, public LinkedObject<sc::ShapeDrawBitmapCommandVertex>
     {
     public:
         static void Initialize(Napi::Env& env, Napi::Object& target); // Export initialize in Addon
@@ -72,11 +73,9 @@ namespace scNapi {
                 Napi::Object vertexVector = object.Get("vertices").ToObject();
                 for (Napi::Value value : Utils::IteratorData(env, vertexVector))
                 {
-                    parent->vertices.push_back(*(
-                        scNapi::ShapeDrawBitmapCommandVertex::Unwrap(
-                            value.As<Napi::Object>()
-                        )->get_parent())
-                    );
+                    parent->vertices.push_back(scNapi::ShapeDrawBitmapCommandVertex::Unwrap(
+                        value.As<Napi::Object>()
+                    )->get_parent());
                 }
             }
         }
@@ -84,7 +83,7 @@ namespace scNapi {
 
     private:
         Vector<sc::ShapeDrawBitmapCommandVertex>* vertices = nullptr;
-        
+
         /*
         & Texture index getter
         */

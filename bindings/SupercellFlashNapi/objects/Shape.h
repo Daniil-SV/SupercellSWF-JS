@@ -29,11 +29,9 @@ namespace scNapi
                 Napi::Object commandVector = object.Get("commands").ToObject();
                 for (Napi::Value value : Utils::IteratorData(env, commandVector))
                 {
-                    parent->commands.push_back(*(
-                        scNapi::ShapeDrawBitmapCommand::Unwrap(
-                            value.As<Napi::Object>()
-                        )->get_parent())
-                    );
+                    parent->commands.push_back(scNapi::ShapeDrawBitmapCommand::Unwrap(
+                        value.As<Napi::Object>()
+                    )->get_parent());
                 }
             }
         }

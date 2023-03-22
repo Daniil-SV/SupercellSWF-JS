@@ -10,11 +10,11 @@ namespace scNapi
 {
     template <class T>
     struct Vector {
-        Vector(std::vector<T>* data):
+        Vector(std::vector<T*>* data):
             data(data)
         {};
 
-        std::vector<T>* data;
+        std::vector<T*>* data;
 
         Napi::Value get_item(const Napi::CallbackInfo& info)
         {
@@ -23,7 +23,7 @@ namespace scNapi
             uint32_t index = ToNativeValue<uint32_t>(info[0]);
             try
             {   
-                return Napi::External<T>::New(env, &(data->at(index)));
+                return Napi::External<T>::New(env, data->at(index));
             }
             catch (const std::out_of_range&)
             {
@@ -38,7 +38,7 @@ namespace scNapi
                 data->insert(
                     data->begin() +
                     ToNativeValue<uint32_t>(info[1]),
-                    *item
+                    item
                 );
                 return ToJSValue(info, true);
             }

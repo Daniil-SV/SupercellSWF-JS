@@ -145,11 +145,9 @@ namespace scNapi
                 Napi::Object elementsVector = object.Get("frameElements").ToObject();
                 for (Napi::Value value : Utils::IteratorData(env, elementsVector))
                 {
-                    parent->frameElements.push_back(*(
-                        scNapi::MovieClipFrameElement::Unwrap(
-                            value.As<Napi::Object>()
-                        )->get_parent())
-                    );
+                    parent->frameElements.push_back(scNapi::MovieClipFrameElement::Unwrap(
+                        value.As<Napi::Object>()
+                    )->get_parent());
                 }
             }
 
@@ -158,11 +156,9 @@ namespace scNapi
                 Napi::Object instancesVector = object.Get("instances").ToObject();
                 for (Napi::Value value : Utils::IteratorData(env, instancesVector))
                 {
-                    parent->instances.push_back(*(
-                        scNapi::DisplayObjectInstance::Unwrap(
-                            value.As<Napi::Object>()
-                        )->get_parent())
-                    );
+                    parent->instances.push_back(scNapi::DisplayObjectInstance::Unwrap(
+                        value.As<Napi::Object>()
+                    )->get_parent());
                 }
             }
 
@@ -171,15 +167,14 @@ namespace scNapi
                 Napi::Object framesVector = object.Get("frames").ToObject();
                 for (Napi::Value value : Utils::IteratorData(env, framesVector))
                 {
-                    parent->frames.push_back(*(
-                        scNapi::MovieClipFrame::Unwrap(
-                            value.As<Napi::Object>()
-                        )->get_parent())
-                    );
+                    parent->frames.push_back(scNapi::MovieClipFrame::Unwrap(
+                        value.As<Napi::Object>()
+                    )->get_parent());
                 }
             }
 
-            if (object.Has("unknownFlag")) {
+            if (object.Has("unknownFlag"))
+            {
                 parent->unknownFlag(ToNativeValue<bool>(object.Get("unknownFlag")));
             }
         }

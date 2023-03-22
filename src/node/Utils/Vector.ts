@@ -33,31 +33,20 @@ export class Vector<Parent, T> implements Indexable<T> {
       if (typeof (target as any)[property] !== "undefined") {
         return value;
       } else {
-        /* const idx = Number(property);
-        target.update();
-
-        if (target.data.cached[idx] === undefined) {
-          const nativeItem = target.data.getItem.call(target.data.context, idx);
-          if (nativeItem === undefined) {
-            return undefined;
-          }
-          target.data.cached[idx] = new target.data.Initializer(nativeItem);
-        }
-
-        return target.data.cached[idx]; */
         return target.at(Number(property));
       }
     },
     set(target, property, value): boolean {
-      const index = Number(property);
-      if (Number.isNaN(index)) {
-        return false;
-      }
-
-      if (target.length > index) {
-        target.splice(Number(property), 1, value);
+      if (typeof (target as any)[property] !== "undefined") {
+        target[property as any] = value;
       } else {
-        return target.push(value) === 1;
+        const index = Number(value);
+
+        if (target.length > index) {
+          target.splice(Number(property), 1, value);
+        } else {
+          return target.push(value) === 1;
+        }
       }
 
       return true;
@@ -128,7 +117,6 @@ export class Vector<Parent, T> implements Indexable<T> {
    * Function to update cache array with objects. Don't use this if you don't know what you're doing.
    */
   update(): void {
-    // kagamine
     const len = this.data.getLength.call(this.data.context);
     if (len === this.data.cached.length) {
       return;
@@ -379,7 +367,9 @@ export class Vector<Parent, T> implements Indexable<T> {
       if (
         this.data.insertItem.call(
           this.data.context,
-          item,
+          item instanceof this.data.Initializer
+            ? item
+            : new this.data.Initializer(item),
           this.data.getLength.call(this.data.context)
         )
       ) {
@@ -462,6 +452,16 @@ export class Vector<Parent, T> implements Indexable<T> {
 
   values(): Iterable<Parent, T> {
     return new Iterable<Parent, T>(this);
+  }
+
+  indexOf(item: T): number {
+    for (let i = 0; this.length > i; i++) {
+      if (this.data.cached[i] === item) {
+        return i;
+      }
+    }
+
+    return -1;
   }
 
   get length(): number {

@@ -46,71 +46,64 @@ namespace scNapi
                 Napi::Object shapesVector = object.Get("shapes").ToObject();
                 for (Napi::Value value : Utils::IteratorData(env, shapesVector))
                 {
-                    parent->shapes.push_back(*(
-                        scNapi::Shape::Unwrap(
-                            value.As<Napi::Object>()
-                        )->get_parent())
-                    );
+                    parent->shapes.push_back(scNapi::Shape::Unwrap(
+                        value.As<Napi::Object>()
+                    )->get_parent());
                 }
             }
 
-            if (object.Has("exports")) {
+            if (object.Has("exports"))
+            {
                 Napi::Object exportVector = object.Get("exports").ToObject();
                 for (Napi::Value value : Utils::IteratorData(env, exportVector))
                 {
-                    parent->exports.push_back(*(
-                        scNapi::ExportName::Unwrap(
-                            value.As<Napi::Object>()
-                        )->get_parent())
-                    );
+                    parent->exports.push_back(scNapi::ExportName::Unwrap(
+                        value.As<Napi::Object>()
+                    )->get_parent());
                 }
             }
 
-            if (object.Has("textures")) {
+            if (object.Has("textures"))
+            {
                 Napi::Object textureVector = object.Get("textures").ToObject();
                 for (Napi::Value value : Utils::IteratorData(env, textureVector))
                 {
-                    parent->textures.push_back(*(
-                        scNapi::SWFTexture::Unwrap(
-                            value.As<Napi::Object>()
-                        )->get_parent())
-                    );
+                    parent->textures.push_back(scNapi::SWFTexture::Unwrap(
+                        value.As<Napi::Object>()
+                    )->get_parent());
                 }
             }
 
-            if (object.Has("textFields")) {
+            if (object.Has("textFields"))
+            {
                 Napi::Object textfieldVector = object.Get("textFields").ToObject();
                 for (Napi::Value value : Utils::IteratorData(env, textfieldVector))
                 {
-                    parent->textFields.push_back(*(
-                        scNapi::TextField::Unwrap(
-                            value.As<Napi::Object>()
-                        )->get_parent())
-                    );
+                    parent->textFields.push_back(scNapi::TextField::Unwrap(
+                        value.As<Napi::Object>()
+                    )->get_parent());
                 }
             }
 
-            if (object.Has("movieClipModifiers")) {
+            if (object.Has("movieClipModifiers"))
+            {
                 Napi::Object modifierVector = object.Get("movieClipModifiers").ToObject();
                 for (Napi::Value value : Utils::IteratorData(env, modifierVector))
                 {
-                    parent->movieClipModifiers.push_back(*(
-                        scNapi::MovieClipModifier::Unwrap(
-                            value.As<Napi::Object>()
-                        )->get_parent())
-                    );
+                    parent->movieClipModifiers.push_back(scNapi::MovieClipModifier::Unwrap(
+                        value.As<Napi::Object>()
+                    )->get_parent());
                 }
             }
 
-            if (object.Has("matrixBanks")) {
+            if (object.Has("matrixBanks"))
+            {
                 Napi::Object modifierVector = object.Get("matrixBanks").ToObject();
                 for (Napi::Value value : Utils::IteratorData(env, modifierVector))
                 {
-                    parent->matrixBanks.push_back(*(
-                        scNapi::MatrixBank::Unwrap(
-                            value.As<Napi::Object>()
-                        )->get_parent())
-                    );
+                    parent->matrixBanks.push_back(scNapi::MatrixBank::Unwrap(
+                        value.As<Napi::Object>()
+                    )->get_parent());
                 }
             }
         }
@@ -149,14 +142,14 @@ namespace scNapi
         /*
         ! Shapes
         */
-    
+
         Napi::Value get_shape(const Napi::CallbackInfo& info);
         Napi::Value insert_shape(const Napi::CallbackInfo& info);
         Napi::Value remove_shape(const Napi::CallbackInfo& info);
         Napi::Value get_shapes_length(const Napi::CallbackInfo& info);
         void set_shapes_length(const Napi::CallbackInfo& info);
 
-        /* 
+        /*
         ! Tetxures
          */
 
@@ -166,7 +159,7 @@ namespace scNapi
         Napi::Value get_texture_length(const Napi::CallbackInfo& info);
         void set_texture_length(const Napi::CallbackInfo& info);
 
-        /* 
+        /*
         ! TextFields
          */
 
@@ -176,7 +169,7 @@ namespace scNapi
         Napi::Value get_textfields_length(const Napi::CallbackInfo& info);
         void set_textfields_length(const Napi::CallbackInfo& info);
 
-        /* 
+        /*
         ! Modifiers
          */
 
@@ -186,7 +179,7 @@ namespace scNapi
         Napi::Value get_modifiers_length(const Napi::CallbackInfo& info);
         void set_modifiers_length(const Napi::CallbackInfo& info);
 
-        /* 
+        /*
         ! Banks
          */
 
@@ -196,7 +189,7 @@ namespace scNapi
         Napi::Value get_banks_length(const Napi::CallbackInfo& info);
         void set_banks_length(const Napi::CallbackInfo& info);
 
-        /* 
+        /*
         ! MovieClips
          */
 
@@ -205,7 +198,7 @@ namespace scNapi
         Napi::Value remove_movieclip(const Napi::CallbackInfo& info);
         Napi::Value get_movieclips_length(const Napi::CallbackInfo& info);
         void set_movieclips_length(const Napi::CallbackInfo& info);
-        
+
 
         /*
         & Class Getters
