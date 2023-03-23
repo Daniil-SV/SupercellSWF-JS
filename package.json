@@ -6,8 +6,8 @@
   "types": "./types/index.d.ts",
   "scripts": {
     "install": "node-gyp-build",
-    "prepublishOnly": "npm run test",
-    "prepack": "npm run build & npm test",
+    "prepublishOnly": "npm test",
+    "prepack": "npm test",
     "build": "npm rum build:native & npm run build:ts",
     "build:ts": "tsc",
     "build:native": "node-gyp build",
