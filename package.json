@@ -6,11 +6,12 @@
   "types": "./types/index.d.ts",
   "scripts": {
     "install": "node-gyp-build",
-    "prepack": "npm test & npm run build:ts",
+    "prepublishOnly": "npm run test",
+    "prepack": "npm run build & npm test",
+    "build": "npm rum build:native & npm run build:ts",
     "build:ts": "tsc",
     "build:native": "node-gyp build",
-    "build:native-debug": "node-gyp build --debug",
-    "prebuild": "prebuildify --napi",
+    "prebuild": "prebuildify --napi && node scripts/after_build.js",
     "test": "jest"
   },
   "devDependencies": {
@@ -40,7 +41,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/scwmake/supercell-swf-ts.git"
+    "url": "https://github.com/scwmake/SupercellSWF-JS.git"
   },
   "dependencies": {
     "node-gyp-build": "^4.5.0"

@@ -12,7 +12,7 @@ namespace scNapi
 
         if (!info[3].IsUndefined())
         {
-            Napi::Buffer<uint8_t> metadataNapi = info[0].As<Napi::Buffer<uint8_t>>();
+            Napi::Buffer<uint8_t> metadataNapi = info[3].As<Napi::Buffer<uint8_t>>();
             metadata = new std::vector<uint8_t>(metadataNapi.Length());
             memcpy(metadata->data(), metadataNapi.Data(), metadata->size());
         }
@@ -45,12 +45,16 @@ namespace scNapi
 
         if (!info[2].IsUndefined())
         {
-            Napi::Buffer<uint8_t> metadataNapi = info[1].As<Napi::Buffer<uint8_t>>();
+            Napi::Buffer<uint8_t> metadataNapi = info[2].As<Napi::Buffer<uint8_t>>();
             metadata = new std::vector<uint8_t>(metadataNapi.Length());
             memcpy(metadata->data(), metadataNapi.Data(), metadata->size());
         }
 
-        sc::Compressor::compress(inputStream, outputStream, (sc::CompressionSignature)info[1].ToNumber().Uint32Value(), metadata);
+        sc::Compressor::compress(
+            inputStream,
+            outputStream,
+            (sc::CompressionSignature)ToNativeValue<uint8_t>(info[1]),
+            metadata);
 
         /* Vector to buffer */
         Napi::Buffer<uint8_t> buffer = Napi::Buffer<uint8_t>::Copy(env, outputBuffer.data(), outputBuffer.size());

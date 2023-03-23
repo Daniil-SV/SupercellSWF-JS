@@ -45,7 +45,14 @@ declare interface NativeInterface {
   DisplayObjectInstance: typeof DisplayObjectInstance;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-export const native: NativeInterface = require("node-gyp-build")(
-  path.resolve(__dirname, "../../")
-);
+export let native: NativeInterface;
+
+try {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  native = require("node-gyp-build")(path.resolve(__dirname, "../../"));
+} catch (err) {
+  console.error(err);
+  throw new Error(
+    "Failed to load SupercellSWF native side. Most likely there is no binary prebuild for your platform. Try to make a build yourself. Details can be found at https://github.com/scwmake/SupercellSWF-JS"
+  );
+}

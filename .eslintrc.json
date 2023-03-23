@@ -21,7 +21,7 @@
     "parserOptions": {
         "project": [
             "./tsconfig.json",
-            "./tsconfig.tests.json"
+            "./tsconfig.additional.json"
         ],
         "ecmaVersion": "latest",
         "sourceType": "script"
