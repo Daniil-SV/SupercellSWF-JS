@@ -8,7 +8,8 @@ namespace scNapi
             DefineClass(env, "SWFTexture",
                 {
                     StaticMethod("processLinearData", &SWFTexture::processLinearData),
-
+                    InstanceMethod("pixelByteSize", &SWFTexture::pixelByteSize),
+    
                     InstanceAccessor("pixelFormat", &SWFTexture::get_PixelFormat, &SWFTexture::set_PixelFormat),
 
                     InstanceAccessor("magFilter", &SWFTexture::get_MagFilter, &SWFTexture::set_MagFilter),
@@ -150,7 +151,8 @@ namespace scNapi
         uint32_t destinationLength = (parent->width() * parent->height()) * parent->pixelByteSize();
         if (buffer.Length() != destinationLength)
         {
-            Napi::Error::New(info.Env(), "Texture buffer length different from target length").ThrowAsJavaScriptException();
+            Utils::throwException(info.Env(),
+            "Texture buffer length different from target length");
         }
 
         parent->data = std::vector<uint8_t>(buffer.Length());
@@ -160,5 +162,9 @@ namespace scNapi
     Napi::Value SWFTexture::get_Data(const Napi::CallbackInfo& info)
     {
         return Napi::Buffer<uint8_t>::Copy(info.Env(), parent->data.data(), parent->data.size());
+    }
+
+    Napi::Value SWFTexture::pixelByteSize(const Napi::CallbackInfo& info) {
+        return ToJSValue(info, parent->pixelByteSize());
     }
 }

@@ -96,15 +96,8 @@
                     'defines': ['SC_RELEASE']
                 }
             },
-            "conditions": [
-                [
-                    "OS==\"win\"",
-                    {
-                        "defines": [
-                            "SC_MULTITHEARD"
-                        ]
-                    }
-                ]
+            "defines": [
+                "SC_MULTITHEARD"
             ],
             'sources': [
                 "<!@(node -p \"require('fs').readdirSync('./deps/SC/SupercellCompression/src/caching').map(f=>'deps/SC/SupercellCompression/src/caching/'+f).filter(f=>f.endsWith('.cpp')).join(' ')\")",

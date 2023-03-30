@@ -60,6 +60,12 @@ namespace scNapi
         void set_length(const Napi::CallbackInfo& info)
         {
             data->resize(ToNativeValue<size_t>(info[0]));
+
+            for (size_t i = 0; data->size() > i; i++) {
+                if (data->at(i) == NULL) {
+                    data->at(i) = new T();
+                }
+            }
         }
     };
 }

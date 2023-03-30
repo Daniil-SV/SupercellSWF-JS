@@ -31,9 +31,10 @@ namespace scNapi
                     * Methods
                     */
                     InstanceMethod("load", &SupercellSWF::load),
-                    InstanceMethod("loadInternal", &SupercellSWF::loadInternal),
+                    InstanceMethod("loadTexture", &SupercellSWF::loadTexture),
 
                     InstanceMethod("save", &SupercellSWF::save),
+                    InstanceMethod("saveTexture", &SupercellSWF::saveTexture),
 
                     /*
                     ? Simple member accessors
@@ -140,7 +141,7 @@ namespace scNapi
 
         return info.This();
     }
-    Napi::Value SupercellSWF::loadInternal(const Napi::CallbackInfo& info)
+    Napi::Value SupercellSWF::loadTexture(const Napi::CallbackInfo& info)
     {
         Napi::Env env = info.Env();
         Napi::Value unk = env.Undefined();
@@ -151,7 +152,19 @@ namespace scNapi
             {
                 return unk;
             }
-            parent->loadInternal(path, ToNativeValue<bool>(info[1]));
+
+            uint8_t textureCount = 255;
+            parent->textures = std::vector<sc::SWFTexture*>(textureCount);
+
+            parent->loadInternal(path, true);
+
+            for (uint8_t i = 0; textureCount > i; i++) {
+                if (parent->textures[i] == NULL) {
+                    parent->textures.erase(parent->textures.begin() + i);
+                    textureCount--;
+                    i--;
+                }
+            }
 
         }
         catch (const std::exception& e)
@@ -167,21 +180,33 @@ namespace scNapi
     {
         Napi::Env env = info.Env();
         Napi::Value unk = env.Undefined();
-        try
-        {
-            std::string path = Utils::getPath(info.Env(), info[0], false);
-            if (path.size() == 0)
-            {
-                return unk;
-            }
 
-            parent->save(path, (sc::CompressionSignature)ToNativeValue<uint8_t>(info[1]));
-        }
-        catch (const std::exception& e)
+        std::string path = Utils::getPath(info.Env(), info[0], false);
+        if (path.size() == 0)
         {
-            Napi::Error::New(info.Env(), e.what()).ThrowAsJavaScriptException();
             return unk;
         }
+
+        parent->save(path, (sc::CompressionSignature)ToNativeValue<uint8_t>(info[1]));
+
+        return info.This();
+    }
+
+    Napi::Value SupercellSWF::saveTexture(const Napi::CallbackInfo& info) {
+         Napi::Env env = info.Env();
+        Napi::Value unk = env.Undefined();
+
+        std::string path = Utils::getPath(info.Env(), info[0], false);
+        if (path.size() == 0)
+        {
+            return unk;
+        }
+
+        parent->stream.clear();
+        for (sc::SWFTexture* texture : parent->textures) {
+            texture->save(parent, true, false);
+        }
+        parent->stream.save(ToNativeValue<std::string>(info[0]), (sc::CompressionSignature)ToNativeValue<uint8_t>(info[1]));
 
         return info.This();
     }

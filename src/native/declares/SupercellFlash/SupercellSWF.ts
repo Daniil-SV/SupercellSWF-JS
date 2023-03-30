@@ -39,13 +39,6 @@ export declare class SupercellSWF {
    * @returns Current SupercellSWF instance
    */
   load(filepath: string): this;
-  /**
-   * Loads content of .sc file, without texture data.
-   *
-   * @param filepath Path to .sc file
-   * @returns Current SupercellSWF instance
-   */
-  loadAsset(filepath: string): this;
 
   /**
    * Loads texture data from _tex.sc file.
@@ -65,27 +58,13 @@ export declare class SupercellSWF {
   save(filepath: string, signature: CompressionSignature): this;
 
   /**
-   * Saves all data to .sc file without texture
-   *
-   * @param filepath Path to .sc file
-   * @param signature Compression method
-   * @returns Current SupercellSWF instance
-   */
-  saveAsset(filepath: string, signature: CompressionSignature): this;
-
-  /**
    * Saves texture data to _tex.sc
    *
    * @param filepath Path to .sc file
-   * @param isLowres If enabled, writes texture in lower resolution
    * @param signature Compression method
    * @returns Current SupercellSWF instance
    */
-  saveTexture(
-    filepath: string,
-    isLowres: boolean,
-    signature: CompressionSignature
-  ): this;
+  saveTexture(filepath: string, signature: CompressionSignature): this;
 
   /**
    * When enabled, uses second file for textures, otherwise writes everything to one file.

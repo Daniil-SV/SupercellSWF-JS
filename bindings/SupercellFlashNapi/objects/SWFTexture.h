@@ -103,5 +103,7 @@ namespace scNapi {
         void set_Data(const Napi::CallbackInfo& info, const Napi::Value& value);
         Napi::Value get_Data(const Napi::CallbackInfo& info);
         
+
+        Napi::Value pixelByteSize(const Napi::CallbackInfo& info);
     };
 }

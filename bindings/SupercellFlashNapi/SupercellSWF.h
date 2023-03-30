@@ -122,9 +122,10 @@ namespace scNapi
         */
     private:
         Napi::Value load(const Napi::CallbackInfo& info);
-        Napi::Value loadInternal(const Napi::CallbackInfo& info);
+        Napi::Value loadTexture(const Napi::CallbackInfo& info);
 
         Napi::Value save(const Napi::CallbackInfo& info);
+        Napi::Value saveTexture(const Napi::CallbackInfo& info);
 
         /*
         ! Arrays

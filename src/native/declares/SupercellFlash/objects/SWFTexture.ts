@@ -44,6 +44,5 @@ export declare class SWFTexture {
 
   data: Buffer;
 
-  pixelIndex(): number;
   pixelByteSize(): number;
 }

@@ -127,6 +127,7 @@ export class MovieClip extends NATIVE_MOVIECLIP {
   toJSON(): object {
     return {
       frameRate: this.frameRate,
+      unknownFlag: this.unknownFlag,
       scalingGrid: this.scalingGrid,
       matrixBankIndex: this.matrixBankIndex,
       instances: this.instances,
