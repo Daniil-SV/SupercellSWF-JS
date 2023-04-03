@@ -11,6 +11,7 @@ export {
   ShapeDrawBitmapCommand,
   ShapeDrawCommandVertex,
   TextField,
+  TextFieldAlign,
   MatrixBank,
   Matrix2x3,
   ColorTransform,

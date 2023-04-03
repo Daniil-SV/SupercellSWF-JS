@@ -1,5 +1,12 @@
 import { DisplayObject } from "./DisplayObject";
 
+export enum TextFieldAlign {
+  Left,
+  Center,
+  Right,
+  Justify,
+}
+
 export declare class TextField extends DisplayObject {
   constructor(obj?: {
     id?: number;
@@ -7,7 +14,7 @@ export declare class TextField extends DisplayObject {
     fontName?: string;
     fontColor?: number;
     fontSize?: number;
-    fontAlign?: number;
+    fontAlign?: TextFieldAlign;
     left?: number;
     top?: number;
     right?: number;
@@ -32,7 +39,7 @@ export declare class TextField extends DisplayObject {
 
   fontSize: number;
 
-  fontAlign: number;
+  fontAlign: TextFieldAlign;
 
   left: number;
 

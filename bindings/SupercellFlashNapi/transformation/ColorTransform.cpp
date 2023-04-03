@@ -34,18 +34,8 @@ namespace scNapi
     Napi::Value ColorTransform::equal(const Napi::CallbackInfo& info)
     {
         sc::ColorTransform* color = ColorTransform::Unwrap(info[0].ToObject())->get_parent();
-
-        if (floatEqual(color->alpha, parent->alpha) && 
-            floatEqual(color->blueAdd, parent->blueAdd) &&
-            floatEqual(color->blueMul, parent->blueMul) &&
-            floatEqual(color->greenAdd, parent->greenAdd) &&
-            floatEqual(color->greenMul, parent->greenMul) &&
-            floatEqual(color->redAdd, parent->redAdd) &&
-            floatEqual(color->redMul, parent->redMul)) {
-                return ToJSValue(info, true);
-            }
-
-        return ToJSValue(info, false);
+        bool res = parent->equal(*color);
+        return ToJSValue(info, res);
     }
 
     /* Red add */

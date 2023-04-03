@@ -43,7 +43,7 @@ namespace scNapi
             }
 
             if (object.Has("fontAlign")){
-                parent->fontAlign(ToNativeValue<uint8_t>(object.Get("fontAlign")));
+                parent->fontAlign((sc::TextField::Align)ToNativeValue<uint8_t>(object.Get("fontAlign")));
             }
 
             if (object.Has("left")){

@@ -17,5 +17,6 @@ export * from "./transformation/ColorTransform";
 
 export * from "./objects/MovieClip";
 
+export { TextFieldAlign } from "../../native/declares";
 export { ModifierType, Filters, PixelFormat } from "../../native/declares";
 export type { ScalingGrid } from "../../native/declares";
