@@ -2,6 +2,10 @@
 
 #include <SupercellBytestream.h>
 
+#include "Utils/node_binding/stl.h"
+
+using namespace node_binding;
+
 namespace scNapi
 {
     Napi::Value SupercellCompression::compressFile(const Napi::CallbackInfo& info)
@@ -31,10 +35,9 @@ namespace scNapi
         Napi::Env env = info.Env();
 
         /* Node.js Buffer to C++ Vector */
-        Napi::Buffer<uint8_t> inputBuffer = info[0].As<Napi::Buffer<uint8_t>>();
-        std::vector<uint8_t> inputStreamBuffer(inputBuffer.Length());
-        memcpy(inputStreamBuffer.data(), inputBuffer.Data(), inputStreamBuffer.size());
-        sc::BufferStream inputStream(&inputStreamBuffer);
+        
+        std::vector<uint8_t> inputBuffer = TypeConvertor<std::vector<uint8_t>>::ToNativeValue(info[0]);
+        sc::BufferStream inputStream(&inputBuffer);
 
         /* Wrapping it to BufferStream */
         std::vector<uint8_t> outputBuffer;
@@ -56,13 +59,10 @@ namespace scNapi
             (sc::CompressionSignature)ToNativeValue<uint8_t>(info[1]),
             metadata);
 
-        /* Vector to buffer */
-        Napi::Buffer<uint8_t> buffer = Napi::Buffer<uint8_t>::Copy(env, outputBuffer.data(), outputBuffer.size());
-
         inputStream.close();
         outputStream.close();
 
-        return buffer;
+        return TypeConvertor<std::vector<uint8_t>>::ToJSBuffer(info, outputBuffer);
     }
 
     Napi::Value SupercellCompression::commonCompress(const Napi::CallbackInfo& info)
@@ -70,10 +70,8 @@ namespace scNapi
         Napi::Env env = info.Env();
 
         /* Node.js Buffer to C++ Vector */
-        Napi::Buffer<uint8_t> inputBuffer = info[0].As<Napi::Buffer<uint8_t>>();
-        std::vector<uint8_t> inputStreamBuffer(inputBuffer.Length());
-        memcpy(inputStreamBuffer.data(), inputBuffer.Data(), inputStreamBuffer.size());
-        sc::BufferStream inputStream(&inputStreamBuffer);
+        std::vector<uint8_t> inputBuffer = TypeConvertor<std::vector<uint8_t>>::ToNativeValue(info[0]);
+        sc::BufferStream inputStream(&inputBuffer);
 
         /* Wrapping it to BufferStream */
         std::vector<uint8_t> outputBuffer;
@@ -84,12 +82,9 @@ namespace scNapi
             outputStream,
             (sc::CompressionSignature)ToNativeValue<uint8_t>(info[1]));
 
-        /* Vector to buffer */
-        Napi::Buffer<uint8_t> buffer = Napi::Buffer<uint8_t>::Copy(env, outputBuffer.data(), outputBuffer.size());
-
         inputStream.close();
         outputStream.close();
 
-        return buffer;
+        return TypeConvertor<std::vector<uint8_t>>::ToJSBuffer(info, outputBuffer);;
     }
 }

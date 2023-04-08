@@ -7,13 +7,11 @@ namespace scNapi
         Napi::Function func =
             DefineClass(env, "SWFTexture",
                 {
-                    StaticMethod("processLinearData", &SWFTexture::processLinearData),
-                    InstanceMethod("pixelByteSize", &SWFTexture::pixelByteSize),
-    
-                    InstanceAccessor("pixelFormat", &SWFTexture::get_PixelFormat, &SWFTexture::set_PixelFormat),
+                    StaticMethod("getPixelFormatData", &SWFTexture::getPixelFormatData),
+                    StaticMethod("getLinearData", &SWFTexture::getLinearData),
 
-                    InstanceAccessor("magFilter", &SWFTexture::get_MagFilter, &SWFTexture::set_MagFilter),
-                    InstanceAccessor("minFilter", &SWFTexture::get_MinFilter, &SWFTexture::set_MinFilter),
+                    InstanceAccessor("pixelFormat", &SWFTexture::get_PixelFormat, &SWFTexture::set_PixelFormat),
+                    InstanceAccessor("textureFilter", &SWFTexture::get_TextureFilter, &SWFTexture::set_TextureFilter),
 
                     InstanceAccessor("width", &SWFTexture::get_Width, &SWFTexture::set_Width),
                     InstanceAccessor("height", &SWFTexture::get_Height, &SWFTexture::set_Height),
@@ -37,16 +35,43 @@ namespace scNapi
         Utils::initializeClass<sc::SWFTexture>(this, info);
     };
 
-    /* 
+    /*
     ~ Static
      */
-    Napi::Value SWFTexture::processLinearData(const Napi::CallbackInfo& info) {
+    Napi::Value SWFTexture::getLinearData(const Napi::CallbackInfo& info)
+    {
         SWFTexture* texture = SWFTexture::Unwrap(info[0].ToObject());
         bool toLinear = ToNativeValue<bool>(info[1]);
 
-        std::vector<uint8_t> buffer = sc::SWFTexture::processLinearData(*(texture->get_parent()), toLinear);
+        std::vector<uint8_t> buffer = sc::SWFTexture::getLinearData(*(texture->get_parent()), toLinear);
 
         return Napi::Buffer<uint8_t>::Copy(info.Env(), buffer.data(), buffer.size());
+    }
+
+    Napi::Value SWFTexture::getPixelFormatData(const Napi::CallbackInfo& info)
+    {
+        std::vector<uint8_t> buffer;
+        if (info[0].IsBuffer())
+        {
+            std::vector<uint8_t> imageData = TypeConvertor<std::vector<uint8_t>>::ToNativeValue(info[0]);
+            uint16_t width = ToNativeValue<uint16_t>(info[1]);
+            uint16_t heigt = ToNativeValue<uint16_t>(info[2]);
+            uint8_t srcType = ToNativeValue<uint8_t>(info[3]);
+            uint8_t dstType = ToNativeValue<uint8_t>(info[4]);
+
+            buffer = sc::SWFTexture::getPixelFormatData(imageData.data(), width, heigt, (sc::SWFTexture::PixelFormat)srcType, (sc::SWFTexture::PixelFormat)dstType);
+        }
+        else
+        {
+            sc::SWFTexture* texture = scNapi::SWFTexture::Unwrap(
+                info[0].As<Napi::Object>()
+            )->get_parent();
+            uint8_t dstType = ToNativeValue<uint8_t>(info[1]);
+            
+            buffer = sc::SWFTexture::getPixelFormatData(*texture, (sc::SWFTexture::PixelFormat)dstType);
+        }
+
+        return TypeConvertor<std::vector<uint8_t>>::ToJSBuffer(info, buffer);
     }
 
     /*
@@ -64,29 +89,16 @@ namespace scNapi
 
 
     /*
-    & MagFilter
+    & TextureFilter
      */
 
-    void SWFTexture::set_MagFilter(const Napi::CallbackInfo& info, const Napi::Value& value)
+    void SWFTexture::set_TextureFilter(const Napi::CallbackInfo& info, const Napi::Value& value)
     {
-        parent->magFilter((sc::SWFTexture::Filter)ToNativeValue<uint8_t>(info[0]));
+        parent->textureFilter((sc::SWFTexture::Filter)ToNativeValue<uint8_t>(info[0]));
     }
-    Napi::Value SWFTexture::get_MagFilter(const Napi::CallbackInfo& info)
+    Napi::Value SWFTexture::get_TextureFilter(const Napi::CallbackInfo& info)
     {
-        return ToJSValue(info, parent->magFilter());
-    }
-
-    /*
-    & MinFilter
-     */
-
-    void SWFTexture::set_MinFilter(const Napi::CallbackInfo& info, const Napi::Value& value)
-    {
-        parent->minFilter((sc::SWFTexture::Filter)ToNativeValue<uint8_t>(info[0]));
-    }
-    Napi::Value SWFTexture::get_MinFilter(const Napi::CallbackInfo& info)
-    {
-        return ToJSValue(info, parent->minFilter());
+        return ToJSValue(info, parent->textureFilter());
     }
 
     /*
@@ -147,24 +159,11 @@ namespace scNapi
 
     void SWFTexture::set_Data(const Napi::CallbackInfo& info, const Napi::Value& value)
     {
-        Napi::Buffer<uint8_t> buffer = info[0].As<Napi::Buffer<uint8_t>>();
-        uint32_t destinationLength = (parent->width() * parent->height()) * parent->pixelByteSize();
-        if (buffer.Length() != destinationLength)
-        {
-            Utils::throwException(info.Env(),
-            "Texture buffer length different from target length");
-        }
-
-        parent->data = std::vector<uint8_t>(buffer.Length());
-        memcpy(parent->data.data(), buffer.Data(), buffer.Length());
+        parent->data = TypeConvertor<std::vector<uint8_t>>::ToNativeValue(value);
 
     }
     Napi::Value SWFTexture::get_Data(const Napi::CallbackInfo& info)
     {
         return Napi::Buffer<uint8_t>::Copy(info.Env(), parent->data.data(), parent->data.size());
-    }
-
-    Napi::Value SWFTexture::pixelByteSize(const Napi::CallbackInfo& info) {
-        return ToJSValue(info, parent->pixelByteSize());
     }
 }

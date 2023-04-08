@@ -1,6 +1,6 @@
 import { type Vector } from "./Vector";
 
-export class Iterable<Parent, T> {
+export class Iterable<Parent, T> implements IterableIterator<T> {
   private _index = 0;
   private readonly _context: Vector<Parent, T>;
   constructor(cntx: Vector<Parent, T>) {
@@ -20,9 +20,15 @@ export class Iterable<Parent, T> {
       };
     }
   }
+
+  [Symbol.iterator](): IterableIterator<T> {
+    return this;
+  }
 }
 
-export class IterableEntries<Parent, T> implements Iterator<[number, T]> {
+export class IterableEntries<Parent, T>
+  implements IterableIterator<[number, T]>
+{
   private _index = 0;
   private readonly _context: Vector<Parent, T>;
   constructor(cntx: Vector<Parent, T>) {
@@ -42,9 +48,13 @@ export class IterableEntries<Parent, T> implements Iterator<[number, T]> {
       };
     }
   }
+
+  [Symbol.iterator](): IterableIterator<[number, T]> {
+    return this;
+  }
 }
 
-export class IterableRange<Parent, T> implements Iterator<number> {
+export class IterableRange<Parent, T> implements IterableIterator<number> {
   private _index = 0;
   private readonly _context: Vector<Parent, T>;
   constructor(cntx: Vector<Parent, T>) {
@@ -63,5 +73,9 @@ export class IterableRange<Parent, T> implements Iterator<number> {
         done: true,
       };
     }
+  }
+
+  [Symbol.iterator](): IterableIterator<number> {
+    return this;
   }
 }

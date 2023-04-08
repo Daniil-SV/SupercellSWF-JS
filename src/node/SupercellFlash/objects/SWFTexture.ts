@@ -8,6 +8,26 @@ export class SWFTexture extends NATIVE_SWFTEXTURE {
     return "SWFTexture";
   }
 
+  static Filters = Filters;
+  static PixelFormat = PixelFormat;
+
+  static pixelFormatTable = [
+    PixelFormat.RGBA8,
+    PixelFormat.RGBA8,
+    PixelFormat.RGBA4,
+    PixelFormat.RGB5_A1,
+    PixelFormat.RGB565,
+    PixelFormat.RGBA8,
+    PixelFormat.LUMINANCE8_ALPHA8,
+    PixelFormat.RGBA8,
+    PixelFormat.RGBA8,
+    PixelFormat.RGBA4,
+    PixelFormat.LUMINANCE8,
+  ];
+
+  static pixelByteSizeTable = [4, 4, 2, 2, 2, 4, 2, 4, 4, 2, 1];
+  static channelsCountTable = [4, 4, 4, 4, 3, 4, 2, 4, 4, 4, 1];
+
   [util.inspect.custom](depth: number): string {
     return `<${this[Symbol.toStringTag]()} width: ${this.width}, height: ${
       this.height

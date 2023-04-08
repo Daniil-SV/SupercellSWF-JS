@@ -37,8 +37,8 @@ export class MatrixBank extends NATIVE_MATRIX_BANK {
 
   [util.inspect.custom](): string {
     return `<${this[Symbol.toStringTag]()} matrices: [ ${
-      this.colorTransforms.length
-    } items ], colors: [ ${this.matrices.length} items ]>`;
+      this.matrices.length
+    } items ], colors: [ ${this.colorTransforms.length} items ]>`;
   }
 
   toJSON(): object {

@@ -30,11 +30,10 @@ namespace scNapi
     };
 
     Napi::Value Matrix2x3::equal(const Napi::CallbackInfo& info) {
+        
         sc::Matrix2x3* matrix = Matrix2x3::Unwrap(info[0].ToObject())->get_parent();
 
-        bool res = parent->equal(*matrix);
-
-        return ToJSValue(info, res);
+        return ToJSValue(info, *matrix == *parent);
     }
 
     /*

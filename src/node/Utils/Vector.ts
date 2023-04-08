@@ -109,7 +109,7 @@ export class Vector<Parent, T> implements Indexable<T> {
   }
 
   /* Iterator */
-  [Symbol.iterator](): Iterable<Parent, T> {
+  [Symbol.iterator](): IterableIterator<T> {
     return new Iterable<Parent, T>(this);
   }
 
@@ -176,7 +176,7 @@ export class Vector<Parent, T> implements Indexable<T> {
    * The entries() method returns a new Array Iterator object
    * that contains the key/value pairs for each index in the array.
    */
-  entries(): Iterator<[number, T]> {
+  entries(): IterableIterator<[number, T]> {
     return new IterableEntries(this);
   }
 
@@ -340,7 +340,7 @@ export class Vector<Parent, T> implements Indexable<T> {
   /*
    * The keys() method returns a new Array Iterator object that contains the keys for each index in the array.
    */
-  keys(): Iterator<number> {
+  keys(): IterableIterator<number> {
     return new IterableRange(this);
   }
 
@@ -450,12 +450,19 @@ export class Vector<Parent, T> implements Indexable<T> {
     return this.length;
   }
 
-  values(): Iterable<Parent, T> {
+  values(): IterableIterator<T> {
     return new Iterable<Parent, T>(this);
   }
 
   indexOf(item: T): number {
     for (let i = 0; this.length > i; i++) {
+      if (this.data.cached[i] === null) {
+        const nativeItem = this.data.getItem.call(this.data.context, i);
+        if (nativeItem !== undefined) {
+          this.data.cached[i] = new this.data.Initializer(nativeItem);
+        }
+      }
+
       if (this.data.cached[i] === item) {
         return i;
       }

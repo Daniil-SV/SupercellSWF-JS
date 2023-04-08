@@ -1,17 +1,17 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 export enum Filters {
-  LINEAR = 0,
-  NEAREST = 1,
+  LINEAR_NEAREST = 0,
+  NEAREST_NEAREST = 1,
   LINEAR_MIPMAP_NEAREST = 2,
 }
 
 export enum PixelFormat {
   RGBA8 = 0,
-  RGBA4 = 1,
-  RGB5_A1 = 2,
-  RGB565 = 3,
-  LUMINANCE8_ALPHA8 = 4,
-  LUMINANCE8 = 5,
+  RGBA4 = 2,
+  RGB5_A1 = 3,
+  RGB565 = 4,
+  LUMINANCE8_ALPHA8 = 6,
+  LUMINANCE8 = 10,
 }
 
 export declare class SWFTexture {
@@ -26,7 +26,16 @@ export declare class SWFTexture {
     data?: Buffer;
   });
 
-  static processLinearData(texture: SWFTexture): Buffer;
+  static getLinearData(texture: SWFTexture, toLinear: boolean): Buffer;
+
+  static getPixelFormatData(texture: SWFTexture, dstType: PixelFormat): Buffer;
+  static getPixelFormatData(
+    data: Buffer,
+    width: number,
+    height: number,
+    srcType: PixelFormat,
+    dstType: PixelFormat
+  ): Buffer;
 
   pixelFormat: PixelFormat;
 
@@ -43,6 +52,4 @@ export declare class SWFTexture {
   downscaling: boolean;
 
   data: Buffer;
-
-  pixelByteSize(): number;
 }

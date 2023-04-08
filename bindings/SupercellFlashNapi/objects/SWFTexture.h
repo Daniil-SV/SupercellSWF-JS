@@ -5,6 +5,8 @@
 
 #include "Utils/Utils.h"
 
+#include "Utils/node_binding/stl.h"
+
 namespace scNapi {
     class SWFTexture: public Napi::ObjectWrap<SWFTexture>, public LinkedObject<sc::SWFTexture>
     {
@@ -15,11 +17,8 @@ namespace scNapi {
 
         void fromObject(Napi::Env, Napi::Object object) override
         {
-            if (object.Has("magFilter")) {
-                parent->magFilter((sc::SWFTexture::Filter)ToNativeValue<uint8_t>(object.Get("magFilter")));
-            }
-            if (object.Has("minFilter")) {
-                parent->minFilter((sc::SWFTexture::Filter)ToNativeValue<uint8_t>(object.Get("minFilter")));
+            if (object.Has("textureFilter")) {
+                parent->textureFilter((sc::SWFTexture::Filter)ToNativeValue<uint8_t>(object.Get("textureFilter")));
             }
             if (object.Has("pixelFormat")) {
                 parent->pixelFormat((sc::SWFTexture::PixelFormat)ToNativeValue<uint8_t>(object.Get("pixelFormat")));
@@ -34,9 +33,7 @@ namespace scNapi {
                 parent->height(ToNativeValue<uint16_t>(object.Get("height")));
             }
             if (object.Has("data")) {
-                Napi::Buffer<uint8_t> buffer = object.Get("data").As<Napi::Buffer<uint8_t>>();
-                parent->data = std::vector<uint8_t>(buffer.Length());
-                memcpy(parent->data.data(), buffer.Data(), buffer.Length());
+                parent->data = TypeConvertor<std::vector<uint8_t>>::ToNativeValue(object.Get("data"));
             }
         }
 
@@ -44,7 +41,8 @@ namespace scNapi {
         /* 
         ~ Static methods
          */
-        static Napi::Value processLinearData(const Napi::CallbackInfo& info);
+        static Napi::Value getLinearData(const Napi::CallbackInfo& info);
+        static Napi::Value getPixelFormatData(const Napi::CallbackInfo& info);
 
         /* 
         & Pixel format
@@ -55,18 +53,12 @@ namespace scNapi {
 
 
         /* 
-        & MagFilter
+        & TextureFilter
          */
 
-        void set_MagFilter(const Napi::CallbackInfo& info, const Napi::Value& value);
-        Napi::Value get_MagFilter(const Napi::CallbackInfo& info);
+        void set_TextureFilter(const Napi::CallbackInfo& info, const Napi::Value& value);
+        Napi::Value get_TextureFilter(const Napi::CallbackInfo& info);
 
-        /* 
-        & MinFilter
-         */
-
-        void set_MinFilter(const Napi::CallbackInfo& info, const Napi::Value& value);
-        Napi::Value get_MinFilter(const Napi::CallbackInfo& info);
 
         /* 
         & Width
@@ -102,8 +94,5 @@ namespace scNapi {
 
         void set_Data(const Napi::CallbackInfo& info, const Napi::Value& value);
         Napi::Value get_Data(const Napi::CallbackInfo& info);
-        
-
-        Napi::Value pixelByteSize(const Napi::CallbackInfo& info);
     };
 }
