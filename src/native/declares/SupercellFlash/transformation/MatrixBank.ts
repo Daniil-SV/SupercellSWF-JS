@@ -1,4 +1,5 @@
 import {
+  type Indexable,
   type VectorGetLength,
   type VectorItemGetter,
   type VectorItemRemove,
@@ -11,22 +12,22 @@ import { type Matrix2x3 } from "./Matrix2x3";
 
 export declare class MatrixBank {
   constructor(obj?: {
-    matrices?: Matrix2x3[];
-    colorTransforms?: ColorTransform[];
+    matrices?: Indexable<Matrix2x3>;
+    colorTransforms?: Indexable<ColorTransform>;
   });
 
   getMatrixIndex: (matrix: Matrix2x3) => number | undefined;
   getColorTransformIndex: (color: ColorTransform) => number | undefined;
 
-  protected __get_matrix__: VectorItemGetter;
-  protected __insert_matrix__: VectorItemSetter<Matrix2x3>;
-  protected __remove_matrix__: VectorItemRemove;
-  protected __get_matrices_length__: VectorGetLength;
-  protected __set_matrices_length__: VectorSetLength;
+  protected __get_matrices__: VectorItemGetter;
+  protected __insert_matrices__: VectorItemSetter<Matrix2x3>;
+  protected __remove_matrices__: VectorItemRemove;
+  protected __get_length_matrices__: VectorGetLength;
+  protected __set_length_matrices__: VectorSetLength;
 
-  protected __get_color__: VectorItemGetter;
-  protected __insert_color__: VectorItemSetter<ColorTransform>;
-  protected __remove_color__: VectorItemRemove;
-  protected __get_colors_length__: VectorGetLength;
-  protected __set_colors_length__: VectorSetLength;
+  protected __get_colorTransforms__: VectorItemGetter;
+  protected __insert_colorTransforms__: VectorItemSetter<ColorTransform>;
+  protected __remove_colorTransforms__: VectorItemRemove;
+  protected __get_length_colorTransforms__: VectorGetLength;
+  protected __set_length_colorTransforms__: VectorSetLength;
 }

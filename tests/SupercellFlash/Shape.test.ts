@@ -8,8 +8,8 @@ import { checkValues, setValues } from "../Utils";
 const vertexPropertyObject = {
   x: 10,
   y: 5,
-  u: 15,
-  v: 20,
+  u: 0.5,
+  v: 0.75,
 };
 
 function createVertexInstance(

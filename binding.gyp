@@ -13,9 +13,6 @@
             },
             'sources': [
                 'bindings/binding.cpp',
-                'bindings/SupercellFlashNapi/SupercellSWF.cpp',
-                "<!@(node -p \"require('fs').readdirSync('./bindings/SupercellFlashNapi/objects').map(f=>'bindings/SupercellFlashNapi/objects/'+f).filter(f=>f.endsWith('.cpp')).join(' ')\")",
-                "<!@(node -p \"require('fs').readdirSync('./bindings/SupercellFlashNapi/transformation').map(f=>'bindings/SupercellFlashNapi/transformation/'+f).filter(f=>f.endsWith('.cpp')).join(' ')\")",
                 "<!@(node -p \"require('fs').readdirSync('./bindings/SupercellCompressionNapi/').map(f=>'bindings/SupercellCompressionNapi/'+f).filter(f=>f.endsWith('.cpp')).join(' ')\")",
             ],
             'include_dirs': [

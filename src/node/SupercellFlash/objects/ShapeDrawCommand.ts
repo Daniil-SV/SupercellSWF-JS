@@ -13,11 +13,11 @@ export class ShapeDrawBitmapCommand extends NATIVE_SHAPE_DRAW_COMMAND {
   >(
     {
       Initializer: ShapeDrawCommandVertex,
-      getItem: this.__get_vertex__,
-      insertItem: this.__insert_vertex__,
-      removeItem: this.__remove_vertex__,
-      getLength: this.__get_vertices_length__,
-      setLength: this.__set_vertices_length__,
+      getItem: this.__get_vertices__,
+      insertItem: this.__insert_vertices__,
+      removeItem: this.__remove_vertices__,
+      getLength: this.__get_length_vertices__,
+      setLength: this.__set_length_vertices__,
     },
     this
   );

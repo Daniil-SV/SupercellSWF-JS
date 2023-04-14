@@ -92,45 +92,45 @@ export declare class SupercellSWF {
    */
   lowResTextureSuffix: string;
 
-  protected __get_export_item__: VectorItemGetter;
-  protected __insert_export_item__: VectorItemSetter<ExportName>;
-  protected __remove_export_item__: VectorItemRemove;
-  protected __get_exports_length__: VectorGetLength;
-  protected __set_exports_length__: VectorSetLength;
+  protected __get_exports__: VectorItemGetter;
+  protected __insert_exports__: VectorItemSetter<ExportName>;
+  protected __remove_exports__: VectorItemRemove;
+  protected __get_length_exports__: VectorGetLength;
+  protected __set_length_exports__: VectorSetLength;
 
-  protected __get_shape__: VectorItemGetter;
-  protected __insert_shape__: VectorItemSetter<Shape>;
-  protected __remove_shape__: VectorItemRemove;
-  protected __get_shapes_length__: VectorGetLength;
-  protected __set_shapes_length__: VectorSetLength;
+  protected __get_shapes__: VectorItemGetter;
+  protected __insert_shapes__: VectorItemSetter<Shape>;
+  protected __remove_shapes__: VectorItemRemove;
+  protected __get_length_shapes__: VectorGetLength;
+  protected __set_length_shapes__: VectorSetLength;
 
-  protected __get_texture__: VectorItemGetter;
-  protected __insert_texture__: VectorItemSetter<SWFTexture>;
-  protected __remove_texture__: VectorItemRemove;
-  protected __get_texture_length__: VectorGetLength;
-  protected __set_texture_length__: VectorSetLength;
+  protected __get_textures__: VectorItemGetter;
+  protected __insert_textures__: VectorItemSetter<SWFTexture>;
+  protected __remove_textures__: VectorItemRemove;
+  protected __get_length_textures__: VectorGetLength;
+  protected __set_length_textures__: VectorSetLength;
 
-  protected __get_textfield__: VectorItemGetter;
-  protected __insert_textfield__: VectorItemSetter<TextField>;
-  protected __remove_textfield__: VectorItemRemove;
-  protected __get_textfields_length__: VectorGetLength;
-  protected __set_textfields_length__: VectorSetLength;
+  protected __get_textFields__: VectorItemGetter;
+  protected __insert_textFields__: VectorItemSetter<TextField>;
+  protected __remove_textFields__: VectorItemRemove;
+  protected __get_length_textFields__: VectorGetLength;
+  protected __set_length_textFields__: VectorSetLength;
 
-  protected __get_modifier__: VectorItemGetter;
-  protected __insert_modifier__: VectorItemSetter<MovieClipModifier>;
-  protected __remove_modifier__: VectorItemRemove;
-  protected __get_modifiers_length__: VectorGetLength;
-  protected __set_modifiers_length__: VectorSetLength;
+  protected __get_movieClipModifiers__: VectorItemGetter;
+  protected __insert_movieClipModifiers__: VectorItemSetter<MovieClipModifier>;
+  protected __remove_movieClipModifiers__: VectorItemRemove;
+  protected __get_length_movieClipModifiers__: VectorGetLength;
+  protected __set_length_movieClipModifiers__: VectorSetLength;
 
-  protected __get_bank__: VectorItemGetter;
-  protected __insert_bank__: VectorItemSetter<MatrixBank>;
-  protected __remove_bank__: VectorItemRemove;
-  protected __get_banks_length__: VectorGetLength;
-  protected __set_banks_length__: VectorSetLength;
+  protected __get_matrixBanks__: VectorItemGetter;
+  protected __insert_matrixBanks__: VectorItemSetter<MatrixBank>;
+  protected __remove_matrixBanks__: VectorItemRemove;
+  protected __get_length_matrixBanks__: VectorGetLength;
+  protected __set_length_matrixBanks__: VectorSetLength;
 
-  protected __get_movieclip__: VectorItemGetter;
-  protected __insert_movieclip__: VectorItemSetter<MovieClip>;
-  protected __remove_movieclip__: VectorItemRemove;
-  protected __get_movieclips_length__: VectorGetLength;
-  protected __set_movieclips_length__: VectorSetLength;
+  protected __get_movieClips__: VectorItemGetter;
+  protected __insert_movieClips__: VectorItemSetter<MovieClip>;
+  protected __remove_movieClips__: VectorItemRemove;
+  protected __get_length_movieClips__: VectorGetLength;
+  protected __set_length_movieClips__: VectorSetLength;
 }

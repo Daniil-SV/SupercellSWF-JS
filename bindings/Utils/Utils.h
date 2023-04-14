@@ -19,22 +19,11 @@ namespace scNapi
         }
 
         template <class T>
-        static void initializeClass(LinkedObject<T>* context, const Napi::CallbackInfo& info)
-        {
-            Napi::Env env = info.Env();
-            if (info[0].IsObject())
-            {
-                context->new_parent();
-                context->fromObject(env, info[0].ToObject());
-            }
-            else if (info[0].IsExternal())
-            {
-                context->set_parent(info[0].As<Napi::External<T>>().Data());
-            }
-            else
-            {
-                context->new_parent();
-            }
+        static T* deepCopy(T* data) {
+            auto dataSize = sizeof(*data);
+            void* copyData = malloc(dataSize);
+            memcpy(copyData, data, dataSize);
+            return static_cast<T*>(copyData);
         }
 
         static std::vector<Napi::Value> IteratorData(Napi::Env& env, Napi::Object& object)
@@ -76,7 +65,9 @@ namespace scNapi
                     Utils::throwException(env, "File not exist: " + filepath);
                     return "";
                 }
-            } else {
+            }
+            else
+            {
                 return absPath.string();
             }
         }

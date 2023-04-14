@@ -9,11 +9,11 @@ export class Shape extends NATIVE_SHAPE {
   readonly commands = new Vector<Shape, ShapeDrawBitmapCommand>(
     {
       Initializer: ShapeDrawBitmapCommand,
-      getItem: this.__get_command__,
-      insertItem: this.__insert_command__,
-      removeItem: this.__remove_command__,
-      getLength: this.__get_commands_length__,
-      setLength: this.__set_commands_length__,
+      getItem: this.__get_commands__,
+      insertItem: this.__insert_commands__,
+      removeItem: this.__remove_commands__,
+      getLength: this.__get_length_commands__,
+      setLength: this.__set_length_commands__,
     },
     this
   );

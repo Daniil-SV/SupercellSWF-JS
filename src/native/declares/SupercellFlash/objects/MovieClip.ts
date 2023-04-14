@@ -60,21 +60,21 @@ export declare class MovieClip extends DisplayObject {
 
   unknownFlag: boolean;
 
-  protected __get_instance__: VectorItemGetter;
-  protected __insert_instance__: VectorItemSetter<DisplayObjectInstance>;
-  protected __remove_instance__: VectorItemRemove;
-  protected __get_instances_length__: VectorGetLength;
-  protected __set_instances_length__: VectorSetLength;
+  protected __get_instances__: VectorItemGetter;
+  protected __insert_instances__: VectorItemSetter<DisplayObjectInstance>;
+  protected __remove_instances__: VectorItemRemove;
+  protected __get_length_instances__: VectorGetLength;
+  protected __set_length_instances__: VectorSetLength;
 
-  protected __get_frame__: VectorItemGetter;
-  protected __insert_frame__: VectorItemSetter<MovieClipFrame>;
-  protected __remove_frame__: VectorItemRemove;
-  protected __get_frames_length__: VectorGetLength;
-  protected __set_frames_length__: VectorSetLength;
+  protected __get_frames__: VectorItemGetter;
+  protected __insert_frames__: VectorItemSetter<MovieClipFrame>;
+  protected __remove_frames__: VectorItemRemove;
+  protected __get_length_frames__: VectorGetLength;
+  protected __set_length_frames__: VectorSetLength;
 
-  protected __get_element__: VectorItemGetter;
-  protected __insert_element__: VectorItemSetter<MovieClipFrameElement>;
-  protected __remove_element__: VectorItemRemove;
-  protected __get_elements_length__: VectorGetLength;
-  protected __set_elements_length__: VectorSetLength;
+  protected __get_frameElements__: VectorItemGetter;
+  protected __insert_frameElements__: VectorItemSetter<MovieClipFrameElement>;
+  protected __remove_frameElements__: VectorItemRemove;
+  protected __get_length_frameElements__: VectorGetLength;
+  protected __set_length_frameElements__: VectorSetLength;
 }

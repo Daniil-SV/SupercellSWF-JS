@@ -23,6 +23,7 @@ import {
   TextField,
 } from "../../";
 import { unitFilePath } from "../unitFiles";
+import { checkValues, setValues } from "../Utils";
 
 const propertyObject = {
   useExternalTexture: true,
@@ -50,9 +51,9 @@ const propertyObject = {
           textureIndex: 0,
           vertices: [
             new ShapeDrawCommandVertex({ x: 10, y: 10, u: 0, v: 0 }),
-            new ShapeDrawCommandVertex({ x: 10, y: -10, u: 0, v: 5 }),
-            new ShapeDrawCommandVertex({ x: -10, y: -10, u: 5, v: 5 }),
-            new ShapeDrawCommandVertex({ x: -10, y: 10, u: 5, v: 0 }),
+            new ShapeDrawCommandVertex({ x: 10, y: -10, u: 0, v: 0.5 }),
+            new ShapeDrawCommandVertex({ x: -10, y: -10, u: 0.5, v: 0.5 }),
+            new ShapeDrawCommandVertex({ x: -10, y: 10, u: 0.5, v: 0 }),
           ],
         }),
       ],
@@ -91,7 +92,7 @@ describe("SupercellSWF object tests", () => {
     expect(obj).toBeTruthy();
     expect(obj).toBeInstanceOf(SupercellSWF);
   });
-  /* test("it should create new SupercellSWF object with property object in costructor", () => {
+  test("it should create new SupercellSWF object with property object in costructor", () => {
     const obj = createInstance(true);
     checkValues(obj, propertyObject);
   });
@@ -99,7 +100,7 @@ describe("SupercellSWF object tests", () => {
     const obj = createInstance();
     setValues<SupercellSWF>(obj, propertyObject);
     checkValues(obj, propertyObject);
-  }); */
+  });
   test("it should return JSON object with SupercellSWF object values", () => {
     const obj = createInstance(true);
     const json = obj.toJSON();

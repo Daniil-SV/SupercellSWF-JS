@@ -28,19 +28,26 @@ interface SupercellCompressionCompressor {
    * Compress .sc file
    * @param filepath Filepath to decompressed .sc file
    * @param outFilepath Filepath to compressed .sc file
+   * @param metadata buffer with ScAtlasGenerator data
    */
   compressFile: (
     filepath: string,
     outFilepath: string,
-    signature: CompressionSignature
+    signature: CompressionSignature,
+    metadata?: Buffer
   ) => void;
 
   /**
    * Compress .sc file buffer
    * @param filebuffer .sc file compressed buffer
    * @param signature Compress method
+   * @param metadata buffer with ScAtlasGenerator data
    */
-  compress: (filebuffer: Buffer, signature: CompressionSignature) => Buffer;
+  compress: (
+    filebuffer: Buffer,
+    signature: CompressionSignature,
+    metadata?: Buffer
+  ) => Buffer;
 
   /**
    * Compress data buffer with specified signature

@@ -67,38 +67,52 @@ export function checkValues(obj: object, propertyObject: object): void {
       key as keyof typeof propertyObject
     ] as any;
 
-    if (typeof value === "number") {
-      // If number
-      expect(value).toBeCloseTo(secondValue);
-    } else if (Buffer.isBuffer(value)) {
-      // If  buffer
-      expect(value.toString("hex")).toBe(
-        (secondValue as Buffer).toString("hex")
-      );
-    } else if (
-      typeof value[Symbol.iterator] === "function" &&
-      typeof secondValue[Symbol.iterator] === "function" // If Arrays
-    ) {
-      const iter: Iterator<any> = value[Symbol.iterator]();
-      const secondIter = secondValue[Symbol.iterator]();
+    switch (typeof value) {
+      case "number":
+      case "bigint":
+        expect(value).toBeCloseTo(secondValue);
+        break;
+      case "object":
+        if (Buffer.isBuffer(value)) {
+          expect(value.toString("hex")).toBe(
+            (secondValue as Buffer).toString("hex")
+          );
+        } else if (
+          typeof value[Symbol.iterator] === "function" &&
+          typeof secondValue[Symbol.iterator] === "function" // If Arrays
+        ) {
+          const iter: Iterator<any> = value[Symbol.iterator]();
+          const secondIter = secondValue[Symbol.iterator]();
 
-      while (true) {
-        const iterValues = iter.next();
-        const secondIterValues = secondIter.next();
+          if (
+            value["length"] !== undefined &&
+            secondValue["length"] !== undefined
+          ) {
+            if (value["length"] !== secondValue["length"]) {
+              throw new Error(`${key} has different length`);
+            }
+          }
 
-        expect(iterValues.done).toBe(secondIterValues.done);
-        expect(JSON.stringify(iterValues.value)).toBe(
-          JSON.stringify(secondIterValues.value)
-        );
+          while (true) {
+            const iterValues = iter.next();
+            const secondIterValues = secondIter.next();
 
-        if (iterValues.done === false && secondIterValues.done === false) {
-          break;
+            expect(iterValues.done).toBe(secondIterValues.done);
+            expect(JSON.stringify(iterValues.value)).toBe(
+              JSON.stringify(secondIterValues.value)
+            );
+
+            if (iterValues.done === false && secondIterValues.done === false) {
+              break;
+            }
+          }
         }
-      }
-    } else if (typeof value === "object") {
-      expect(value).toEqual(secondValue);
-    } else {
-      expect(value).toBe(secondValue);
+
+        break;
+      case "string":
+      case "boolean":
+      default:
+        expect(value).toBe(secondValue);
     }
   }
 }

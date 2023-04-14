@@ -8,3 +8,4 @@ export * from "./objects/MovieClip";
 export * from "./transformation/Matrix2x3";
 export * from "./transformation/ColorTransform";
 export * from "./transformation/MatrixBank";
+export { type DisplayObject } from "./objects/DisplayObject";

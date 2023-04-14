@@ -2,18 +2,20 @@
 #include <napi.h>
 
 #include "SupercellCompressionNapi/SupercellCompression.h"
-#include "SupercellFlashNapi/SupercellSWF.h"
+#include "SupercellFlashNapi/SupercellSWF.hpp"
 
-#include "SupercellFlashNapi/objects/ExportName.h"
-#include "SupercellFlashNapi/objects/Shape.h"
-#include "SupercellFlashNapi/objects/SWFTexture.h"
-#include "SupercellFlashNapi/objects/TextField.h"
-#include "SupercellFlashNapi/objects/MovieClipModifier.h"
-#include "SupercellFlashNapi/objects/MovieClip.h"
-#include "SupercellFlashNapi/objects/MovieClipFrame.h"
-#include "SupercellFlashNapi/transformation/MatrixBank.h"
-#include "SupercellFlashNapi/transformation/Matrix2x3.h"
-#include "SupercellFlashNapi/transformation/ColorTransform.h"
+#include "SupercellFlashNapi/objects/ExportName.hpp"
+#include "SupercellFlashNapi/objects/Shape.hpp"
+#include "SupercellFlashNapi/objects/SWFTexture.hpp"
+#include "SupercellFlashNapi/objects/TextField.hpp"
+#include "SupercellFlashNapi/objects/MovieClipModifier.hpp"
+#include "SupercellFlashNapi/objects/MovieClip.hpp"
+#include "SupercellFlashNapi/objects/MovieClipFrame.hpp"
+#include "SupercellFlashNapi/objects/MovieClipFrameElement.hpp"
+#include "SupercellFlashNapi/objects/DisplayObjectInstance.hpp"
+#include "SupercellFlashNapi/transformation/MatrixBank.hpp"
+#include "SupercellFlashNapi/transformation/Matrix2x3.hpp"
+#include "SupercellFlashNapi/transformation/ColorTransform.hpp"
 
 /* Node.js initialize */
 Napi::Object Init(Napi::Env env, Napi::Object exports)

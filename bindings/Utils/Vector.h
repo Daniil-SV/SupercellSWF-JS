@@ -1,5 +1,6 @@
 #pragma once
 #include <napi.h>
+#include <functional>
 
 #include "node_binding/type_convertor.h"
 #include "LinkedObject.h"
@@ -8,13 +9,14 @@ using namespace node_binding;
 
 namespace scNapi
 {
-    template <class T>
+    template <class NativeType, class T>
     struct Vector {
-        Vector(std::vector<T*>* data):
-            data(data)
+        Vector(std::vector<NativeType*>* data, T* (*unwrapper)(Napi::Object)):
+            data(data), unwrap(unwrapper)
         {};
 
-        std::vector<T*>* data;
+        T* (*unwrap)(Napi::Object);
+        std::vector<NativeType*>* data;
 
         Napi::Value get_item(const Napi::CallbackInfo& info)
         {
@@ -22,8 +24,8 @@ namespace scNapi
 
             uint32_t index = ToNativeValue<uint32_t>(info[0]);
             try
-            {   
-                return Napi::External<T>::New(env, data->at(index));
+            {
+                return Napi::External<NativeType>::New(env, data->at(index));
             }
             catch (const std::out_of_range&)
             {
@@ -31,10 +33,11 @@ namespace scNapi
             }
         }
 
-        Napi::Value insert_item(const Napi::CallbackInfo& info, T* item)
+        Napi::Value insert_item(const Napi::CallbackInfo& info)
         {
-            if (item)
+            if (info[0].IsObject())
             {
+                T* item = unwrap(info[0].ToObject());
                 data->insert(
                     data->begin() +
                     ToNativeValue<uint32_t>(info[1]),
@@ -61,9 +64,11 @@ namespace scNapi
         {
             data->resize(ToNativeValue<size_t>(info[0]));
 
-            for (size_t i = 0; data->size() > i; i++) {
-                if (data->at(i) == NULL) {
-                    data->at(i) = new T();
+            for (size_t i = 0; data->size() > i; i++)
+            {
+                if (data->at(i) == NULL)
+                {
+                    data->at(i) = new NativeType();
                 }
             }
         }

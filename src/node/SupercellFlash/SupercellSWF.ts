@@ -15,11 +15,11 @@ export class SupercellSWF extends NATIVE_SUPERCELL_SWF {
   readonly exports = new Vector<SupercellSWF, ExportName>(
     {
       Initializer: ExportName,
-      getItem: this.__get_export_item__,
-      insertItem: this.__insert_export_item__,
-      removeItem: this.__remove_export_item__,
-      getLength: this.__get_exports_length__,
-      setLength: this.__set_exports_length__,
+      getItem: this.__get_exports__,
+      insertItem: this.__insert_exports__,
+      removeItem: this.__remove_exports__,
+      getLength: this.__get_length_exports__,
+      setLength: this.__set_length_exports__,
     },
     this
   );
@@ -27,11 +27,11 @@ export class SupercellSWF extends NATIVE_SUPERCELL_SWF {
   readonly shapes = new Vector<SupercellSWF, Shape>(
     {
       Initializer: Shape,
-      getItem: this.__get_shape__,
-      insertItem: this.__insert_shape__,
-      removeItem: this.__remove_shape__,
-      getLength: this.__get_shapes_length__,
-      setLength: this.__set_shapes_length__,
+      getItem: this.__get_shapes__,
+      insertItem: this.__insert_shapes__,
+      removeItem: this.__remove_shapes__,
+      getLength: this.__get_length_shapes__,
+      setLength: this.__set_length_shapes__,
     },
     this
   );
@@ -39,11 +39,11 @@ export class SupercellSWF extends NATIVE_SUPERCELL_SWF {
   readonly textures = new Vector<SupercellSWF, SWFTexture>(
     {
       Initializer: SWFTexture,
-      getItem: this.__get_texture__,
-      insertItem: this.__insert_texture__,
-      removeItem: this.__remove_texture__,
-      getLength: this.__get_texture_length__,
-      setLength: this.__set_texture_length__,
+      getItem: this.__get_textures__,
+      insertItem: this.__insert_textures__,
+      removeItem: this.__remove_textures__,
+      getLength: this.__get_length_textures__,
+      setLength: this.__set_length_textures__,
     },
     this
   );
@@ -51,11 +51,11 @@ export class SupercellSWF extends NATIVE_SUPERCELL_SWF {
   readonly textFields = new Vector<SupercellSWF, TextField>(
     {
       Initializer: TextField,
-      getItem: this.__get_textfield__,
-      insertItem: this.__insert_textfield__,
-      removeItem: this.__remove_textfield__,
-      getLength: this.__get_textfields_length__,
-      setLength: this.__set_textfields_length__,
+      getItem: this.__get_textFields__,
+      insertItem: this.__insert_textFields__,
+      removeItem: this.__remove_textFields__,
+      getLength: this.__get_length_textFields__,
+      setLength: this.__set_length_textFields__,
     },
     this
   );
@@ -63,11 +63,11 @@ export class SupercellSWF extends NATIVE_SUPERCELL_SWF {
   readonly movieClipModifiers = new Vector<SupercellSWF, MovieClipModifier>(
     {
       Initializer: MovieClipModifier,
-      getItem: this.__get_modifier__,
-      insertItem: this.__insert_modifier__,
-      removeItem: this.__remove_modifier__,
-      getLength: this.__get_modifiers_length__,
-      setLength: this.__set_modifiers_length__,
+      getItem: this.__get_movieClipModifiers__,
+      insertItem: this.__insert_movieClipModifiers__,
+      removeItem: this.__remove_movieClipModifiers__,
+      getLength: this.__get_length_movieClipModifiers__,
+      setLength: this.__set_length_movieClipModifiers__,
     },
     this
   );
@@ -75,11 +75,11 @@ export class SupercellSWF extends NATIVE_SUPERCELL_SWF {
   readonly matrixBanks = new Vector<SupercellSWF, MatrixBank>(
     {
       Initializer: MatrixBank,
-      getItem: this.__get_bank__,
-      insertItem: this.__insert_bank__,
-      removeItem: this.__remove_bank__,
-      getLength: this.__get_banks_length__,
-      setLength: this.__set_banks_length__,
+      getItem: this.__get_matrixBanks__,
+      insertItem: this.__insert_matrixBanks__,
+      removeItem: this.__remove_matrixBanks__,
+      getLength: this.__get_length_matrixBanks__,
+      setLength: this.__set_length_matrixBanks__,
     },
     this
   );
@@ -87,11 +87,11 @@ export class SupercellSWF extends NATIVE_SUPERCELL_SWF {
   readonly movieClips = new Vector<SupercellSWF, MovieClip>(
     {
       Initializer: MovieClip,
-      getItem: this.__get_movieclip__,
-      insertItem: this.__insert_movieclip__,
-      removeItem: this.__remove_bank__,
-      getLength: this.__get_movieclips_length__,
-      setLength: this.__set_movieclips_length__,
+      getItem: this.__get_movieClips__,
+      insertItem: this.__insert_movieClips__,
+      removeItem: this.__remove_movieClips__,
+      getLength: this.__get_length_movieClips__,
+      setLength: this.__set_length_movieClips__,
     },
     this
   );
@@ -108,7 +108,7 @@ export class SupercellSWF extends NATIVE_SUPERCELL_SWF {
     } items ] textFields; [ ${this.textFields.length} items ], modifiers: [${
       this.movieClipModifiers.length
     } items ], banks: [ ${this.matrixBanks.length} items ], movieClips: [ ${
-      this.textFields.length
+      this.movieClips.length
     } items ] >`;
   }
 

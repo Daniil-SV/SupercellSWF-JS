@@ -71,11 +71,11 @@ export class MovieClip extends NATIVE_MOVIECLIP {
   readonly instances = new Vector<MovieClip, DisplayObjectInstance>(
     {
       Initializer: DisplayObjectInstance,
-      getItem: this.__get_instance__,
-      insertItem: this.__insert_instance__,
-      removeItem: this.__remove_instance__,
-      getLength: this.__get_instances_length__,
-      setLength: this.__set_instances_length__,
+      getItem: this.__get_instances__,
+      insertItem: this.__insert_instances__,
+      removeItem: this.__remove_instances__,
+      getLength: this.__get_length_instances__,
+      setLength: this.__set_length_instances__,
     },
     this
   );
@@ -83,11 +83,11 @@ export class MovieClip extends NATIVE_MOVIECLIP {
   readonly frames = new Vector<MovieClip, MovieClipFrame>(
     {
       Initializer: MovieClipFrame,
-      getItem: this.__get_frame__,
-      insertItem: this.__insert_frame__,
-      removeItem: this.__remove_instance__,
-      getLength: this.__get_frames_length__,
-      setLength: this.__set_frames_length__,
+      getItem: this.__get_frames__,
+      insertItem: this.__insert_frames__,
+      removeItem: this.__remove_frames__,
+      getLength: this.__get_length_frames__,
+      setLength: this.__set_length_frames__,
     },
     this
   );
@@ -95,11 +95,11 @@ export class MovieClip extends NATIVE_MOVIECLIP {
   readonly frameElements = new Vector<MovieClip, MovieClipFrameElement>(
     {
       Initializer: MovieClipFrameElement,
-      getItem: this.__get_element__,
-      insertItem: this.__insert_element__,
-      removeItem: this.__remove_element__,
-      getLength: this.__get_elements_length__,
-      setLength: this.__set_elements_length__,
+      getItem: this.__get_frameElements__,
+      insertItem: this.__insert_frameElements__,
+      removeItem: this.__remove_frameElements__,
+      getLength: this.__get_length_frameElements__,
+      setLength: this.__set_length_frameElements__,
     },
     this
   );

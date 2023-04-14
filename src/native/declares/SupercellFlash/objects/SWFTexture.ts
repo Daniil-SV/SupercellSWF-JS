@@ -39,9 +39,7 @@ export declare class SWFTexture {
 
   pixelFormat: PixelFormat;
 
-  magFilter: Filters;
-
-  minFilter: Filters;
+  textureFilter: Filters;
 
   width: number;
 

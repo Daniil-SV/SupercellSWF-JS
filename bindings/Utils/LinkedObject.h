@@ -4,14 +4,14 @@
 namespace scNapi
 {
 
-    template <class T>
+    template <class NativeType>
     struct LinkedObject {
-        T* parent = nullptr; // Pointer to object that this class is attached to
+        NativeType* parent = nullptr; // Pointer to object that this class is attached to
 
-        T* get_parent() { return parent; };
-        void set_parent(T* item) { parent = item; };
-        void new_parent() { parent = new T(); };
-        virtual void fromObject(Napi::Env env, Napi::Object object) = 0;
+        NativeType* get_parent() { return parent; };
+        void set_parent(NativeType* item) { parent = item; };
+        void new_parent() { parent = new NativeType(); };
+        virtual void fromObject(const Napi::CallbackInfo& info, Napi::Object object) = 0;
     };
 
 }

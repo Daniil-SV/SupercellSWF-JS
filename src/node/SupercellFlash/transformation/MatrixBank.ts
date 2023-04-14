@@ -10,11 +10,11 @@ export class MatrixBank extends NATIVE_MATRIX_BANK {
   readonly matrices = new Vector<MatrixBank, Matrix2x3>(
     {
       Initializer: Matrix2x3,
-      getItem: this.__get_matrix__,
-      insertItem: this.__insert_matrix__,
-      removeItem: this.__remove_matrix__,
-      getLength: this.__get_matrices_length__,
-      setLength: this.__set_matrices_length__,
+      getItem: this.__get_matrices__,
+      insertItem: this.__insert_matrices__,
+      removeItem: this.__remove_matrices__,
+      getLength: this.__get_length_matrices__,
+      setLength: this.__set_length_matrices__,
     },
     this
   );
@@ -22,11 +22,11 @@ export class MatrixBank extends NATIVE_MATRIX_BANK {
   readonly colorTransforms = new Vector<MatrixBank, ColorTransform>(
     {
       Initializer: ColorTransform,
-      getItem: this.__get_color__,
-      insertItem: this.__insert_color__,
-      removeItem: this.__remove_color__,
-      getLength: this.__get_colors_length__,
-      setLength: this.__set_colors_length__,
+      getItem: this.__get_colorTransforms__,
+      insertItem: this.__insert_colorTransforms__,
+      removeItem: this.__remove_colorTransforms__,
+      getLength: this.__get_length_colorTransforms__,
+      setLength: this.__set_length_colorTransforms__,
     },
     this
   );

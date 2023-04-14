@@ -8,9 +8,6 @@ export class SWFTexture extends NATIVE_SWFTEXTURE {
     return "SWFTexture";
   }
 
-  static Filters = Filters;
-  static PixelFormat = PixelFormat;
-
   static pixelFormatTable = [
     PixelFormat.RGBA8,
     PixelFormat.RGBA8,
@@ -36,7 +33,7 @@ export class SWFTexture extends NATIVE_SWFTEXTURE {
         ? ""
         : `linear: ${String(this.linear)}, downscaling: ${String(
             this.downscaling
-          )}, filters: [${Filters[this.magFilter]}, ${Filters[this.minFilter]}]`
+          )}, filter: ${Filters[this.textureFilter]}`
     }>`;
   }
 
@@ -47,8 +44,7 @@ export class SWFTexture extends NATIVE_SWFTEXTURE {
       pixelFormat: this.pixelFormat,
       linear: this.linear,
       downscaling: this.downscaling,
-      magFilter: this.magFilter,
-      minFilter: this.minFilter,
+      textureFilter: this.textureFilter,
     };
   }
 }

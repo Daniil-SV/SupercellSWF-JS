@@ -15,11 +15,11 @@ export declare class Shape extends DisplayObject {
     commands?: Indexable<ShapeDrawBitmapCommand>;
   });
 
-  protected __get_command__: VectorItemGetter;
-  protected __insert_command__: VectorItemSetter<ShapeDrawBitmapCommand>;
-  protected __remove_command__: VectorItemRemove;
-  protected __get_commands_length__: VectorGetLength;
-  protected __set_commands_length__: VectorSetLength;
+  protected __get_commands__: VectorItemGetter;
+  protected __insert_commands__: VectorItemSetter<ShapeDrawBitmapCommand>;
+  protected __remove_commands__: VectorItemRemove;
+  protected __get_length_commands__: VectorGetLength;
+  protected __set_length_commands__: VectorSetLength;
 }
 
 export declare class ShapeDrawBitmapCommand {
@@ -30,11 +30,11 @@ export declare class ShapeDrawBitmapCommand {
 
   textureIndex: number;
 
-  protected __get_vertex__: VectorItemGetter;
-  protected __insert_vertex__: VectorItemSetter<ShapeDrawBitmapCommandVertex>;
-  protected __remove_vertex__: VectorItemRemove;
-  protected __get_vertices_length__: VectorGetLength;
-  protected __set_vertices_length__: VectorSetLength;
+  protected __get_vertices__: VectorItemGetter;
+  protected __insert_vertices__: VectorItemSetter<ShapeDrawBitmapCommandVertex>;
+  protected __remove_vertices__: VectorItemRemove;
+  protected __get_length_vertices__: VectorGetLength;
+  protected __set_length_vertices__: VectorSetLength;
 }
 
 export declare class ShapeDrawBitmapCommandVertex {

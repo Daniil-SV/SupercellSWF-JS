@@ -24,3 +24,5 @@ export {
   MovieClipFrame,
   MovieClipFrameElement,
 } from "./node/SupercellFlash";
+
+export { type DisplayObject } from "./native/declares";

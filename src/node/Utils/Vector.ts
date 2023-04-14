@@ -23,7 +23,10 @@ interface VectorGetters<T> {
   setLength: VectorSetLength;
 }
 
-export type Indexable<T> = Record<number, T>;
+export interface Indexable<T> {
+  [object: number]: T;
+  [Symbol.iterator]: () => IterableIterator<T>;
+}
 
 export class Vector<Parent, T> implements Indexable<T> {
   /* Definition for proxy */
