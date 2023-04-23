@@ -29,8 +29,8 @@ const propertyObject = {
   useExternalTexture: true,
   useMultiResTexture: true,
   useLowResTexture: true,
-  multiResTextureSuffix: "_multiresTexture",
-  lowResTextureSuffix: "_lowresTexture",
+  multiResFileSuffix: "_multiresTexture",
+  lowResFileSuffix: "_lowresTexture",
   matrixBanks: [
     new MatrixBank({ matrices: [new Matrix2x3({ a: 0.5, d: 0.5 })] }),
   ],

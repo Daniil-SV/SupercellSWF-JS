@@ -97,8 +97,8 @@ export function checkValues(obj: object, propertyObject: object): void {
             const iterValues = iter.next();
             const secondIterValues = secondIter.next();
 
-            expect(iterValues.done).toBe(secondIterValues.done);
-            expect(JSON.stringify(iterValues.value)).toBe(
+            expect(iterValues.done).toStrictEqual(secondIterValues.done);
+            expect(JSON.stringify(iterValues.value)).toStrictEqual(
               JSON.stringify(secondIterValues.value)
             );
 
@@ -112,7 +112,7 @@ export function checkValues(obj: object, propertyObject: object): void {
       case "string":
       case "boolean":
       default:
-        expect(value).toBe(secondValue);
+        expect(value).toStrictEqual(secondValue);
     }
   }
 }

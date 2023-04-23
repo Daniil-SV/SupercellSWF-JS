@@ -16,7 +16,7 @@
                 "<!@(node -p \"require('fs').readdirSync('./bindings/SupercellCompressionNapi/').map(f=>'bindings/SupercellCompressionNapi/'+f).filter(f=>f.endsWith('.cpp')).join(' ')\")",
             ],
             'include_dirs': [
-                "<!@(node -p \"require('node-addon-api').include\")",
+                "<!(node -p \"require('node-addon-api').include_dir\")",
                 'bindings/',
                 'deps/SC/SupercellBytestream/include',
                 'deps/SC/SupercellCompression/include',
@@ -120,6 +120,8 @@
             'target_name': 'LZHAM',
             'type': 'static_library',
             'win_delay_load_hook': 'false',
+            'cflags_cc': ['-std=c++14'],
+            'cxxflags': ['-std=c14'],
             'include_dirs': [
                 'deps/SC/external/lzham/include',
                 'deps/SC/external/lzham/src/lzhamcomp',
@@ -131,17 +133,7 @@
                 "<!@(node -p \"require('fs').readdirSync('./deps/SC/external/lzham/src/lzhamcomp/').map(f=>'deps/SC/external/lzham/src/lzhamcomp/'+f).filter(f=>f.endsWith('.cpp')).join(' ')\")",
                 "<!@(node -p \"require('fs').readdirSync('./deps/SC/external/lzham/src/lzhamdecomp/').map(f=>'deps/SC/external/lzham/src/lzhamdecomp/'+f).filter(f=>f.endsWith('.cpp')).join(' ')\")"
 
-            ],
-
-            'cxxflags': [
-                '-std=c14'
-            ],
-
-            'msvs_settings': {
-                'VCCLCompilerTool': {
-                    'AdditionalOptions': ['-std:c++14', ],
-                },
-            },
+            ]
         },
         {
             # ZSTD compression type

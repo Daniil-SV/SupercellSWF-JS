@@ -482,6 +482,17 @@ export class Vector<Parent, T> implements Indexable<T> {
     this.data.setLength.call(this.data.context, num);
   }
 
+  map(callback: VectorCallbackType<Parent, T, any>, thisArg?: any): any[] {
+    const array: number[] = [];
+    // TODO rework types
+    for (let i = this.length; i > 0; i--) {
+      array.push(
+        callback.call(thisArg === undefined ? this : thisArg, this[i], i, array)
+      );
+    }
+    return array;
+  }
+
   toJSON(): object {
     const arrayObject = [];
     for (const item of this) {

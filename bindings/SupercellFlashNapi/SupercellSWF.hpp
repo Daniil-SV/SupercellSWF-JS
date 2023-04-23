@@ -39,6 +39,9 @@ namespace scNapi
                         PROPERTY_ACCESSOR(useLowResTexture),
                         PROPERTY_ACCESSOR(useExternalTexture),
 
+                        PROPERTY_ACCESSOR(multiResFileSuffix),
+                        PROPERTY_ACCESSOR(lowResFileSuffix),
+
                         VECTOR_ACCESSOR(SupercellSWF, shapes),
                         VECTOR_ACCESSOR(SupercellSWF, exports),
                         VECTOR_ACCESSOR(SupercellSWF, textures),
@@ -64,6 +67,9 @@ namespace scNapi
             PROPERTY_INIT(useMultiResTexture);
             PROPERTY_INIT(useLowResTexture);
             PROPERTY_INIT(useExternalTexture);
+
+            PROPERTY_INIT(multiResFileSuffix);
+            PROPERTY_INIT(lowResFileSuffix);
 
             VECTOR_PROPERTY_INIT(shapes, Shape);
             VECTOR_PROPERTY_INIT(exports, ExportName);
@@ -144,7 +150,16 @@ namespace scNapi
                 return unk;
             }
 
-            parent->save(path, (sc::CompressionSignature)ToNativeValue<uint8_t>(info[1]));
+            try
+            {
+                parent->save(path, (sc::CompressionSignature)ToNativeValue<uint8_t>(info[1]));
+
+            }
+            catch (const std::exception& e)
+            {
+                Napi::Error::New(info.Env(), e.what()).ThrowAsJavaScriptException();
+                return unk;
+            }
 
             return info.This();
         }
@@ -160,12 +175,22 @@ namespace scNapi
                 return unk;
             }
 
-            parent->stream.clear();
-            for (sc::SWFTexture* texture : parent->textures)
+            try
             {
-                texture->save(parent, true, false);
+                parent->stream.clear();
+                for (sc::SWFTexture* texture : parent->textures)
+                {
+                    texture->save(parent, true, false);
+                }
+                parent->stream.writeTag(0);
+                parent->stream.save(ToNativeValue<std::string>(info[0]), (sc::CompressionSignature)ToNativeValue<uint8_t>(info[1]));
+
             }
-            parent->stream.save(ToNativeValue<std::string>(info[0]), (sc::CompressionSignature)ToNativeValue<uint8_t>(info[1]));
+            catch (const std::exception& e)
+            {
+                Napi::Error::New(info.Env(), e.what()).ThrowAsJavaScriptException();
+                return unk;
+            }
 
             return info.This();
         }
@@ -173,6 +198,9 @@ namespace scNapi
         PROPERTY(useMultiResTexture, bool);
         PROPERTY(useLowResTexture, bool);
         PROPERTY(useExternalTexture, bool);
+
+        PROPERTY(multiResFileSuffix, std::string);
+        PROPERTY(lowResFileSuffix, std::string);
 
         VECTOR(shapes, Shape);
         VECTOR(exports, ExportName);

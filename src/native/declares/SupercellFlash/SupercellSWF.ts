@@ -21,8 +21,8 @@ export declare class SupercellSWF {
     useExternalTexture?: boolean;
     useMultiResTexture?: boolean;
     useLowResTexture?: boolean;
-    multiResTextureSuffix?: string;
-    lowResTextureSuffix?: string;
+    multiResFileSuffix?: string;
+    lowResFileSuffix?: string;
     exports?: Indexable<ExportName>;
     textures?: Indexable<SWFTexture>;
     shapes?: Indexable<Shape>;
@@ -85,12 +85,12 @@ export declare class SupercellSWF {
   /**
    * Suffix for uncammon texture.
    */
-  multiResTextureSuffix: string;
+  multiResFileSuffix: string;
 
   /**
    * Suffix for uncammon lowres texture.
    */
-  lowResTextureSuffix: string;
+  lowResFileSuffix: string;
 
   protected __get_exports__: VectorItemGetter;
   protected __insert_exports__: VectorItemSetter<ExportName>;

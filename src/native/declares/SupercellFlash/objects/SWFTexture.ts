@@ -37,6 +37,12 @@ export declare class SWFTexture {
     dstType: PixelFormat
   ): Buffer;
 
+  static rescaleTexture(
+    texture: SWFTexture,
+    width: number,
+    height: number
+  ): Buffer;
+
   pixelFormat: PixelFormat;
 
   textureFilter: Filters;

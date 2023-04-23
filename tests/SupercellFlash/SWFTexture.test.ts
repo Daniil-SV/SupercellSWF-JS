@@ -12,8 +12,7 @@ const propertyObject = {
   pixelFormat: PixelFormat.RGBA8,
   linear: false,
   downscaling: true,
-  magFilter: Filters.NEAREST,
-  minFilter: Filters.NEAREST,
+  textureFilter: Filters.LINEAR_MIPMAP_NEAREST,
   data: randomBytes(2 * 4 * 2),
 };
 

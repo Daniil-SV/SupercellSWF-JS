@@ -22,11 +22,13 @@ namespace scNapi
                     {
                         StaticMethod("getPixelFormatData", &SWFTexture::getPixelFormatData),
                         StaticMethod("getLinearData", &SWFTexture::getLinearData),
+                        StaticMethod("rescaleTexture", &SWFTexture::rescaleTexture),
                         PROPERTY_ACCESSOR(pixelFormat),
                         PROPERTY_ACCESSOR(textureFilter),
+                        PROPERTY_ACCESSOR(linear),
+                        PROPERTY_ACCESSOR(downscaling),
                         PROPERTY_ACCESSOR(width),
                         PROPERTY_ACCESSOR(height),
-                        PROPERTY_ACCESSOR(downscaling),
                         PROPERTY_ACCESSOR(data)
                     });
 
@@ -94,6 +96,18 @@ namespace scNapi
             }
 
             return TypeConvertor<std::vector<uint8_t>>::ToJSBuffer(info, buffer);
+        }
+
+        static Napi::Value rescaleTexture(const Napi::CallbackInfo& info)
+        {
+            SWFTexture* texture = SWFTexture::Unwrap(info[0].ToObject());
+            
+            uint16_t width = ToNativeValue<uint16_t>(info[1]);
+            uint16_t height = ToNativeValue<uint16_t>(info[2]);
+
+            std::vector<uint8_t> buffer = sc::SWFTexture::rescaleTexture(*(texture->get_parent()), width, height);
+
+            return Napi::Buffer<uint8_t>::Copy(info.Env(), buffer.data(), buffer.size());
         }
 
         void set_data(const Napi::CallbackInfo& info, const Napi::Value& value)
