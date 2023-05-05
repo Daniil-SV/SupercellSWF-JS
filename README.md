@@ -276,8 +276,9 @@ Then go to repo folder
 ```
 cd SupercellSWF-JS
 ```
-Update submodules
+Init and update submodules
 ```
+git submodule init
 git subomodules update --remote
 ```
 Run command

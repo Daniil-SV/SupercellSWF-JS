@@ -107,7 +107,7 @@
             # LZMA compression type
             'target_name': 'LZMA',
             'include_dirs': [
-                'deps/SC/external/LZMA/include'
+                'deps/SC/external/lzma/include'
             ],
             'win_delay_load_hook': 'false',
             'type': 'static_library',

@@ -41,7 +41,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/scwmake/SupercellSWF-JS.git"
+    "url": "https://github.com/Daniil-SV/SupercellSWF-JS.git"
   },
   "dependencies": {
     "node-gyp-build": "^4.5.0"
