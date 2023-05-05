@@ -26,7 +26,7 @@ namespace scNapi
             return static_cast<T*>(copyData);
         }
 
-        static std::vector<Napi::Value> IteratorData(Napi::Env& env, Napi::Object& object)
+        static std::vector<Napi::Value> IteratorData(const Napi::Env& env, Napi::Object& object)
         {
             std::vector<Napi::Value> ret;
 

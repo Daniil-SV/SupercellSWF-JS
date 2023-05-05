@@ -123,7 +123,7 @@ if (object.Has(#Name)) \
     Napi::Object Array = object.Get(#Name).ToObject(); \
     for (Napi::Value value : Utils::IteratorData(info.Env(), Array)) \
     { \
-        parent->Name.push_back(scNapi::##Initializator::Unwrap( \
+        parent->Name.push_back(scNapi::Initializator::Unwrap( \
             value.As<Napi::Object>() \
         )->get_parent()); \
     } \
