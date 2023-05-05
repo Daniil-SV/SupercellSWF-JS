@@ -18,9 +18,6 @@ namespace scNapi
 
     Napi::Value SupercellCompression::decompress(const Napi::CallbackInfo& info)
     {
-        Napi::Env env = info.Env();
-
-        /* Node.js Buffer to C++ Vector */
         std::vector<uint8_t> inputBuffer = TypeConvertor<std::vector<uint8_t>>::ToNativeValue(info[0]);
         sc::BufferStream inputStream(&inputBuffer);
 
@@ -37,8 +34,6 @@ namespace scNapi
 
     Napi::Value SupercellCompression::commonDecompress(const Napi::CallbackInfo& info)
     {
-        Napi::Env env = info.Env();
-
         std::vector<uint8_t> inputBuffer = TypeConvertor<std::vector<uint8_t>>::ToNativeValue(info[0]);
         sc::BufferStream inputStream(&inputBuffer);
 
