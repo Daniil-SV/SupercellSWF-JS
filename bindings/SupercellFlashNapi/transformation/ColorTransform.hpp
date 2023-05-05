@@ -21,13 +21,13 @@ namespace scNapi
             Napi::Function func =
                 DefineClass(env, "ColorTransform",
                     {
-                        PROPERTY_ACCESSOR(alpha),
-                        PROPERTY_ACCESSOR(redAdd),
-                        PROPERTY_ACCESSOR(greenAdd),
-                        PROPERTY_ACCESSOR(blueAdd),
-                        PROPERTY_ACCESSOR(redMul),
-                        PROPERTY_ACCESSOR(greenMul),
-                        PROPERTY_ACCESSOR(blueMul)
+                        PROPERTY_ACCESSOR(scNapi::ColorTransform, alpha),
+                        PROPERTY_ACCESSOR(scNapi::ColorTransform, redAdd),
+                        PROPERTY_ACCESSOR(scNapi::ColorTransform, greenAdd),
+                        PROPERTY_ACCESSOR(scNapi::ColorTransform, blueAdd),
+                        PROPERTY_ACCESSOR(scNapi::ColorTransform, redMul),
+                        PROPERTY_ACCESSOR(scNapi::ColorTransform, greenMul),
+                        PROPERTY_ACCESSOR(scNapi::ColorTransform, blueMul)
                     });
 
             constructor = Napi::Persistent(func);

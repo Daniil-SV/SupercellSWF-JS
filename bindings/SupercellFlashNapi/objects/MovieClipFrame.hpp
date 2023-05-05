@@ -21,8 +21,8 @@ namespace scNapi
             Napi::Function func =
                 DefineClass(env, "MovieClipFrame",
                     {
-                        PROPERTY_ACCESSOR(label),
-                        PROPERTY_ACCESSOR(elementsCount)
+                        PROPERTY_ACCESSOR(scNapi::MovieClipFrame, label),
+                        PROPERTY_ACCESSOR(scNapi::MovieClipFrame, elementsCount)
                     });
 
             constructor = Napi::Persistent(func);

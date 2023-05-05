@@ -23,13 +23,13 @@ namespace scNapi
                         StaticMethod("getPixelFormatData", &SWFTexture::getPixelFormatData),
                         StaticMethod("getLinearData", &SWFTexture::getLinearData),
                         StaticMethod("rescaleTexture", &SWFTexture::rescaleTexture),
-                        PROPERTY_ACCESSOR(pixelFormat),
-                        PROPERTY_ACCESSOR(textureFilter),
-                        PROPERTY_ACCESSOR(linear),
-                        PROPERTY_ACCESSOR(downscaling),
-                        PROPERTY_ACCESSOR(width),
-                        PROPERTY_ACCESSOR(height),
-                        PROPERTY_ACCESSOR(data)
+                        PROPERTY_ACCESSOR(scNapi::SWFTexture, pixelFormat),
+                        PROPERTY_ACCESSOR(scNapi::SWFTexture, textureFilter),
+                        PROPERTY_ACCESSOR(scNapi::SWFTexture, linear),
+                        PROPERTY_ACCESSOR(scNapi::SWFTexture, downscaling),
+                        PROPERTY_ACCESSOR(scNapi::SWFTexture, width),
+                        PROPERTY_ACCESSOR(scNapi::SWFTexture, height),
+                        PROPERTY_ACCESSOR(scNapi::SWFTexture, data)
                     });
 
             constructor = Napi::Persistent(func);

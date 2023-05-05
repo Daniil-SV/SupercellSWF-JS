@@ -22,8 +22,8 @@ namespace scNapi
             Napi::Function func =
                 DefineClass(env, className.c_str(),
                     {
-                        PROPERTY_ACCESSOR(id),
-                        PROPERTY_ACCESSOR(type)
+                        PROPERTY_ACCESSOR(scNapi::MovieClipModifier, id),
+                        PROPERTY_ACCESSOR(scNapi::MovieClipModifier, type)
                     });
 
             constructor = Napi::Persistent(func);

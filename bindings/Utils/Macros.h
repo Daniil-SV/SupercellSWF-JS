@@ -1,5 +1,7 @@
 #pragma once
 
+namespace scNapi
+{
 //! Initializator for c++ object constructor
 #define INITIALIZER(NAME) {                                           \
 if (info[0].IsExternal())                                               \
@@ -141,5 +143,6 @@ InstanceMethod(VECTOR_COMMAND_NAME(remove, Name), &ClassName::remove_##Name), \
 InstanceMethod(VECTOR_COMMAND_NAME(get_length, Name), &ClassName::get_length_##Name), \
 InstanceMethod(VECTOR_COMMAND_NAME(set_length, Name), &ClassName::set_length_##Name) \
 
-#define PROPERTY_ACCESSOR(name) \
-InstanceAccessor(#name, &get_##name, &set_##name)
+#define PROPERTY_ACCESSOR(codename, name) \
+InstanceAccessor(#name, &##codename::get_##name, &##codename::set_##name)
+}

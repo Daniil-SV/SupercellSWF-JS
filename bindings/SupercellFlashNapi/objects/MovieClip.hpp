@@ -25,11 +25,11 @@ namespace scNapi
             Napi::Function func =
                 DefineClass(env, "MovieClip",
                     {
-                        PROPERTY_ACCESSOR(id),
-                        PROPERTY_ACCESSOR(frameRate),
-                        PROPERTY_ACCESSOR(matrixBankIndex),
-                        PROPERTY_ACCESSOR(unknownFlag),
-                        PROPERTY_ACCESSOR(scalingGrid),
+                        PROPERTY_ACCESSOR(scNapi::MovieClip, id),
+                        PROPERTY_ACCESSOR(scNapi::MovieClip, frameRate),
+                        PROPERTY_ACCESSOR(scNapi::MovieClip, matrixBankIndex),
+                        PROPERTY_ACCESSOR(scNapi::MovieClip, unknownFlag),
+                        PROPERTY_ACCESSOR(scNapi::MovieClip, scalingGrid),
                         VECTOR_ACCESSOR(MovieClip, frameElements),
                         VECTOR_ACCESSOR(MovieClip, instances),
                         VECTOR_ACCESSOR(MovieClip, frames)

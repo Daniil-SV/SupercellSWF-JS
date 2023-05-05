@@ -21,8 +21,8 @@ namespace scNapi
             Napi::Function func =
                 DefineClass(env, "ExportName",
                     {
-                        PROPERTY_ACCESSOR(id),
-                        PROPERTY_ACCESSOR(name)
+                        PROPERTY_ACCESSOR(scNapi::ExportName, id),
+                        PROPERTY_ACCESSOR(scNapi::ExportName, name)
                     });
 
             constructor = Napi::Persistent(func);

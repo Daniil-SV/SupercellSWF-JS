@@ -17,10 +17,10 @@ namespace scNapi
             Napi::Function func =
                 DefineClass(env, "ShapeDrawBitmapCommandVertex",
                     {
-                        PROPERTY_ACCESSOR(x),
-                        PROPERTY_ACCESSOR(y),
-                        PROPERTY_ACCESSOR(u),
-                        PROPERTY_ACCESSOR(v)
+                        PROPERTY_ACCESSOR(scNapi::ShapeDrawBitmapCommandVertex, x),
+                        PROPERTY_ACCESSOR(scNapi::ShapeDrawBitmapCommandVertex, y),
+                        PROPERTY_ACCESSOR(scNapi::ShapeDrawBitmapCommandVertex, u),
+                        PROPERTY_ACCESSOR(scNapi::ShapeDrawBitmapCommandVertex, v)
                     });
 
             constructor = Napi::Persistent(func);

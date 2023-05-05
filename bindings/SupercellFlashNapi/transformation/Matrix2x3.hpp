@@ -21,12 +21,12 @@ namespace scNapi
             Napi::Function func =
                 DefineClass(env, "Matrix2x3",
                     {
-                        PROPERTY_ACCESSOR(a),
-                        PROPERTY_ACCESSOR(b),
-                        PROPERTY_ACCESSOR(c),
-                        PROPERTY_ACCESSOR(d),
-                        PROPERTY_ACCESSOR(tx),
-                        PROPERTY_ACCESSOR(ty),
+                        PROPERTY_ACCESSOR(scNapi::Matrix2x3, a),
+                        PROPERTY_ACCESSOR(scNapi::Matrix2x3, b),
+                        PROPERTY_ACCESSOR(scNapi::Matrix2x3, c),
+                        PROPERTY_ACCESSOR(scNapi::Matrix2x3, d),
+                        PROPERTY_ACCESSOR(scNapi::Matrix2x3, tx),
+                        PROPERTY_ACCESSOR(scNapi::Matrix2x3, ty),
                     });
 
             constructor = Napi::Persistent(func);

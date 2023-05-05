@@ -18,7 +18,7 @@ namespace scNapi {
             Napi::Function func =
                 DefineClass(env, "ShapeDrawBitmapCommand",
                     {
-                        PROPERTY_ACCESSOR(textureIndex),
+                        PROPERTY_ACCESSOR(scNapi::ShapeDrawBitmapCommand, textureIndex),
                         VECTOR_ACCESSOR(ShapeDrawBitmapCommand, vertices)
                     });
 

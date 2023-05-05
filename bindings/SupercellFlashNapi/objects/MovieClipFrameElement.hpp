@@ -21,9 +21,9 @@ namespace scNapi
             Napi::Function func =
                 DefineClass(env, "MovieClipFrameElement",
                     {
-                        PROPERTY_ACCESSOR(instanceIndex),
-                        PROPERTY_ACCESSOR(matrixIndex),
-                        PROPERTY_ACCESSOR(colorTransformIndex)
+                        PROPERTY_ACCESSOR(scNapi::MovieClipFrameElement, instanceIndex),
+                        PROPERTY_ACCESSOR(scNapi::MovieClipFrameElement, matrixIndex),
+                        PROPERTY_ACCESSOR(scNapi::MovieClipFrameElement, colorTransformIndex)
                     });
 
             constructor = Napi::Persistent(func);

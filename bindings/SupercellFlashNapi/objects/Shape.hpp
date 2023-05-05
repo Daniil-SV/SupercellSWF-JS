@@ -21,7 +21,7 @@ namespace scNapi
             Napi::Function func =
                 DefineClass(env, "Shape",
                     {
-                        PROPERTY_ACCESSOR(id),
+                        PROPERTY_ACCESSOR(scNapi::Shape, id),
                         VECTOR_ACCESSOR(Shape, commands)
                     });
 

@@ -21,9 +21,9 @@ namespace scNapi
             Napi::Function func =
                 DefineClass(env, "DisplayObjectInstance",
                     {
-                        PROPERTY_ACCESSOR(id),
-                        PROPERTY_ACCESSOR(blend),
-                        PROPERTY_ACCESSOR(name)
+                        PROPERTY_ACCESSOR(scNapi::DisplayObjectInstance, id),
+                        PROPERTY_ACCESSOR(scNapi::DisplayObjectInstance, blend),
+                        PROPERTY_ACCESSOR(scNapi::DisplayObjectInstance, name)
                     });
 
             constructor = Napi::Persistent(func);

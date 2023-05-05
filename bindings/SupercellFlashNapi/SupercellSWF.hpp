@@ -35,12 +35,12 @@ namespace scNapi
                         InstanceMethod("save", &SupercellSWF::save),
                         InstanceMethod("saveTexture", &SupercellSWF::saveTexture),
 
-                        PROPERTY_ACCESSOR(useMultiResTexture),
-                        PROPERTY_ACCESSOR(useLowResTexture),
-                        PROPERTY_ACCESSOR(useExternalTexture),
+                        PROPERTY_ACCESSOR(scNapi::SupercellSWF, useMultiResTexture),
+                        PROPERTY_ACCESSOR(scNapi::SupercellSWF, useLowResTexture),
+                        PROPERTY_ACCESSOR(scNapi::SupercellSWF, useExternalTexture),
 
-                        PROPERTY_ACCESSOR(multiResFileSuffix),
-                        PROPERTY_ACCESSOR(lowResFileSuffix),
+                        PROPERTY_ACCESSOR(scNapi::SupercellSWF, multiResFileSuffix),
+                        PROPERTY_ACCESSOR(scNapi::SupercellSWF, lowResFileSuffix),
 
                         VECTOR_ACCESSOR(SupercellSWF, shapes),
                         VECTOR_ACCESSOR(SupercellSWF, exports),
