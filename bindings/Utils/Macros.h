@@ -1,5 +1,9 @@
 #pragma once
 
+#define STRINGIFY(x) #x
+#define TOSTRING(x) STRINGIFY(x)
+#define MY_STRING TOSTRING(STRING_IN)
+
 namespace scNapi
 {
 //! Initializator for c++ object constructor
@@ -39,34 +43,16 @@ if (object.Has(#Name)) \
 
 //! Class members definition
 
-#define PROPERTY(name, dataType) \
+#define PROPERTY(name) \
     void set_##name(const Napi::CallbackInfo& info, const Napi::Value& value) \
-    { \
-        parent->name(ToNativeValue<dataType>(value)); \
-    }; \
-    Napi::Value get_##name(const Napi::CallbackInfo& info) \
-    { \
-        return ToJSValue(info, parent->name()); \
-    }
+    {
 
-#define COMMON_PROPERTY(name, dataType) \
-    void set_##name(const Napi::CallbackInfo& info, const Napi::Value& value) \
-    { \
-        parent->name = ToNativeValue<dataType>(value); \
+#define PROPERTY_GET(name) \
     }; \
     Napi::Value get_##name(const Napi::CallbackInfo& info) \
     { \
-        return ToJSValue(info, parent->name); \
-    }
 
-#define ENUMERATE(name, DataType, EnumType) \
-    void set_##name(const Napi::CallbackInfo& info, const Napi::Value& value) \
-    { \
-        parent->name((EnumType)ToNativeValue<DataType>(value)); \
-    }; \
-    Napi::Value get_##name(const Napi::CallbackInfo& info) \
-    { \
-        return ToJSValue(info, (EnumType)parent->name()); \
+#define PROPERTY_END \
     }
 
 #define VECTOR(Name, Type) \
@@ -116,8 +102,6 @@ void set_length_##Name(const Napi::CallbackInfo& info) \
         } \
     } \
 }
-
-        //! Class members initializators
 
 #define VECTOR_PROPERTY_INIT(Name, Initializator) { \
 if (object.Has(#Name)) \

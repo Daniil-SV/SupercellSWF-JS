@@ -8,6 +8,7 @@
 #include "Utils/Macros.h"
 
 using namespace node_binding;
+using namespace std;
 
 namespace scNapi
 {
@@ -43,7 +44,17 @@ namespace scNapi
         }
 
     private:
-        PROPERTY(label, std::string);
-        PROPERTY(elementsCount, uint32_t);
+        PROPERTY(label)
+            parent->label(ToNativeValue<string>(value));
+        PROPERTY_GET(label)
+            return ToJSValue(info, parent->label());
+        PROPERTY_END;
+
+
+        PROPERTY(elementsCount)
+            parent->elementsCount(ToNativeValue<uint32_t>(value));
+        PROPERTY_GET(elementsCount)
+            return ToJSValue(info, parent->elementsCount());
+        PROPERTY_END;
     };
 }

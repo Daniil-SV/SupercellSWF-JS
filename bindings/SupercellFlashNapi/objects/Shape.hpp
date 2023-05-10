@@ -43,7 +43,13 @@ namespace scNapi
         }
 
     private:
+        PROPERTY(id)
+            parent->id(ToNativeValue<uint16_t>(value));
+        PROPERTY_GET(id)
+            return ToJSValue(info, parent->id());
+        PROPERTY_END;
+
+
         VECTOR(commands, ShapeDrawBitmapCommand);
-        PROPERTY(id, uint16_t);
     };
 }

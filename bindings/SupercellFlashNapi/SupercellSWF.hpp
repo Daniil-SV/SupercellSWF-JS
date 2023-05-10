@@ -16,6 +16,7 @@
 #include "objects/MovieClip.hpp"
 
 using namespace node_binding;
+using namespace std;
 
 namespace scNapi
 {
@@ -195,12 +196,36 @@ namespace scNapi
             return info.This();
         }
 
-        PROPERTY(useMultiResTexture, bool);
-        PROPERTY(useLowResTexture, bool);
-        PROPERTY(useExternalTexture, bool);
+        PROPERTY(useMultiResTexture)
+            parent->useMultiResTexture(ToNativeValue<bool>(value));
+        PROPERTY_GET(useMultiResTexture)
+            return ToJSValue(info, parent->useMultiResTexture());
+        PROPERTY_END;
 
-        PROPERTY(multiResFileSuffix, std::string);
-        PROPERTY(lowResFileSuffix, std::string);
+        PROPERTY(useLowResTexture)
+            parent->useLowResTexture(ToNativeValue<bool>(value));
+        PROPERTY_GET(useLowResTexture)
+            return ToJSValue(info, parent->useLowResTexture());
+        PROPERTY_END;
+
+        PROPERTY(useExternalTexture)
+            parent->useExternalTexture(ToNativeValue<bool>(value));
+        PROPERTY_GET(useExternalTexture)
+            return ToJSValue(info, parent->useExternalTexture());
+        PROPERTY_END;
+
+
+        PROPERTY(multiResFileSuffix)
+            parent->multiResFileSuffix(ToNativeValue<string>(value));
+        PROPERTY_GET(multiResFileSuffix)
+            return ToJSValue(info, parent->multiResFileSuffix());
+        PROPERTY_END;
+
+        PROPERTY(lowResFileSuffix)
+            parent->lowResFileSuffix(ToNativeValue<string>(value));
+        PROPERTY_GET(lowResFileSuffix)
+            return ToJSValue(info, parent->lowResFileSuffix());
+        PROPERTY_END;
 
         VECTOR(shapes, Shape);
         VECTOR(exports, ExportName);

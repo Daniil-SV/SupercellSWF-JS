@@ -8,10 +8,11 @@
 #include "Utils/Macros.h"
 
 using namespace node_binding;
+using namespace std;
 
 namespace scNapi
 {
-    class ExportName: public Napi::ObjectWrap<ExportName>, public LinkedObject<sc::ExportName>
+    class ExportName : public Napi::ObjectWrap<ExportName>, public LinkedObject<sc::ExportName>
     {
     public:
         inline static Napi::FunctionReference constructor;
@@ -31,7 +32,7 @@ namespace scNapi
             target.Set("ExportName", func);
         }
 
-        ExportName(const Napi::CallbackInfo& info): Napi::ObjectWrap<ExportName>(info)
+        ExportName(const Napi::CallbackInfo& info) : Napi::ObjectWrap<ExportName>(info)
         {
             INITIALIZER(ExportName);
         };
@@ -44,7 +45,17 @@ namespace scNapi
         }
 
     private:
-        PROPERTY(id, uint16_t);
-        PROPERTY(name, std::string);
+        PROPERTY(id)
+            parent->id(ToNativeValue<uint16_t>(value));
+        PROPERTY_GET(id)
+            return ToJSValue(info, parent->id());
+        PROPERTY_END;
+
+        PROPERTY(name)
+            parent->name(ToNativeValue<string>(value));
+        PROPERTY_GET(name)
+            return ToJSValue(info, parent->name());
+        PROPERTY_END;
+
     };
 }

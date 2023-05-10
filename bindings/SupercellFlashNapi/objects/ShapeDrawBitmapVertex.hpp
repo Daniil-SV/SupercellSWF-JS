@@ -46,10 +46,30 @@ namespace scNapi
         }
 
     private:
-        PROPERTY(x, float);
-        PROPERTY(y, float);
+        PROPERTY(x)
+            parent->x(ToNativeValue<float>(value));
+        PROPERTY_GET(x)
+            return ToJSValue(info, parent->x());
+        PROPERTY_END;
 
-        PROPERTY(u, float);
-        PROPERTY(v, float);
+        PROPERTY(y)
+            parent->y(ToNativeValue<float>(value));
+        PROPERTY_GET(y)
+            return ToJSValue(info, parent->y());
+        PROPERTY_END;
+
+
+        PROPERTY(u)
+            parent->u(ToNativeValue<float>(value));
+        PROPERTY_GET(u)
+            return ToJSValue(info, parent->u());
+        PROPERTY_END;
+
+        PROPERTY(v)
+            parent->v(ToNativeValue<float>(value));
+        PROPERTY_GET(v)
+            return ToJSValue(info, parent->v());
+        PROPERTY_END;
+
     };
 }

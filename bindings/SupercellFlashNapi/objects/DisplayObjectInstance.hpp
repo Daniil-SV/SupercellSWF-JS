@@ -8,10 +8,11 @@
 #include "Utils/Macros.h"
 
 using namespace node_binding;
+using namespace std;
 
 namespace scNapi
 {
-    class DisplayObjectInstance: public Napi::ObjectWrap<DisplayObjectInstance>, public LinkedObject<sc::DisplayObjectInstance>
+    class DisplayObjectInstance : public Napi::ObjectWrap<DisplayObjectInstance>, public LinkedObject<sc::DisplayObjectInstance>
     {
     public:
         inline static Napi::FunctionReference constructor;
@@ -32,7 +33,7 @@ namespace scNapi
             target.Set("DisplayObjectInstance", func);
         }
 
-        DisplayObjectInstance(const Napi::CallbackInfo& info): Napi::ObjectWrap<DisplayObjectInstance>(info)
+        DisplayObjectInstance(const Napi::CallbackInfo& info) : Napi::ObjectWrap<DisplayObjectInstance>(info)
         {
             INITIALIZER(DisplayObjectInstance);
         };
@@ -45,8 +46,23 @@ namespace scNapi
         }
 
     private:
-        COMMON_PROPERTY(id, uint16_t);
-        COMMON_PROPERTY(blend, uint8_t);
-        COMMON_PROPERTY(name, std::string);
+        PROPERTY(id)
+            parent->id = ToNativeValue<uint16_t>(value);
+        PROPERTY_GET(id)
+            return ToJSValue(info, parent->id);
+        PROPERTY_END;
+
+        PROPERTY(blend)
+            parent->blend = ToNativeValue<uint8_t>(value);
+        PROPERTY_GET(blend)
+            return ToJSValue(info, parent->blend);
+        PROPERTY_END;
+
+        PROPERTY(name)
+            parent->name = ToNativeValue<string>(value);
+        PROPERTY_GET(name)
+            return ToJSValue(info, parent->name);
+        PROPERTY_END;
+
     };
 }

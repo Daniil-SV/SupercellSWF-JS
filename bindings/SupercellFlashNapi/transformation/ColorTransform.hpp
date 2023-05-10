@@ -53,14 +53,48 @@ namespace scNapi
         }
 
     private:
-        COMMON_PROPERTY(alpha, float);
+        PROPERTY(alpha)
+            parent->alpha = ToNativeValue<float>(value);
+        PROPERTY_GET(alpha)
+            return ToJSValue(info, parent->alpha);
+        PROPERTY_END;
 
-        COMMON_PROPERTY(redAdd, uint8_t);
-        COMMON_PROPERTY(greenAdd, uint8_t);
-        COMMON_PROPERTY(blueAdd, uint8_t);
 
-        COMMON_PROPERTY(redMul, float);
-        COMMON_PROPERTY(greenMul, float);
-        COMMON_PROPERTY(blueMul, float);
+        PROPERTY(redAdd)
+            parent->redAdd = ToNativeValue<uint8_t>(value);
+        PROPERTY_GET(redAdd)
+            return ToJSValue(info, parent->redAdd);
+        PROPERTY_END;
+
+        PROPERTY(greenAdd)
+            parent->greenAdd = ToNativeValue<uint8_t>(value);
+        PROPERTY_GET(greenAdd)
+            return ToJSValue(info, parent->greenAdd);
+        PROPERTY_END;
+
+        PROPERTY(blueAdd)
+            parent->blueAdd = ToNativeValue<uint8_t>(value);
+        PROPERTY_GET(blueAdd)
+            return ToJSValue(info, parent->blueAdd);
+        PROPERTY_END;
+
+
+        PROPERTY(redMul)
+            parent->redMul = ToNativeValue<float>(value);
+        PROPERTY_GET(redMul)
+            return ToJSValue(info, parent->redMul);
+        PROPERTY_END;
+
+        PROPERTY(greenMul)
+            parent->greenMul = ToNativeValue<float>(value);
+        PROPERTY_GET(greenMul)
+            return ToJSValue(info, parent->greenMul);
+        PROPERTY_END;
+
+        PROPERTY(blueMul)
+            parent->blueMul = ToNativeValue<float>(value);
+        PROPERTY_GET(blueMul)
+            return ToJSValue(info, parent->blueMul);
+        PROPERTY_END;
     };
 }

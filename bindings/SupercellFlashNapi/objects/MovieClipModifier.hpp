@@ -9,7 +9,7 @@
 
 namespace scNapi
 {
-    class MovieClipModifier: public Napi::ObjectWrap<MovieClipModifier>, public LinkedObject<sc::MovieClipModifier>
+    class MovieClipModifier : public Napi::ObjectWrap<MovieClipModifier>, public LinkedObject<sc::MovieClipModifier>
     {
     public:
         inline static Napi::FunctionReference constructor;
@@ -45,7 +45,17 @@ namespace scNapi
         }
 
     private:
-        ENUMERATE(type, uint8_t, sc::MovieClipModifier::Type);
-        PROPERTY(id, uint16_t);
+        PROPERTY(id)
+            parent->id(ToNativeValue<uint16_t>(value));
+        PROPERTY_GET(id)
+            return ToJSValue(info, parent->id());
+        PROPERTY_END;
+
+
+        PROPERTY(type)
+            parent->type((sc::MovieClipModifier::Type)ToNativeValue<uint8_t>(value));
+        PROPERTY_GET(type)
+            return ToJSValue(info, (uint8_t)parent->type());
+        PROPERTY_END;
     };
 }

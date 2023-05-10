@@ -45,8 +45,25 @@ namespace scNapi
         }
 
     private:
-        COMMON_PROPERTY(instanceIndex, uint16_t);
-        COMMON_PROPERTY(matrixIndex, uint16_t);
-        COMMON_PROPERTY(colorTransformIndex, uint16_t);
+        PROPERTY(instanceIndex)
+            parent->instanceIndex = ToNativeValue<uint16_t>(value);
+        PROPERTY_GET(instanceIndex)
+            return ToJSValue(info, parent->instanceIndex);
+        PROPERTY_END;
+
+
+        PROPERTY(matrixIndex)
+            parent->matrixIndex = ToNativeValue<uint16_t>(value);
+        PROPERTY_GET(matrixIndex)
+            return ToJSValue(info, parent->matrixIndex);
+        PROPERTY_END;
+
+
+        PROPERTY(colorTransformIndex)
+            parent->colorTransformIndex = ToNativeValue<uint16_t>(value);
+        PROPERTY_GET(colorTransformIndex)
+            return ToJSValue(info, parent->colorTransformIndex);
+        PROPERTY_END;
+
     };
 }
