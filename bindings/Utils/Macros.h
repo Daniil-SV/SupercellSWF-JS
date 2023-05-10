@@ -128,5 +128,5 @@ InstanceMethod(VECTOR_COMMAND_NAME(get_length, Name), &ClassName::get_length_##N
 InstanceMethod(VECTOR_COMMAND_NAME(set_length, Name), &ClassName::set_length_##Name) \
 
 #define PROPERTY_ACCESSOR(codename, name) \
-InstanceAccessor(#name, &##codename::get_##name, &##codename::set_##name)
+InstanceAccessor(#name, &codename::get_##name, &codename::set_##name)
 }

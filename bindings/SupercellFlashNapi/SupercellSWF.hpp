@@ -82,7 +82,7 @@ namespace scNapi
         }
 
     private:
-        Napi::Value SupercellSWF::load(const Napi::CallbackInfo& info)
+        Napi::Value load(const Napi::CallbackInfo& info)
         {
             Napi::Env env = info.Env();
             Napi::Value unk = env.Undefined();
@@ -103,7 +103,7 @@ namespace scNapi
 
             return info.This();
         }
-        Napi::Value SupercellSWF::loadTexture(const Napi::CallbackInfo& info)
+        Napi::Value loadTexture(const Napi::CallbackInfo& info)
         {
             Napi::Env env = info.Env();
             Napi::Value unk = env.Undefined();
@@ -140,7 +140,7 @@ namespace scNapi
             return info.This();
         }
 
-        Napi::Value SupercellSWF::save(const Napi::CallbackInfo& info)
+        Napi::Value save(const Napi::CallbackInfo& info)
         {
             Napi::Env env = info.Env();
             Napi::Value unk = env.Undefined();
@@ -165,7 +165,7 @@ namespace scNapi
             return info.This();
         }
 
-        Napi::Value SupercellSWF::saveTexture(const Napi::CallbackInfo& info)
+        Napi::Value saveTexture(const Napi::CallbackInfo& info)
         {
             Napi::Env env = info.Env();
             Napi::Value unk = env.Undefined();

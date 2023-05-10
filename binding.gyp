@@ -4,8 +4,8 @@
             # Main binding target
             'target_name': 'Bindings',
             'win_delay_load_hook': 'false',
-            'cflags_cc': ['-fexceptions','-fpermissive', '-std=c++17'],
-            'cxxflags': ['-fexceptions', '-fpermissive', '-std=c17'],
+            'cflags_cc': ['-fexceptions', '-std=c++17'],
+            'cxxflags': ['-fexceptions', '-std=c17'],
             "msvs_settings": {
                 "VCCLCompilerTool": {
                     "ExceptionHandling": 1

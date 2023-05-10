@@ -1,6 +1,6 @@
 {
   "name": "supercell-swf",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Module for loading and processing SupercellSWF assets.",
   "main": "./lib/index.js",
   "types": "./types/index.d.ts",
@@ -11,7 +11,9 @@
     "build": "npm rum build:native & npm run build:ts",
     "build:ts": "tsc",
     "build:native": "node-gyp build",
-    "prebuild": "prebuildify --napi && node scripts/after_build.js",
+    "prebuild": "prebuildify --napi",
+    "prebuild:android_x64": "prebuildify --napi --platfrom android --arch arm64",
+    "prebuild:linux_x64": "prebuildify --napi --platfrom linux --arch x64",
     "test": "jest"
   },
   "devDependencies": {

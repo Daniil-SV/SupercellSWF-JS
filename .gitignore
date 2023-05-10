@@ -1,5 +1,6 @@
 .vscode
 .cache
+package-lock.json
 
 // Build files
 // CXX
