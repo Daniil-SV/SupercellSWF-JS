@@ -195,37 +195,13 @@ namespace scNapi
 
             return info.This();
         }
+        
+        PROPERTY_DEF(useMultiResTexture);
+        PROPERTY_DEF(useLowResTexture);
+        PROPERTY_DEF(useExternalTexture);
 
-        PROPERTY(useMultiResTexture)
-            parent->useMultiResTexture(ToNativeValue<bool>(value));
-        PROPERTY_GET(useMultiResTexture)
-            return ToJSValue(info, parent->useMultiResTexture());
-        PROPERTY_END;
-
-        PROPERTY(useLowResTexture)
-            parent->useLowResTexture(ToNativeValue<bool>(value));
-        PROPERTY_GET(useLowResTexture)
-            return ToJSValue(info, parent->useLowResTexture());
-        PROPERTY_END;
-
-        PROPERTY(useExternalTexture)
-            parent->useExternalTexture(ToNativeValue<bool>(value));
-        PROPERTY_GET(useExternalTexture)
-            return ToJSValue(info, parent->useExternalTexture());
-        PROPERTY_END;
-
-
-        PROPERTY(multiResFileSuffix)
-            parent->multiResFileSuffix(ToNativeValue<string>(value));
-        PROPERTY_GET(multiResFileSuffix)
-            return ToJSValue(info, parent->multiResFileSuffix());
-        PROPERTY_END;
-
-        PROPERTY(lowResFileSuffix)
-            parent->lowResFileSuffix(ToNativeValue<string>(value));
-        PROPERTY_GET(lowResFileSuffix)
-            return ToJSValue(info, parent->lowResFileSuffix());
-        PROPERTY_END;
+        PROPERTY_DEF(multiResFileSuffix);
+        PROPERTY_DEF(lowResFileSuffix);
 
         VECTOR(shapes, Shape);
         VECTOR(exports, ExportName);

@@ -44,17 +44,7 @@ namespace scNapi
         }
 
     private:
-        PROPERTY(label)
-            parent->label(ToNativeValue<string>(value));
-        PROPERTY_GET(label)
-            return ToJSValue(info, parent->label());
-        PROPERTY_END;
-
-
-        PROPERTY(elementsCount)
-            parent->elementsCount(ToNativeValue<uint32_t>(value));
-        PROPERTY_GET(elementsCount)
-            return ToJSValue(info, parent->elementsCount());
-        PROPERTY_END;
+        PROPERTY_DEF(label);
+        PROPERTY_DEF(elementsCount);
     };
 }

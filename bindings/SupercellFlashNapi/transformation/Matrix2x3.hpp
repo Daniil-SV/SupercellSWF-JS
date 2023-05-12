@@ -51,41 +51,11 @@ namespace scNapi
         }
 
     private:
-        PROPERTY(a)
-            parent->a = ToNativeValue<float>(value);
-        PROPERTY_GET(a)
-            return ToJSValue(info, parent->a);
-        PROPERTY_END;
-
-        PROPERTY(b)
-            parent->b = ToNativeValue<float>(value);
-        PROPERTY_GET(b)
-            return ToJSValue(info, parent->b);
-        PROPERTY_END;
-
-        PROPERTY(c)
-            parent->c = ToNativeValue<float>(value);
-        PROPERTY_GET(c)
-            return ToJSValue(info, parent->c);
-        PROPERTY_END;
-
-        PROPERTY(d)
-            parent->d = ToNativeValue<float>(value);
-        PROPERTY_GET(d)
-            return ToJSValue(info, parent->d);
-        PROPERTY_END;
-
-        PROPERTY(tx)
-            parent->tx = ToNativeValue<float>(value);
-        PROPERTY_GET(tx)
-            return ToJSValue(info, parent->tx);
-        PROPERTY_END;
-
-        PROPERTY(ty)
-            parent->ty = ToNativeValue<float>(value);
-        PROPERTY_GET(ty)
-            return ToJSValue(info, parent->ty);
-        PROPERTY_END;
-
+        PROPERTY_DEF(a);
+        PROPERTY_DEF(b);
+        PROPERTY_DEF(c);
+        PROPERTY_DEF(d);
+        PROPERTY_DEF(tx);
+        PROPERTY_DEF(ty);
     };
 }

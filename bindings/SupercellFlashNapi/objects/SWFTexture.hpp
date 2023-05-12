@@ -55,45 +55,15 @@ namespace scNapi
         }
 
     private:
-        PROPERTY(pixelFormat)
-            parent->pixelFormat((sc::SWFTexture::PixelFormat)ToNativeValue<uint8_t>(value));
-        PROPERTY_GET(pixelFormat)
-            return ToJSValue(info, (uint8_t)parent->pixelFormat());
-        PROPERTY_END;
+        PROPERTY_DEF(pixelFormat);
+        PROPERTY_DEF(textureFilter);
 
-        PROPERTY(textureFilter)
-            parent->textureFilter((sc::SWFTexture::Filter)ToNativeValue<uint8_t>(value));
-        PROPERTY_GET(textureFilter)
-            return ToJSValue(info, (uint8_t)parent->textureFilter());
-        PROPERTY_END;
+        PROPERTY_DEF(linear);
+        PROPERTY_DEF(downscaling);
 
-
-        PROPERTY(linear)
-            parent->linear(ToNativeValue<bool>(value));
-        PROPERTY_GET(linear)
-            return ToJSValue(info, parent->linear());
-        PROPERTY_END;
-
-        PROPERTY(downscaling)
-            parent->downscaling(ToNativeValue<bool>(value));
-        PROPERTY_GET(downscaling)
-            return ToJSValue(info, parent->downscaling());
-        PROPERTY_END;
-
-
-        PROPERTY(width)
-            parent->width(ToNativeValue<uint16_t>(value));
-        PROPERTY_GET(width)
-            return ToJSValue(info, parent->width());
-        PROPERTY_END;
+        PROPERTY_DEF(width);
+        PROPERTY_DEF(height);
     
-        PROPERTY(height)
-            parent->height(ToNativeValue<uint16_t>(value));
-        PROPERTY_GET(height)
-            return ToJSValue(info, parent->height());
-        PROPERTY_END;
-    
-
         static Napi::Value getLinearData(const Napi::CallbackInfo& info)
         {
             SWFTexture* texture = SWFTexture::Unwrap(info[0].ToObject());

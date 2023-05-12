@@ -13,7 +13,10 @@
             },
             'sources': [
                 'bindings/binding.cpp',
-                "<!@(node -p \"require('fs').readdirSync('./bindings/SupercellCompressionNapi/').map(f=>'bindings/SupercellCompressionNapi/'+f).filter(f=>f.endsWith('.cpp')).join(' ')\")",
+                'bindings/SupercellFlashNapi/SupercellSWF.cpp',
+				"<!@(node -p \"require('fs').readdirSync('./bindings/SupercellCompressionNapi/').map(f=>'bindings/SupercellCompressionNapi/'+f).filter(f=>f.endsWith('.cpp')).join(' ')\")",
+                "<!@(node -p \"require('fs').readdirSync('./bindings/SupercellFlashNapi/objects').map(f=>'bindings/SupercellFlashNapi/objects/'+f).filter(f=>f.endsWith('.cpp')).join(' ')\")",
+                "<!@(node -p \"require('fs').readdirSync('./bindings/SupercellFlashNapi/transformation').map(f=>'bindings/SupercellFlashNapi/transformation/'+f).filter(f=>f.endsWith('.cpp')).join(' ')\")",
             ],
             'include_dirs': [
                 "<!(node -p \"require('node-addon-api').include_dir\")",

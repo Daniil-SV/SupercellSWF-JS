@@ -61,85 +61,14 @@ namespace scNapi
         }
 
     private:
-        PROPERTY(id)
-            parent->id(ToNativeValue<uint16_t>(value));
-        PROPERTY_GET(id)
-            return ToJSValue(info, parent->id());
-        PROPERTY_END;
-
-
-        PROPERTY(unknownFlag)
-            parent->unknownFlag(ToNativeValue<bool>(value));
-        PROPERTY_GET(unknownFlag)
-            return ToJSValue(info, parent->unknownFlag());
-        PROPERTY_END;
-
-
-        PROPERTY(frameRate)
-            parent->frameRate(ToNativeValue<uint8_t>(value));
-        PROPERTY_GET(frameRate)
-            return ToJSValue(info, parent->frameRate());
-        PROPERTY_END;
-
-
-        PROPERTY(matrixBankIndex)
-            parent->matrixBankIndex(ToNativeValue<uint8_t>(value));
-        PROPERTY_GET(matrixBankIndex)
-            return ToJSValue(info, parent->matrixBankIndex());
-        PROPERTY_END;
-
+        PROPERTY_DEF(id);
+        PROPERTY_DEF(unknownFlag);
+        PROPERTY_DEF(frameRate);
+        PROPERTY_DEF(matrixBankIndex);
+        PROPERTY_DEF(scalingGrid);
 
         VECTOR(frameElements, MovieClipFrameElement);
         VECTOR(instances, DisplayObjectInstance);
         VECTOR(frames, MovieClipFrame);
-
-        PROPERTY(scalingGrid)
-            if (value.IsUndefined())
-            {
-                parent->scalingGrid(nullptr);
-            }
-
-        Napi::Object grid = value.As<Napi::Object>();
-        sc::ScalingGrid* nativeGrid = new sc::ScalingGrid();
-
-        if (grid.Has("x"))
-        {
-            TOSTRING("coc");
-            nativeGrid->x = ToNativeValue<float>(grid.Get("x"));
-        }
-
-        if (grid.Has("y"))
-        {
-            nativeGrid->y = ToNativeValue<float>(grid.Get("y"));
-        }
-
-        if (grid.Has("width"))
-        {
-            nativeGrid->width = ToNativeValue<float>(grid.Get("width"));
-        }
-
-        if (grid.Has("height"))
-        {
-            nativeGrid->height = ToNativeValue<float>(grid.Get("height"));
-        }
-
-        parent->scalingGrid(nativeGrid);
-        PROPERTY_GET(scalingGrid)
-            if (parent->scalingGrid() == nullptr)
-            {
-                return info.Env().Undefined();
-            }
-
-        Napi::Object grid = Napi::Object::New(info.Env());
-        sc::ScalingGrid* nativeGrid = parent->scalingGrid();
-
-        grid.Set("x", ToJSValue(info, nativeGrid->x));
-        grid.Set("y", ToJSValue(info, nativeGrid->y));
-        grid.Set("width", ToJSValue(info, nativeGrid->width));
-        grid.Set("height", nativeGrid->height);
-
-        return grid;
-        PROPERTY_END
-
     };
 }

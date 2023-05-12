@@ -45,17 +45,7 @@ namespace scNapi
         }
 
     private:
-        PROPERTY(id)
-            parent->id(ToNativeValue<uint16_t>(value));
-        PROPERTY_GET(id)
-            return ToJSValue(info, parent->id());
-        PROPERTY_END;
-
-
-        PROPERTY(type)
-            parent->type((sc::MovieClipModifier::Type)ToNativeValue<uint8_t>(value));
-        PROPERTY_GET(type)
-            return ToJSValue(info, (uint8_t)parent->type());
-        PROPERTY_END;
+        PROPERTY_DEF(id);
+        PROPERTY_DEF(type);
     };
 }

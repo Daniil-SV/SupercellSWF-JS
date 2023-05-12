@@ -42,12 +42,7 @@ namespace scNapi {
         }
 
     private:
-        PROPERTY(textureIndex)
-            parent->textureIndex(ToNativeValue<uint16_t>(value));
-        PROPERTY_GET(textureIndex)
-            return ToJSValue(info, parent->textureIndex());
-        PROPERTY_END;
-
+        PROPERTY_DEF(textureIndex);
 
         VECTOR(vertices, ShapeDrawBitmapCommandVertex);
     };

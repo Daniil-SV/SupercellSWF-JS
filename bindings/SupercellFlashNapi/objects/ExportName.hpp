@@ -45,17 +45,8 @@ namespace scNapi
         }
 
     private:
-        PROPERTY(id)
-            parent->id(ToNativeValue<uint16_t>(value));
-        PROPERTY_GET(id)
-            return ToJSValue(info, parent->id());
-        PROPERTY_END;
-
-        PROPERTY(name)
-            parent->name(ToNativeValue<string>(value));
-        PROPERTY_GET(name)
-            return ToJSValue(info, parent->name());
-        PROPERTY_END;
+        PROPERTY_DEF(id);
+        PROPERTY_DEF(name);
 
     };
 }

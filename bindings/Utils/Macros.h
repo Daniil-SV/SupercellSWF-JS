@@ -43,17 +43,19 @@ if (object.Has(#Name)) \
 
 //! Class members definition
 
-#define PROPERTY(name) \
-    void set_##name(const Napi::CallbackInfo& info, const Napi::Value& value) \
-    {
-
-#define PROPERTY_GET(name) \
-    }; \
-    Napi::Value get_##name(const Napi::CallbackInfo& info) \
+#define PROPERTY(cls, name, set, get) \
+    void cls::set_##name(const Napi::CallbackInfo& info, const Napi::Value& value) \
     { \
-
-#define PROPERTY_END \
+        set; \
+    }; \
+    Napi::Value cls::get_##name(const Napi::CallbackInfo& info) \
+    { \
+        get; \
     }
+
+#define PROPERTY_DEF(name) \
+ void set_##name(const Napi::CallbackInfo& info, const Napi::Value& value); \
+ Napi::Value get_##name(const Napi::CallbackInfo& info)
 
 #define VECTOR(Name, Type) \
 Napi::Value get_##Name(const Napi::CallbackInfo& info) { \
