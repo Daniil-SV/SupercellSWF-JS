@@ -40,6 +40,7 @@ export class TextField extends NATIVE_TEXTFIELD {
 
   toJSON(): object {
     return {
+      id: this.id, 
       text: this.text,
       fontName: this.fontName,
       fontColor: this.fontColor,
