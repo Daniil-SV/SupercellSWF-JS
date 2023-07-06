@@ -43,6 +43,7 @@ export class ShapeDrawBitmapCommand extends NATIVE_SHAPE_DRAW_COMMAND {
 
   toJSON(): object {
     return {
+      textureIndex: this.textureIndex,
       vertices: this.vertices,
     };
   }
